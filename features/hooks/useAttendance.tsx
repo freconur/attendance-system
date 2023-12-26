@@ -26,16 +26,30 @@ export const useAttendance = () => {
       studentArrivalTime(studentCode)
       // const studentsData:StudentData[] = Data
       Data?.unshift(studentData.data())
-      //POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      try {
-        axios
-          .post(`${URL_API}/message`,
-            {
-              phoneNumber: `51${studentData.data().numberFather}@c.us`,
-              message: `sr/a ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
-            })
-      } catch (error) {
-        console.log('error', error)
+      // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
+      if(studentData.data().numberFather) {
+        try {
+          axios
+            .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().numberFather}@c.us`,
+                message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
+      if(studentData.data().numberMother) {
+        try {
+          axios
+            .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().numberMother}@c.us`,
+                message: `sra. ${studentData.data().nameMother}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
       }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
     }
