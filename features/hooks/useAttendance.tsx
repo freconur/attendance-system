@@ -6,7 +6,7 @@ import { currentDate, currentMonth, currentYear } from "@/dates/date";
 import { StudentData } from "../types/types";
 import axios from 'axios'
 const db = getFirestore(app)
-const URL_API = "https://whatsapp-api-production-d23d.up.railway.app"
+const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
 
