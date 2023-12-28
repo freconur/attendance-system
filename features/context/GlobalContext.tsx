@@ -8,7 +8,10 @@ interface Props {
 }
 const initialState: Student = {
   studentsData: [],
-  testing:23
+  testing:23,
+  sections: [],
+  grades: [],
+  pictureProfileUrl:""
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

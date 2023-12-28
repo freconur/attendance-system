@@ -17,15 +17,26 @@ export interface StudentData {
   section?:string
   cellPhone?:string
 }
+export interface Section{
+  section?:string
+}
+export interface Grades{
+  grade?:string
+}
 export type Student = {
   studentsData:StudentData[],
-  testing:number
-  // studentData:{},
-  // testing: () => void
+  testing:number,
+  sections:Section[],
+  grades:Grades[],
+  pictureProfileUrl:string,
 }
 
 export type AttendanceAction= 
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
+  | { type: AttendanceRegister.GRADES; payload: Grades[] }
+  | { type: AttendanceRegister.SECTIONS; payload: Section[] }
+  | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
+  // | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: Section[] }
 
 //   <div>
 //   <p>DNI: </p>

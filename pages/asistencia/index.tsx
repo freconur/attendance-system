@@ -48,7 +48,7 @@ const Asistencia = () => {
               <div className='w-[200px]'>
                 {student.pictureProfile &&
                   <Image
-                    alt="bts"
+                    alt="foto de perfil"
                     src={`${student.pictureProfile}`}
                     width={200}
                     height={200}
