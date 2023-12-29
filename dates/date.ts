@@ -49,7 +49,7 @@ export const hoursUnixDate = (date: Date) => {
   const nanoseconds = date.toString().slice(42, 49)
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const hour = new Date(rta)
-  return `${hour.getHours()}:${hour.getMinutes()}:${hour.getSeconds()}`
+  return `${hour.getHours().toString().padStart(2,"0")}:${hour.getMinutes().toString().padStart(2,"0")}:${hour.getSeconds().toString().padStart(2,"0")} a.m.`
 }
 export const dateConvertObject = (date: Date) => {
   return {

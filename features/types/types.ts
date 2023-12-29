@@ -14,14 +14,17 @@ export interface StudentData {
   name?:string,
   lastname?:string,
   qr?:string,
-  section?:string
-  cellPhone?:string
+  section?:string,
+  cellPhone?:string,
+  currentAttendance?:Date,
+  attendanceByDate?:string
 }
 export interface Section{
   section?:string
 }
 export interface Grades{
-  grade?:string
+  grade?:string,
+  traditionalGrade?:string
 }
 export type Student = {
   studentsData:StudentData[],
@@ -29,6 +32,7 @@ export type Student = {
   sections:Section[],
   grades:Grades[],
   pictureProfileUrl:string,
+  studentsByGradeAndSection:StudentData[]
 }
 
 export type AttendanceAction= 
@@ -36,6 +40,8 @@ export type AttendanceAction=
   | { type: AttendanceRegister.GRADES; payload: Grades[] }
   | { type: AttendanceRegister.SECTIONS; payload: Section[] }
   | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
+  | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
+  | {type:AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION; payload:StudentData[]}
   // | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: Section[] }
 
 //   <div>

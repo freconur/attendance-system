@@ -1,4 +1,3 @@
-import React from 'react'
 import { useGlobalContextDispatch } from '../context/GlobalContext'
 import { app } from '@/firebase/firebaseConfig'
 import { collection, doc, getDocs, getFirestore, orderBy, query, setDoc } from 'firebase/firestore'
