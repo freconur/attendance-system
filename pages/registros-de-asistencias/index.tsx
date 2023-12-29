@@ -91,7 +91,7 @@ const AttendanceRegister = () => {
                         <p>ingreso: {hoursUnixDate(student?.currentAttendance)}</p>
                         : null
                     } */}
-                    <p className={`text-slate-500 ${attendanceState(student?.attendanceByDate) === true ? "text-green-600" : "text-red-600"}`} >Hora de ingreso: {student.attendanceByDate}</p>
+                    <p className={`${attendanceState(student?.attendanceByDate) === true ? "text-green-600" : "text-red-600"}`} >Hora de ingreso: {student.attendanceByDate}</p>
                   </div>
                 </li>
               )
