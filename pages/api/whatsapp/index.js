@@ -1,15 +1,21 @@
-// const NextResponse = require("next/server")
-// const whatsappClient = require('./whatsappClient')
-
 import { NextResponse } from 'next/server';
-
 const { Client, LocalAuth } = require('whatsapp-web.js')
-
-// import 'qrcode-terminal' from
-
 const qrcode = require('qrcode-terminal')
 
-const whatsappClient =
+
+
+// export default function message(req,res) {
+//   if(req.method === 'POST') {
+
+//     // res.send(whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})) 
+//     whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})
+//     res.status(200).json({msj:"holis"})
+//     return NextResponse.json({msj:"mensaje enviado"})
+//   }
+
+// }
+async function POST(request, res) {
+  const whatsappClient =
   new Client({
     authStrategy: new LocalAuth(), // what ever authStrategy you are using,
     puppeteer: {
@@ -33,18 +39,6 @@ whatsappClient.on("message", async (msg) => {
     console.log(error)
   }
 })
-
-// export default function message(req,res) {
-//   if(req.method === 'POST') {
-
-//     // res.send(whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})) 
-//     whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})
-//     res.status(200).json({msj:"holis"})
-//     return NextResponse.json({msj:"mensaje enviado"})
-//   }
-
-// }
-async function POST(request, res) {
   whatsappClient.sendMessage({ body: request.message, phoneNumber: request.phoneNumber })
   res.status(200).json({ msj: "holis" })
   return NextResponse.json({ msj: "mensaje enviado" })
