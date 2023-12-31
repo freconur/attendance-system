@@ -7,13 +7,13 @@ const { Client, LocalAuth } = require('whatsapp-web.js')
 
 // import 'qrcode-terminal' from
 
-const  qrcode = require('qrcode-terminal')
+const qrcode = require('qrcode-terminal')
 
 const whatsappClient =
   new Client({
     authStrategy: new LocalAuth(), // what ever authStrategy you are using,
     puppeteer: {
-      headless:true,
+      headless: true,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox'
@@ -34,22 +34,20 @@ whatsappClient.on("message", async (msg) => {
   }
 })
 
-export default function message(req,res) {
-  // const data = await req.message.create({
-  //   body: data.message,
-  //   phoneNumber: data.phoneNumber
-  // })
-  if(req.method === 'POST') {
-    // res.send(whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})) 
-    whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})
-    res.status(200).json({msj:"holis"})
-    return NextResponse.json({msj:"mensaje enviado"})
-  }
-  // req.send()
+// export default function message(req,res) {
+//   if(req.method === 'POST') {
 
-}
-// async function POST(request) {
-//   return NextResponse.json({ message: "mensaje enviado" })
+//     // res.send(whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})) 
+//     whatsappClient.sendMessage({body: req.message,phoneNumber: req.phoneNumber})
+//     res.status(200).json({msj:"holis"})
+//     return NextResponse.json({msj:"mensaje enviado"})
+//   }
 
 // }
-// module.exports = POST
+async function POST(request, res) {
+  whatsappClient.sendMessage({ body: request.message, phoneNumber: request.phoneNumber })
+  res.status(200).json({ msj: "holis" })
+  return NextResponse.json({ msj: "mensaje enviado" })
+
+}
+module.exports = POST
