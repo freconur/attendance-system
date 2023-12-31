@@ -39,8 +39,8 @@ whatsappClient.on("message", async (msg) => {
     console.log(error)
   }
 })
-  
-  await res.status(200).send(whatsappClient.sendMessage({ body: request.message, phoneNumber: request.phoneNumber }))
+whatsappClient.sendMessage({ body: await request.message, phoneNumber: await request.phoneNumber })
+  res.status(200).send()
   return NextResponse.json({ msj: "mensaje enviado" })
 
 }
