@@ -38,7 +38,7 @@ export const useAttendance = () => {
           }),
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         })
         // try {
         //   axios
