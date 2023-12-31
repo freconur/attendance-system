@@ -29,10 +29,14 @@ export const useAttendance = () => {
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if(studentData.data().numberFather) {
         'use server'
+        // const rta = await fetch(`/api/whatsapp`,{
+        //   method:'POST',
+        //   body:JSON.stringify()
+        // })
         try {
           axios
-            // .post(`/api/whatsapp`,
-            .post(`${URL_API}/message`,
+            .post(`/api/whatsapp`,
+            // .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberFather}@c.us`,
                 message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
