@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
 
@@ -41,6 +41,7 @@ whatsappClient.on("message", async (msg) => {
 })
   whatsappClient.sendMessage({ body: request.message, phoneNumber: request.phoneNumber })
   res.status(200).json({ msj: "holis" })
+  res.send()
   return NextResponse.json({ msj: "mensaje enviado" })
 
 }
