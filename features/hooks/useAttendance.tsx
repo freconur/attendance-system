@@ -31,7 +31,7 @@ export const useAttendance = () => {
         'use server'
         try {
           axios
-            .post(`/`,
+            .post(`/api/whatsapp`,
             // .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberFather}@c.us`,
