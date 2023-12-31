@@ -35,7 +35,10 @@ export const useAttendance = () => {
           body:JSON.stringify({
             phoneNumber: `51${studentData.data().numberFather}@c.us`,
             message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
-          })
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          }
         })
         // try {
         //   axios
