@@ -32,7 +32,7 @@ whatsappClient.on("message", async (msg) => {
   }
 })
 
-export default async function message(req,res) {
+export default function message(req,res) {
   // const data = await req.message.create({
   //   body: data.message,
   //   phoneNumber: data.phoneNumber

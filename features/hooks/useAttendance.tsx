@@ -31,8 +31,8 @@ export const useAttendance = () => {
         'use server'
         try {
           axios
-            .post(`/api/whatsapp`,
-            // .post(`${URL_API}/message`,
+            // .post(`/api/whatsapp`,
+            .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberFather}@c.us`,
                 message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
