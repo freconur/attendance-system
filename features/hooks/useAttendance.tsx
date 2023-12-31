@@ -28,31 +28,20 @@ export const useAttendance = () => {
       // const studentsData:StudentData[] = Data
       Data?.unshift(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if(studentData.data().numberFather) {
-        'use server'
-        await fetch(`/api/whatsapp`,{
-          method:'POST',
-          body:JSON.stringify({
-            phoneNumber: `51${studentData.data().numberFather}@c.us`,
-            message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        // try {
-        //   axios
-        //     .post(`/api/whatsapp`,
-        //     // .post(`${URL_API}/message`,
-        //       {
-        //         phoneNumber: `51${studentData.data().numberFather}@c.us`,
-        //         message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
-        //       })
-        // } catch (error) {
-        //   console.log('error', error)
-        // }
+      if (studentData.data().numberFather) {
+        try {
+          axios
+            // .post(`/api/whatsapp`,
+              .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().numberFather}@c.us`,
+                message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
       }
-      if(studentData.data().numberMother) {
+      if (studentData.data().numberMother) {
         try {
           axios
             .post(`${URL_API}/message`,
