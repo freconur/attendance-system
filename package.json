@@ -17,11 +17,13 @@
     "dayjs": "^1.11.10",
     "firebase": "^10.7.1",
     "next": "^13.4.3-canary.0",
+    "qrcode-terminal": "^0.12.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
     "react-icons": "^4.12.0",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "whatsapp-web.js": "^1.23.0"
   },
   "devDependencies": {
     "@types/node": "^20",
