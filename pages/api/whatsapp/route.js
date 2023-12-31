@@ -1,7 +1,8 @@
-
+'use client'
 
 const { Client, LocalAuth } = require('whatsapp-web.js')
-const qrcode = require('qrcode-terminal')
+const qrcode = require('qrcode-terminal');
+const { NextResponse } = require('next/server');
 
 
 
