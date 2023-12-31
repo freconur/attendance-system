@@ -1,3 +1,4 @@
+'use client'
 import { app } from "@/firebase/firebaseConfig";
 import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, increment, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { useGlobalContextDispatch } from "../context/GlobalContext";

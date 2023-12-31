@@ -1,3 +1,4 @@
+'use client'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import { useAttendance } from '@/features/hooks/useAttendance'
 import Image from 'next/image'
