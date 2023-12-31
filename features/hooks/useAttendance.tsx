@@ -28,6 +28,7 @@ export const useAttendance = () => {
       Data?.unshift(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if(studentData.data().numberFather) {
+        'use server'
         try {
           axios
             .post(`/`,
