@@ -49,7 +49,7 @@ export const hoursUnixDate = (date: Date) => {
   const nanoseconds = date.toString().slice(42, 49)
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const hour = new Date(rta)
-  return `${hour.getHours().toString().padStart(2,"0")}:${hour.getMinutes().toString().padStart(2,"0")}:${hour.getSeconds().toString().padStart(2,"0")} a.m.`
+  return `${hour.getHours().toString().padStart(2,"0")}:${hour.getMinutes().toString().padStart(2,"0")}:${hour.getSeconds().toString().padStart(2,"0")}${hour.getHours()<12 ? "am" : "pm"}`
 }
 export const dateConvertObject = (date: Date) => {
   return {
@@ -60,7 +60,9 @@ export const dateConvertObject = (date: Date) => {
 }
 
 export const dateConvertObjectStudent = (date: Date) => {
-  return `${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}:${date.getSeconds()}${Number(date.getHours()) < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
+  console.log('date.getHours()', date.getHours())
+  console.log('date.getHours()', `${date.getHours() < 12 ? "am" : "pm"}`)
+  return `${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}:${date.getSeconds()}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 export const numberToNameMonth = (value: number) => {
   // const date = new Date()
