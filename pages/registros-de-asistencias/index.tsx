@@ -17,7 +17,7 @@ const AttendanceRegister = () => {
   const { filterRegisterByGradeAndSection } = useAttendanceRegister()
   const { getSections, getGrades } = UseRegisterStudents()
   const [startDate, setStartDate] = useState(dayjs());
-  const [minDate, setMinDate] = useState(dayjs(new Date().setMonth(7)));
+  const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
 
   const handleChangesValuesSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValuesByFilter({
