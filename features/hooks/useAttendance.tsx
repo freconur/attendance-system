@@ -3,7 +3,7 @@ import { app } from "@/firebase/firebaseConfig";
 import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, increment, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { useGlobalContextDispatch } from "../context/GlobalContext";
 import { AttendanceRegister } from "../actions/actionAttendance";
-import { currentDate, currentMonth, currentYear } from "@/dates/date";
+import { currentDate, currentMonth, currentYear, dateConvertObject, dateConvertObjectStudent, hoursUnixDate } from "@/dates/date";
 import { StudentData } from "../types/types";
 import axios from 'axios'
 const db = getFirestore(app)
@@ -27,6 +27,8 @@ export const useAttendance = () => {
       studentArrivalTime(studentCode)
       // const studentsData:StudentData[] = Data
       Data?.unshift(studentData.data())
+      // console.log('fecha', Date())
+      console.log('fecha2', dateConvertObjectStudent(new Date))
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if (studentData.data().numberFather) {
         try {
@@ -35,19 +37,20 @@ export const useAttendance = () => {
               .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberFather}@c.us`,
-                message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
+                message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
           console.log('error', error)
         }
       }
+
       if (studentData.data().numberMother) {
         try {
           axios
             .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberMother}@c.us`,
-                message: `sra. ${studentData.data().nameMother}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las 7 am.`
+                message: `sra. ${studentData.data().nameMother}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
           console.log('error', error)
