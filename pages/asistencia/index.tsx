@@ -26,7 +26,7 @@ const Asistencia = () => {
   return (
     <div className='p-2'>
       <div>
-        <h1 className='text-slate-700 uppercase font-semibold text-2xl mb-5'>Registro de asistencia de Estudiante</h1>
+        <h1 className='text-slate-600 uppercase font-semibold text-2xl my-5 text-center'>Registro de asistencia de Estudiante</h1>
 
 
         <div className='w-full'>
@@ -38,7 +38,7 @@ const Asistencia = () => {
               name="studentCode"
               type="text"
               className='w-full p-3 outline-none shadow-md rounded-md'
-              placeholder='codigo de estudiante' />
+              placeholder='escanea o digita el codigo' />
           </div>
         </div>
       </div>

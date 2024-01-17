@@ -40,7 +40,12 @@ const AttendanceRegister = () => {
   console.log('startDate', startDate.date())
   return (
     <div className='relative p-2'>
-      <h1 className='text-2xl font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
+      <h1 className='text-2xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
+      <div className='relative z-10 flex justify-end items-center mb-3'>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
+        </LocalizationProvider>
+      </div>
       <div className='flex gap-5 w-full my-3'>
         <select name="grade" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase text-slate-500'>
           <option className='text-slate-500' value="">--SELECCIONAR GRADO--</option>
@@ -63,44 +68,34 @@ const AttendanceRegister = () => {
           }
         </select>
       </div>
-      <div className='relative z-10 flex justify-end items-center mb-3'>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
-        </LocalizationProvider>
-      </div>
-      <div>
-        <ul className='grid gap-2 w-full h-full  place-content-stretch'>
-          {
-            studentsByGradeAndSection?.length > 0
-              ?
 
-              studentsByGradeAndSection?.map((student, index) => {
+      <div className='mt-5'>
+        <table className='w-full'>
+          <thead className='bg-blue-100 border-b-2 border-gray-200 '>
+            <tr className="text-slate-600 capitalize font-nunito ">
+              <th className="  md:p-2 text-sm  w-[20px] text-center uppercase">#</th>
+              <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">dni</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">apellidos y nombres</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 bg-white">
+            {
+              studentsByGradeAndSection?.map((student,index) => {
                 return (
-                  <li key={student.dni} className=' flex  border-[1px]  bg-white shadow-md w-full rounded-lg overflow-hidden'>
-                    <div className='text-blue-50 bg-blue-500 w-[30px] grid place-content-center text-xl font-semibold'>{index + 1}</div>
-                    <div className='min-w-[100px] min-h-[100px] '>
-                      {student.pictureProfile ?
-                        <Image alt="foto de perfil de estudiante" height="90" width="90" src={student.pictureProfile} />
-                        : <span>no image</span>}
-                    </div>
-                    <div className='grid gap-3'>
-                      <p className='text-slate-500'>ID: {student.dni}</p>
-                      <p className='uppercase text-slate-700'>{student.name} {student.lastname}</p>
-                      {/* {
-                      student?.currentAttendance ?
-                        <p>ingreso: {hoursUnixDate(student?.currentAttendance)}</p>
-                        : null
-                    } */}
-                      <p className={`${attendanceState(student?.attendanceByDate) === true ? "text-green-600" : "text-red-600"}`} >Hora de ingreso: {student.attendanceByDate}</p>
-                    </div>
-                  </li>
+                  <tr key={student.dni} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
+                    <td className='text-center text-sm px-3'>{index + 1}</td>
+                    <td className='text-sm text-center'>{student.dni}</td>
+                    <td className='uppercase text-sm text-center'>{student.lastname} {student.name}</td>
+                    <td className='text-center text-sm'>{student.attendanceByDate}</td>
+                    <td></td>
+                  </tr>
                 )
               })
-              :
-              <div className="grid place-content-center text-2xl text-slate-400">sin resultados</div>
-          }
-
-        </ul>
+            }
+          </tbody>
+        </table>
       </div>
     </div>
   )

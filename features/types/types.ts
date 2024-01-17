@@ -33,6 +33,8 @@ export type Student = {
   grades:Grades[],
   pictureProfileUrl:string,
   studentsByGradeAndSection:StudentData[]
+  showSidebar:boolean,
+  studentData:StudentData,
 }
 
 export type AttendanceAction= 
@@ -42,6 +44,8 @@ export type AttendanceAction=
   | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
   | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
   | {type:AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION; payload:StudentData[]}
+  | {type:AttendanceRegister.SHOW_SIDEBAR; payload:boolean}
+  | {type:AttendanceRegister.DATA_STUDENT_BY_SEARCH; payload:StudentData}
   // | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: Section[] }
 
 //   <div>
