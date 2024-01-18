@@ -47,7 +47,7 @@ module.exports = {
       },
       colors: {
         'principal': '#19246f',
-        'tere': '#1ac959)',
+        'tere': '#47d07d',
         'modal': 'rgba(0,0,0,.24)',
         'background': '#1b1f44',
         'background-flashcards': '#0f253b',

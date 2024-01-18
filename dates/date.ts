@@ -60,9 +60,6 @@ export const hoursUnixDateForDetailStudent = (date: Date) => {
   const nanoseconds = date.toString().slice(42, 49)
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const fecha = new Date(rta)
-  console.log('getDay', days[fecha.getDay()])
-  console.log('getDate', fecha.getDate())
-  // console.log('getDate', fecha.getDate())
   const detailsPerDayOfStudent = {
     day:days[fecha.getDay()],
     date:`${fecha.getDate()}`,
@@ -79,8 +76,6 @@ export const dateConvertObject = (date: Date) => {
 }
 
 export const dateConvertObjectStudent = (date: Date) => {
-  console.log('date.getHours()', date.getHours())
-  console.log('date.getHours()', `${date.getHours() < 12 ? "am" : "pm"}`)
   return `${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}:${date.getSeconds()}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 export const numberToNameMonth = (value: number) => {

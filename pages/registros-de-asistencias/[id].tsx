@@ -21,7 +21,7 @@ const DetailsStudent = () => {
 
       <div className='flex flex-wrap justify-center items-center gap-10'>
         <div>
-        <Link href={`/info/${router.query.id}`} className='cursor-pointer rounded-full bg-green-400  w-[150px] h-[150px] flex justify-center items-center'>
+        <Link href={`/info/${router.query.id}`} className='cursor-pointer rounded-full bg-tere  w-[150px] h-[150px] flex justify-center items-center'>
           <ImProfile className='text-white text-[90px]'/>
         </Link>
 
@@ -30,7 +30,7 @@ const DetailsStudent = () => {
           </div>
         </div>
         <div>
-        <Link href={`/resumen-de-asistencia/${router.query.id}`} className='cursor-pointer rounded-full bg-cyan-400  w-[150px] h-[150px] flex justify-center items-center'>
+        <Link href={`/resumen-de-asistencia/${router.query.id}`} className='cursor-pointer rounded-full bg-gb-2  w-[150px] h-[150px] flex justify-center items-center'>
         <TbCalendarUser className='text-white text-[90px]'/>
         </Link>
 
