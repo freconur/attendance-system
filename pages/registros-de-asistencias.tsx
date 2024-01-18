@@ -73,11 +73,11 @@ const AttendanceRegister = () => {
         <table className='w-full'>
           <thead className='bg-blue-100 border-b-2 border-gray-200 '>
             <tr className="text-slate-600 capitalize font-nunito ">
-              <th className="  md:p-2 text-sm  w-[20px] text-center uppercase">#</th>
-              <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">dni</th>
-              <th className="py-3 md:p-2 text-sm text-center uppercase">apellidos y nombres</th>
-              <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
-              <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
+              <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">#</th>
+              <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">dni</th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">apellidos y nombres</th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">ingreso</th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
@@ -85,10 +85,10 @@ const AttendanceRegister = () => {
               studentsByGradeAndSection?.map((student,index) => {
                 return (
                   <tr key={student.dni} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
-                    <td className='text-center text-sm px-3'>{index + 1}</td>
-                    <td className='text-sm text-center'>{student.dni}</td>
-                    <td className='uppercase text-sm text-center'>{student.lastname} {student.name}</td>
-                    <td className='text-center text-sm'>{student.attendanceByDate}</td>
+                    <td className='text-center text-[12px] px-3'>{index + 1}</td>
+                    <td className='text-[12px] text-center'>{student.dni}</td>
+                    <td className='uppercase text-[12px] text-center'>{student.lastname} {student.name}</td>
+                    <td className='text-center text-[12px]'>{student.attendanceByDate}</td>
                     <td></td>
                   </tr>
                 )
