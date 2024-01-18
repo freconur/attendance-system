@@ -1,3 +1,4 @@
+
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"]
 const monthNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 const days = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
@@ -10,7 +11,10 @@ export const todayDateArray = () => {
   }
   return today
 }
-
+export const EnableMonths = () => {
+  const date = new Date()
+  return months.slice(0,date.getMonth() + 1)
+} 
 export const todayDate = () => {
   const date = new Date()
   return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
@@ -50,6 +54,21 @@ export const hoursUnixDate = (date: Date) => {
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const hour = new Date(rta)
   return `${hour.getHours().toString().padStart(2,"0")}:${hour.getMinutes().toString().padStart(2,"0")}:${hour.getSeconds().toString().padStart(2,"0")}${hour.getHours()<12 ? "am" : "pm"}`
+}
+export const hoursUnixDateForDetailStudent = (date: Date) => {
+  const seconds = date.toString().slice(18, 28)
+  const nanoseconds = date.toString().slice(42, 49)
+  const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
+  const fecha = new Date(rta)
+  console.log('getDay', days[fecha.getDay()])
+  console.log('getDate', fecha.getDate())
+  // console.log('getDate', fecha.getDate())
+  const detailsPerDayOfStudent = {
+    day:days[fecha.getDay()],
+    date:`${fecha.getDate()}`,
+    attendance:`${fecha.getHours().toString().padStart(2,"0")}:${fecha.getMinutes().toString().padStart(2,"0")}:${fecha.getSeconds().toString().padStart(2,"0")}${fecha.getHours()<12 ? "am" : "pm"}`
+  }
+  return detailsPerDayOfStudent
 }
 export const dateConvertObject = (date: Date) => {
   return {

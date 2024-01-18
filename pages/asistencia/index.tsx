@@ -26,12 +26,12 @@ const Asistencia = () => {
   return (
     <div className='p-2'>
       <div>
-        <h1 className='text-slate-600 uppercase font-semibold text-2xl my-5 text-center'>Registro de asistencia de Estudiante</h1>
+        <h1 className='text-slate-600 uppercase font-semibold text-2xl my-5 text-center'>tomar asistencia</h1>
 
 
         <div className='w-full'>
           <div className='w-full'>
-            <div className='text-slate-600 capitalize mb-2'>codigo de estudiante:</div>
+            <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div>
             <input
             value={studenCode.studentCode}
               onChange={onChangeStudentCode}

@@ -26,10 +26,10 @@ const EstudentsRegister = () => {
   }, [])
   return (
     <div className='p-2'>
-      <h1 className='text-3xl font-semibold uppercase text-slate-700'>registro de estudiantes</h1>
+      <h1 className='text-2xl my-5 font-semibold uppercase text-center text-slate-600'>registro de estudiantes</h1>
       <form onSubmit={handleSubmitform} className='mt-5' action="">
         <div className='w-full rounded-sm shadow-md p-5 bg-white my-3'>
-          <h3 className='text-2xl text-slate-700 uppercase font-semibold mb-3'>estudiante</h3>
+          <h3 className='text-xl text-slate-500 uppercase font-semibold mb-3'>estudiante</h3>
           <div className='uppercase text-slate-600'>Nombre:</div>
           <input
             className='w-full border-[1px] outline-none border-blue-400 p-2 text-slate-500 rounded-sm my-2' type="text"
@@ -142,7 +142,7 @@ const EstudentsRegister = () => {
           }
         </div>
         <div className='w-full rounded-sm shadow-md p-5 bg-white'>
-          <h3 className='text-2xl text-slate-700 uppercase font-semibold mb-3'>padres del estudiante</h3>
+          <h3 className='text-xl text-slate-500 uppercase font-semibold mb-3'>padres del estudiante</h3>
           <div
             className='uppercase text-slate-600'>Nombre del padre:</div>
           <input
@@ -197,7 +197,7 @@ const EstudentsRegister = () => {
           {errors.numberMother && <span className='text-red-400'>{errors.numberMother.message as string}</span>}
 
         </div>
-        <button className='p-3 my-2 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>
+        <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>
       </form>
     </div>
   )

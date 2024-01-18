@@ -15,10 +15,13 @@ const searchStudent = async(dni:string) => {
   if(studentSnap.exists()){
     dispatch({type:AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload:studentSnap.data()})
   }
-
 }
 
-return { searchStudent}
+const closeSearchStudent = () => {
+  dispatch({type:AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload:{}})
+}
+
+return { searchStudent, closeSearchStudent}
 }
 
 export default useNavbarSearch

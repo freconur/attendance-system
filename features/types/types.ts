@@ -35,8 +35,13 @@ export type Student = {
   studentsByGradeAndSection:StudentData[]
   showSidebar:boolean,
   studentData:StudentData,
+  resumeAttendanceStudent:DetailsPerDayOfStudent[]
 }
-
+export interface DetailsPerDayOfStudent {
+  day: string,
+  date: string,
+  attendance: string,
+}
 export type AttendanceAction= 
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
   | { type: AttendanceRegister.GRADES; payload: Grades[] }
@@ -46,6 +51,8 @@ export type AttendanceAction=
   | {type:AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION; payload:StudentData[]}
   | {type:AttendanceRegister.SHOW_SIDEBAR; payload:boolean}
   | {type:AttendanceRegister.DATA_STUDENT_BY_SEARCH; payload:StudentData}
+  | {type:AttendanceRegister.RESUME_ATTENDANCE_STUDENT; payload:DetailsPerDayOfStudent[]}
+  // | {type:AttendanceRegister.STUDENT_DETAILS; payload:StudentData}
   // | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: Section[] }
 
 //   <div>

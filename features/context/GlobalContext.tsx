@@ -14,7 +14,8 @@ const initialState: Student = {
   pictureProfileUrl:"",
   studentsByGradeAndSection:[],
   showSidebar:false,
-  studentData:{}
+  studentData:{},
+  resumeAttendanceStudent: []
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])
