@@ -1,4 +1,3 @@
-import { dateConvertObject, hoursUnixDate } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import useAttendanceRegister from '@/features/hooks/useAttendanceRegister'
 import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
@@ -6,11 +5,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
-import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { attendanceState } from '@/attendanceState';
+import { useRouter } from 'next/router';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { app } from '@/firebase/firebaseConfig';
+import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 
 const AttendanceRegister = () => {
+  const auth = getAuth(app)
+  const router = useRouter()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
   const { studentsByGradeAndSection, sections, grades } = useGlobalContext()
@@ -18,7 +21,6 @@ const AttendanceRegister = () => {
   const { getSections, getGrades } = UseRegisterStudents()
   const [startDate, setStartDate] = useState(dayjs());
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
-
   const handleChangesValuesSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValuesByFilter({
       ...valuesByFilter,
@@ -36,8 +38,6 @@ const AttendanceRegister = () => {
     getSections()
     getGrades()
   }, [])
-  console.log('studentsByGradeAndSection', studentsByGradeAndSection)
-  console.log('startDate', startDate.date())
   return (
     <div className='relative p-2'>
       <h1 className='text-2xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
@@ -82,7 +82,7 @@ const AttendanceRegister = () => {
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
             {
-              studentsByGradeAndSection?.map((student,index) => {
+              studentsByGradeAndSection?.map((student, index) => {
                 return (
                   <tr key={student.dni} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
                     <td className='text-center text-[12px] px-3'>{index + 1}</td>
@@ -102,3 +102,4 @@ const AttendanceRegister = () => {
 }
 
 export default AttendanceRegister
+AttendanceRegister.Auth = PrivateRoutes

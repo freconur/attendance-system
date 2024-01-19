@@ -6,12 +6,14 @@ import Sidebar from '../sidebar/Sidebar'
 import useSidebarState from '@/features/hooks/useSidebarState'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import useOnClickOutside from '@/features/hooks/useOnClickOutside'
+import { useRouter } from 'next/router'
 
 
 interface Props {
   children: JSX.Element | JSX.Element[]
 }
 const LayoutMenu = ({ children }: Props) => {
+  const route = useRouter()
   const closeSidebar = useRef<HTMLDivElement>(null)
   const { showSidebarContext } = useSidebarState()
   const { showSidebar } = useGlobalContext()
@@ -19,12 +21,15 @@ const LayoutMenu = ({ children }: Props) => {
     showSidebarContext(false)
   }
   useOnClickOutside(closeSidebar, handleChangeStateSidebar)
-
-
   return (
     <div className='relative'>
-      <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar}/>
-      <NavbarWeb />
+      {route.pathname === "/login" ?
+        null :
+        <>
+          <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
+          <NavbarWeb />
+        </>
+      }
       {/* <Navbar showBurger={showBurger} handleShowBurger={handleShowBurger} />
       <Menu showBurger={showBurger} handleShowBurger={handleShowBurger}/> */}
       {children}

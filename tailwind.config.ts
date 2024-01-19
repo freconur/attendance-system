@@ -37,6 +37,7 @@ module.exports = {
     extend: {
       height: {
         'altura': 'calc(100vh - 72px)',
+        'login': 'calc(100vh - 70px)',
         'heightSales': 'calc(100vh - 110px)',
         'heightSalesProducts': 'calc(100vh - 150px)',
         'loader': 'calc(100vh - 75px)',

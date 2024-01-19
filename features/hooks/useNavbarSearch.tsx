@@ -15,11 +15,20 @@ const useNavbarSearch = () => {
       dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: studentSnap.data() })
     }
   }
+  const cleanSearchStudent = () => {
+    dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: {} })
+  }
   const closeSearchStudent = () => {
     dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: {} })
   }
-
-  return { searchStudent, closeSearchStudent }
+  const dataStudent = async (dni: string) => {
+    const studentRef = doc(db, "students", dni);
+    const studentSnap = await getDoc(studentRef);
+    if (studentSnap.exists()) {
+      dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentSnap.data() })
+    }
+  }
+  return { searchStudent, closeSearchStudent, cleanSearchStudent,dataStudent }
 }
 
 export default useNavbarSearch

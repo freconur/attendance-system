@@ -5,14 +5,14 @@ import React, { useEffect } from 'react'
 import { TbCalendarUser } from "react-icons/tb";
 import { ImProfile } from "react-icons/im";
 import Link from 'next/link';
+import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 
 const DetailsStudent = () => {
-  const { searchStudent } = useNavbarSearch()
+  const { dataStudent } = useNavbarSearch()
   const { studentData } = useGlobalContext()
   const router = useRouter()
-  console.log('params', router)
   useEffect(() => {
-    searchStudent(`${router.query.id}`)
+    dataStudent(`${router.query.id}`)
   }, [router.query.id])
 
   return (
@@ -45,3 +45,4 @@ const DetailsStudent = () => {
 }
 
 export default DetailsStudent
+DetailsStudent.Auth = PrivateRoutes

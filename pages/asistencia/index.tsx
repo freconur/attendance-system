@@ -1,4 +1,5 @@
 'use client'
+import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import { useAttendance } from '@/features/hooks/useAttendance'
 import Image from 'next/image'
@@ -75,3 +76,4 @@ const Asistencia = () => {
 }
 
 export default Asistencia
+Asistencia.Auth = PrivateRoutes

@@ -1,3 +1,4 @@
+import PrivateRoutes from "@/components/layouts/PrivateRoutes"
 import { useGlobalContext } from "@/features/context/GlobalContext"
 import useNavbarSearch from "@/features/hooks/useNavbarSearch"
 import { convertGrade } from "@/utils/validateGrade"
@@ -9,12 +10,11 @@ import { useEffect } from "react"
 
 const InfoStudent = () => {
   const router = useRouter()
-  const { searchStudent } = useNavbarSearch()
+  const { dataStudent } = useNavbarSearch()
   const { studentData } = useGlobalContext()
-  console.log('routerrouter', router)
 
   useEffect(() => {
-    searchStudent(`${router.query.id}`)
+    dataStudent(`${router.query.id}`)
   }, [router.query.id])
   return (
     <div className="p-5 ">
@@ -50,3 +50,5 @@ const InfoStudent = () => {
 }
 
 export default InfoStudent
+
+InfoStudent.Auth = PrivateRoutes

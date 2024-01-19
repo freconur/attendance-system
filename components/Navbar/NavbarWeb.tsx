@@ -14,14 +14,16 @@ const NavbarWeb = () => {
   const { showSidebarContext } = useSidebarState()
   const { showSidebar } = useGlobalContext()
   const [search, setSearch] = useState(initialValue)
-  const { searchStudent, closeSearchStudent } = useNavbarSearch()
-  const { studentData } = useGlobalContext()
+  const { searchStudent, closeSearchStudent, cleanSearchStudent } = useNavbarSearch()
+  const { studentDataBySearch } = useGlobalContext()
+  const [showContainerStudent, setShowContainerStudent] = useState(false)
   const onChangeInputSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch({
       ...search,
       [e.target.name]: e.target.value
     })
   }
+  
   useEffect(() => {
     if (search.dni.length === 8) {
       searchStudent(search.dni)
@@ -29,7 +31,7 @@ const NavbarWeb = () => {
     }
   }, [search.dni])
   return (
-    <div className='w-full flex justify-between h-[70px] shadow-md bg-white'>
+    <div className='w-full flex justify-between h-[60px] shadow-md bg-white'>
       <div onClick={() => showSidebarContext(!showSidebar)} className=' bg-ggw-1 w-[60px] flex justify-center items-center '>
         <TfiMenu className='text-principal text-3xl cursor-pointer' />
       </div>
@@ -42,28 +44,29 @@ const NavbarWeb = () => {
             value={search.dni}
             type="text"
             name="dni"
+            // onClick={() => setShowContainerStudent(!showContainerStudent)}
             placeholder='escanea o digita el codigo'
             className='p-3 w-full border-[1px] outline-none border-cyan-700 rounded-md'
           />
           {
-            studentData.name ?
+            Object.keys(studentDataBySearch).length !== 0 ?
               <div className='z-[1000] p-3 absolute top-[58px] w-[94%] bg-white'>
                 <div className='flex justify-end '>
-                  <div onClick={closeSearchStudent} className='rounded-full bg-red-400 shadow-md w-[30px] h-[30px] mb-3 cursor-pointer'>
+                  <div onClick={() => setShowContainerStudent(false)} className='rounded-full bg-red-400 shadow-md w-[30px] h-[30px] mb-3 cursor-pointer'>
                     <p className='m-auto text-white flex justify-center items-center leading-7 font-semibold'>X</p>
                   </div>
                 </div>
-                <Link href={`registros-de-asistencias/${studentData.dni}`} className='p-3 shadow-md bg-blue-50 flex justify-between'>
-                  <div>
-                    <div className='text-slate-500'>DNI: {studentData.dni}</div>
-                    <div className='text-slate-600 uppercase'>{studentData.lastname} {studentData.name}</div>
-                  </div>
-                  <div>
-                    <div className='text-slate-600 uppercase'>grado: {convertGrade(`${studentData.grade}`)}</div>
-                    <div className='text-slate-600 uppercase'>sección: {studentData.section}</div>
-                  </div>
+                  <Link onClick={() => {setShowContainerStudent(false), cleanSearchStudent()}} href={`registros-de-asistencias/${studentDataBySearch.dni}`} className='p-3 shadow-md bg-blue-50 flex justify-between'>
+                    <div>
+                      <div className='text-slate-500'>DNI: {studentDataBySearch.dni}</div>
+                      <div className='text-slate-600 uppercase'>{studentDataBySearch.lastname} {studentDataBySearch.name}</div>
+                    </div>
+                    <div>
+                      <div className='text-slate-600 uppercase'>grado: {convertGrade(`${studentDataBySearch.grade}`)}</div>
+                      <div className='text-slate-600 uppercase'>sección: {studentDataBySearch.section}</div>
+                    </div>
 
-                </Link>
+                  </Link>
               </div>
               :
               null

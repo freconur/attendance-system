@@ -1,3 +1,4 @@
+import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
 import Image from 'next/image'
@@ -204,3 +205,5 @@ const EstudentsRegister = () => {
 }
 
 export default EstudentsRegister
+
+EstudentsRegister.Auth = PrivateRoutes

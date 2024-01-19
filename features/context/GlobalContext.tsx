@@ -15,7 +15,8 @@ const initialState: Student = {
   studentsByGradeAndSection:[],
   showSidebar:false,
   studentData:{},
-  resumeAttendanceStudent: []
+  resumeAttendanceStudent: [],
+  studentDataBySearch:{}
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

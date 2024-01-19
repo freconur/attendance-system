@@ -1,3 +1,4 @@
+import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { EnableMonths, currentMonth } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import useDetailsStudents from '@/features/hooks/useDetailsStudent'
@@ -8,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 const ResumenAsistencia = () => {
   const router = useRouter()
   const [month, setMonth] = useState({ month: currentMonth() })
-  const { searchStudent } = useNavbarSearch()
+  const { dataStudent } = useNavbarSearch()
   const { getDetailsofAttendance } = useDetailsStudents()
   const { resumeAttendanceStudent, studentData } = useGlobalContext()
 
@@ -19,7 +20,7 @@ const ResumenAsistencia = () => {
     })
   }
   useEffect(() => {
-    searchStudent(`${router.query.id}`)
+    dataStudent(`${router.query.id}`)
     getDetailsofAttendance(`${router.query.id}`, month.month)
   }, [month, router.query.id])
 
@@ -67,3 +68,4 @@ const ResumenAsistencia = () => {
 }
 
 export default ResumenAsistencia
+ResumenAsistencia.Auth = PrivateRoutes
