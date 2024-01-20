@@ -1,17 +1,19 @@
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { EnableMonths, currentMonth } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
+import useAuthentication from '@/features/hooks/useAuthentication'
 import useDetailsStudents from '@/features/hooks/useDetailsStudent'
 import useNavbarSearch from '@/features/hooks/useNavbarSearch'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
 const ResumenAsistencia = () => {
+  const { getUserData } = useAuthentication()
   const router = useRouter()
   const [month, setMonth] = useState({ month: currentMonth() })
   const { dataStudent } = useNavbarSearch()
   const { getDetailsofAttendance } = useDetailsStudents()
-  const { resumeAttendanceStudent, studentData } = useGlobalContext()
+  const { resumeAttendanceStudent, studentData, userData } = useGlobalContext()
 
   const handleChangeValueMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonth({
@@ -20,9 +22,13 @@ const ResumenAsistencia = () => {
     })
   }
   useEffect(() => {
-    dataStudent(`${router.query.id}`)
-    getDetailsofAttendance(`${router.query.id}`, month.month)
-  }, [month, router.query.id])
+    getUserData()
+    if(userData){
+      dataStudent(`${router.query.id}`)
+      getDetailsofAttendance(`${router.query.id}`, month.month)
+    }
+    // dataStudent(`${router.query.id}`)
+  }, [month, router.query.id,userData.dni])
 
   return (
     <div className='p-5'>

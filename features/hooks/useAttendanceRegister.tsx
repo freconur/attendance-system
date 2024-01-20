@@ -1,4 +1,4 @@
-import { useGlobalContextDispatch } from '../context/GlobalContext'
+import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext'
 import { app } from '@/firebase/firebaseConfig'
 import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore'
 import { Grades, Section, StudentData } from '../types/types'
@@ -9,13 +9,14 @@ import { currentDate, currentMonth, currentYear, hoursUnixDate } from '@/dates/d
 
 const useAttendanceRegister = () => {
   const db = getFirestore(app)
+  const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
 
   async function getDataStudentsByDate(students: StudentData[], date: string) {
     const studentsArray: StudentData[] = []
 
     await Promise.all(students.map(async (student) => {
-      const refAttendance = doc(db, `/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
+      const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
       const attendance = await getDoc(refAttendance)
       const newData = { ...student, attendanceByDate: attendance.exists() ? hoursUnixDate(attendance.data().arrivalTime) : "no ingreso" }
       return studentsArray.push(newData)
@@ -38,7 +39,7 @@ const useAttendanceRegister = () => {
     return studentsArray
   }
   const filterRegisterByGradeAndSection = async (grade: string, section: string, date: string) => {
-    const refStudents = collection(db, 'students')
+    const refStudents = collection(db, `/intituciones/${userData.idInstitution}/students`)
     const q1 = query(refStudents, where("grade", "==", `${grade}`), where("section", "==", `${section}`));
     const docSnap = await getDocs(q1)
     const studentsFilter: StudentData[] = []

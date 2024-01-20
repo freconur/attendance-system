@@ -2,14 +2,16 @@
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import { useAttendance } from '@/features/hooks/useAttendance'
+import useAuthentication from '@/features/hooks/useAuthentication'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
 const Asistencia = () => {
   const initialState = { studentCode: "" }
+  const { getUserData } = useAuthentication()
   const [studenCode, setStudenCode] = useState(initialState)
   const { getStudentData, studentArrivalTime } = useAttendance()
-  const { studentsData,testing } = useGlobalContext()
+  const { studentsData } = useGlobalContext()
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
       ...studenCode,
@@ -18,12 +20,15 @@ const Asistencia = () => {
   }
   useEffect(() => {
     if (studenCode.studentCode.length === 8) {
-      getStudentData(studenCode.studentCode,studentsData)
+      getStudentData(studenCode.studentCode, studentsData)
       setStudenCode(initialState)
     }
   }, [studenCode.studentCode])
 
-  console.log('testing', testing)
+  useEffect(() => {
+    getUserData()
+
+  }, [])
   return (
     <div className='p-2'>
       <div>
@@ -34,7 +39,7 @@ const Asistencia = () => {
           <div className='w-full'>
             <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div>
             <input
-            value={studenCode.studentCode}
+              value={studenCode.studentCode}
               onChange={onChangeStudentCode}
               name="studentCode"
               type="text"
@@ -44,7 +49,7 @@ const Asistencia = () => {
         </div>
       </div>
       <ul>
-        {studentsData?.map((student,index) => {
+        {studentsData?.map((student, index) => {
           return (
             <li key={index} className='flex gap-10 mt-5 bg-white p-2 rounded-md'>
               <div className='w-[200px]'>

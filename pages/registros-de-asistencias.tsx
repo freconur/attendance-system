@@ -10,13 +10,13 @@ import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '@/firebase/firebaseConfig';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
+import useAuthentication from '@/features/hooks/useAuthentication';
 
 const AttendanceRegister = () => {
-  const auth = getAuth(app)
-  const router = useRouter()
+  const { getUserData } = useAuthentication()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
-  const { studentsByGradeAndSection, sections, grades } = useGlobalContext()
+  const { studentsByGradeAndSection, sections, grades, userData } = useGlobalContext()
   const { filterRegisterByGradeAndSection } = useAttendanceRegister()
   const { getSections, getGrades } = UseRegisterStudents()
   const [startDate, setStartDate] = useState(dayjs());
@@ -35,9 +35,13 @@ const AttendanceRegister = () => {
     }
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()])
   useEffect(() => {
-    getSections()
-    getGrades()
-  }, [])
+    getUserData()
+    if(userData){
+      getSections()
+      getGrades()
+    }
+  }, [userData.dni])
+
   return (
     <div className='relative p-2'>
       <h1 className='text-2xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>

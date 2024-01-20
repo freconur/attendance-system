@@ -1,7 +1,7 @@
 'use client'
 import { app } from "@/firebase/firebaseConfig";
 import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, increment, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
-import { useGlobalContextDispatch } from "../context/GlobalContext";
+import { useGlobalContext, useGlobalContextDispatch } from "../context/GlobalContext";
 import { AttendanceRegister } from "../actions/actionAttendance";
 import { currentDate, currentMonth, currentYear, dateConvertObject, dateConvertObjectStudent, hoursUnixDate } from "@/dates/date";
 import { StudentData } from "../types/types";
@@ -10,16 +10,16 @@ const db = getFirestore(app)
 const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
-
+  const { userData } = useGlobalContext()
 
   const studentArrivalTime = async (studentCode: string) => {
-    const arrivalTimeRef = doc(db, `/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
+    const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
     await setDoc(arrivalTimeRef, { arrivalTime: new Date() })
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
     console.log('Data', Data)
-    const refData = doc(db, "students", studentCode as string)
+    const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
     console.log('studentData', studentData.data())
     if (studentData.exists()) {

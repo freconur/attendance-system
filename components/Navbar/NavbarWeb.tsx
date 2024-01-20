@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { TiThMenu } from "react-icons/ti";
 import { TfiMenu } from "react-icons/tfi";
+import useAuthentication from '@/features/hooks/useAuthentication';
 
 const NavbarWeb = () => {
   const initialValue = { dni: "" }
@@ -22,14 +23,14 @@ const NavbarWeb = () => {
       ...search,
       [e.target.name]: e.target.value
     })
-  }
-  
+  } 
   useEffect(() => {
     if (search.dni.length === 8) {
       searchStudent(search.dni)
       setSearch(initialValue)
     }
   }, [search.dni])
+
   return (
     <div className='w-full flex justify-between h-[60px] shadow-md bg-white'>
       <div onClick={() => showSidebarContext(!showSidebar)} className=' bg-ggw-1 w-[60px] flex justify-center items-center '>
@@ -52,7 +53,7 @@ const NavbarWeb = () => {
             Object.keys(studentDataBySearch).length !== 0 ?
               <div className='z-[1000] p-3 absolute top-[58px] w-[94%] bg-white'>
                 <div className='flex justify-end '>
-                  <div onClick={() => setShowContainerStudent(false)} className='rounded-full bg-red-400 shadow-md w-[30px] h-[30px] mb-3 cursor-pointer'>
+                  <div onClick={cleanSearchStudent} className='rounded-full bg-red-400 shadow-md w-[30px] h-[30px] mb-3 cursor-pointer'>
                     <p className='m-auto text-white flex justify-center items-center leading-7 font-semibold'>X</p>
                   </div>
                 </div>

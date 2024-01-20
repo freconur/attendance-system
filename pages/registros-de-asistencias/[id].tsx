@@ -6,15 +6,19 @@ import { TbCalendarUser } from "react-icons/tb";
 import { ImProfile } from "react-icons/im";
 import Link from 'next/link';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
+import useAuthentication from '@/features/hooks/useAuthentication';
 
 const DetailsStudent = () => {
+  const { getUserData } = useAuthentication()
   const { dataStudent } = useNavbarSearch()
-  const { studentData } = useGlobalContext()
+  const { studentData,userData } = useGlobalContext()
   const router = useRouter()
   useEffect(() => {
-    dataStudent(`${router.query.id}`)
-  }, [router.query.id])
-
+    getUserData()
+    if(userData){
+      dataStudent(`${router.query.id}`)
+    }
+  }, [router.query.id,userData.dni])
   return (
     <div>
       <div className='my-10 uppercase text-2xl text-slate-600 text-center '>{studentData.name} {studentData.lastname}</div>

@@ -1,5 +1,6 @@
 import PrivateRoutes from "@/components/layouts/PrivateRoutes"
 import { useGlobalContext } from "@/features/context/GlobalContext"
+import useAuthentication from "@/features/hooks/useAuthentication"
 import useNavbarSearch from "@/features/hooks/useNavbarSearch"
 import { convertGrade } from "@/utils/validateGrade"
 import Image from "next/image"
@@ -9,13 +10,17 @@ import { useEffect } from "react"
 
 
 const InfoStudent = () => {
+  const { getUserData } = useAuthentication()
   const router = useRouter()
   const { dataStudent } = useNavbarSearch()
-  const { studentData } = useGlobalContext()
+  const { studentData,userData } = useGlobalContext()
 
   useEffect(() => {
-    dataStudent(`${router.query.id}`)
-  }, [router.query.id])
+    getUserData()
+    if(userData){
+      dataStudent(`${router.query.id}`)
+    }
+  }, [router.query.id,userData.dni])
   return (
     <div className="p-5 ">
       <div className="">

@@ -36,12 +36,27 @@ export type Student = {
   showSidebar: boolean,
   studentData: StudentData,
   studentDataBySearch: StudentData,
-  resumeAttendanceStudent: DetailsPerDayOfStudent[]
+  resumeAttendanceStudent: DetailsPerDayOfStudent[],
+  userData:UserData,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
   date: string,
   attendance: string,
+}
+
+export interface UserData {
+  firstname?: string,
+  pictureProfile?: string,
+  institutionName?: string,
+  idInstitution?: string,
+  lastname?: string,
+  name?: string,
+  rol?: string,
+  id?: string,
+  acc?: string,
+  born?: string,
+  dni?: string,
 }
 export type AttendanceAction =
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
@@ -54,6 +69,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.DATA_STUDENT_BY_SEARCH; payload: StudentData }
   | { type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT; payload: DetailsPerDayOfStudent[] }
   | { type: AttendanceRegister.DATA_STUDENT; payload: StudentData }
+  | { type: AttendanceRegister.USER_DATA; payload: UserData }
 
 export type AuthenticationFormSignIn = {
   email: string,
