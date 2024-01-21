@@ -1,5 +1,6 @@
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { useGlobalContext } from '@/features/context/GlobalContext'
+import useAuthentication from '@/features/hooks/useAuthentication'
 import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
@@ -8,7 +9,8 @@ import { useForm } from 'react-hook-form'
 const EstudentsRegister = () => {
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
   const { registerNewStudent, getSections, getGrades, sendPictureProfile } = UseRegisterStudents()
-  const { sections, grades, pictureProfileUrl } = useGlobalContext()
+  const { sections, grades, pictureProfileUrl, userData} = useGlobalContext()
+  const { getUserData } = useAuthentication()
 
   const handleSubmitform = handleSubmit(data => {
     registerNewStudent(data, pictureProfileUrl)
@@ -22,9 +24,12 @@ const EstudentsRegister = () => {
   }, [watch('pictureProfile')])
 
   useEffect(() => {
-    getSections()
-    getGrades()
-  }, [])
+    getUserData()
+    if(userData){
+      getSections()
+      getGrades()
+    }
+  }, [userData.dni])
   return (
     <div className='p-2'>
       <h1 className='text-2xl my-5 font-semibold uppercase text-center text-slate-600'>registro de estudiantes</h1>
