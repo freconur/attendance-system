@@ -11,6 +11,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '@/firebase/firebaseConfig';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 import useAuthentication from '@/features/hooks/useAuthentication';
+import Link from 'next/link';
 
 const AttendanceRegister = () => {
   const { getUserData } = useAuthentication()
@@ -36,7 +37,7 @@ const AttendanceRegister = () => {
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()])
   useEffect(() => {
     getUserData()
-    if(userData){
+    if (userData) {
       getSections()
       getGrades()
     }
@@ -89,10 +90,27 @@ const AttendanceRegister = () => {
               studentsByGradeAndSection?.map((student, index) => {
                 return (
                   <tr key={student.dni} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
-                    <td className='text-center text-[12px] px-3'>{index + 1}</td>
-                    <td className='text-[12px] text-center'>{student.dni}</td>
-                    <td className='uppercase text-[12px] text-center'>{student.lastname} {student.name}</td>
-                    <td className='text-center text-[12px]'>{student.attendanceByDate}</td>
+                    <td className='text-center text-[12px] px-3'>
+                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                        {index + 1}
+                      </Link>
+
+                    </td>
+                    <td className='text-[12px] text-center'>
+                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                        {student.dni}
+                      </Link>
+                    </td>
+                    <td className='uppercase text-[12px] text-center'>
+                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                        {student.lastname} {student.name}
+                      </Link>
+                    </td>
+                    <td className='text-center text-[12px]'>
+                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                        {student.attendanceByDate}
+                      </Link>
+                    </td>
                     <td></td>
                   </tr>
                 )

@@ -47,7 +47,7 @@ const NavbarWeb = () => {
             name="dni"
             // onClick={() => setShowContainerStudent(!showContainerStudent)}
             placeholder='escanea o digita el codigo'
-            className='p-3 w-full border-[1px] outline-none border-cyan-700 rounded-md'
+            className='p-2 w-full border-[1px] outline-none border-cyan-700 rounded-md'
           />
           {
             Object.keys(studentDataBySearch).length !== 0 ?

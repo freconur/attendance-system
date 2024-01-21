@@ -24,7 +24,7 @@ const Login = () => {
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        router.push('/registros-de-asistencias');
+        router.push('/mis-productos');
       }
     });
     // const response = await axios.post('/api/auth/login', formValue)

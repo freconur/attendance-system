@@ -23,7 +23,7 @@ const LayoutMenu = ({ children }: Props) => {
   useOnClickOutside(closeSidebar, handleChangeStateSidebar)
   return (
     <div className='relative'>
-      {route.pathname === "/login" ?
+      {route.pathname === "/login"  || route.pathname === "/mis-productos" ?
         null :
         <>
           <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
