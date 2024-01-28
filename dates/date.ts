@@ -11,10 +11,25 @@ export const todayDateArray = () => {
   }
   return today
 }
+export const transformMonthToEnglish = (mes:string) => {
+  if (mes === "enero") return "january"
+  if (mes === "febrero") return "February"
+  if (mes === "marzo") return "March"
+  if (mes === "abril") return "April"
+  if (mes === "mayo") return "May"
+  if (mes === "junio") return "June"
+  if (mes === "julio") return "July"
+  if (mes === "agosto") return "August"
+  if (mes === "setiembre") return "September"
+  if (mes === "octubre") return "October"
+  if (mes === "noviembre") return "November"
+  if (mes === "diciembre") return "December"
+  
+}
 export const EnableMonths = () => {
   const date = new Date()
-  return months.slice(0,date.getMonth() + 1)
-} 
+  return months.slice(0, date.getMonth() + 1)
+}
 export const todayDate = () => {
   const date = new Date()
   return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
@@ -53,7 +68,18 @@ export const hoursUnixDate = (date: Date) => {
   const nanoseconds = date.toString().slice(42, 49)
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const hour = new Date(rta)
-  return `${hour.getHours().toString().padStart(2,"0")}:${hour.getMinutes().toString().padStart(2,"0")}:${hour.getSeconds().toString().padStart(2,"0")}${hour.getHours()<12 ? "am" : "pm"}`
+  return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
+}
+
+export const getDayFromDate = (date: Date) => {
+  console.log(date.getDay())
+  console.log(date)
+  const detailsPerDayOfStudent = {
+    day: days[date.getDay()],
+    date: `${date.getDate()}`,
+    attendance: "justificado"
+  }
+  return detailsPerDayOfStudent
 }
 export const hoursUnixDateForDetailStudent = (date: Date) => {
   const seconds = date.toString().slice(18, 28)
@@ -61,9 +87,9 @@ export const hoursUnixDateForDetailStudent = (date: Date) => {
   const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
   const fecha = new Date(rta)
   const detailsPerDayOfStudent = {
-    day:days[fecha.getDay()],
-    date:`${fecha.getDate()}`,
-    attendance:`${fecha.getHours().toString().padStart(2,"0")}:${fecha.getMinutes().toString().padStart(2,"0")}:${fecha.getSeconds().toString().padStart(2,"0")}${fecha.getHours()<12 ? "am" : "pm"}`
+    day: days[fecha.getDay()],
+    date: `${fecha.getDate()}`,
+    attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`
   }
   return detailsPerDayOfStudent
 }
@@ -76,7 +102,7 @@ export const dateConvertObject = (date: Date) => {
 }
 
 export const dateConvertObjectStudent = (date: Date) => {
-  return `${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}:${date.getSeconds()}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
+  return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds()}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 export const numberToNameMonth = (value: number) => {
   // const date = new Date()

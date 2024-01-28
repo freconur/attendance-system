@@ -2,7 +2,7 @@ import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { app } from '../../firebase/firebaseConfig';
 import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext';
-import { currentYear, hoursUnixDateForDetailStudent } from '@/dates/date';
+import { currentMonth, currentYear, getDayFromDate, hoursUnixDateForDetailStudent, transformMonthToEnglish } from '@/dates/date';
 
 
 const useDetailsStudents = () => {
@@ -26,9 +26,12 @@ const useDetailsStudents = () => {
     // const pathRef = doc(db,`/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}`)
     const querySnapshot = await getDocs(collection(db, `/intituciones/${userData.idInstitution}/attendance-student/${id}/${currentYear()}/${month}/${month}`));
     const arrivalTimeFromStudent: any = []
+    
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      arrivalTimeFromStudent.push(hoursUnixDateForDetailStudent(doc.data().arrivalTime))
+      // arrivalTimeFromStudent.push(doc.data().justification ? "justificado" : hoursUnixDateForDetailStudent(doc.data().arrivalTime))
+      //debo de hacer el mes dinamico para esta ocasion
+      arrivalTimeFromStudent.push(doc.data().justification ? getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())} ${doc.id}, ${currentYear()}`)) : hoursUnixDateForDetailStudent(doc.data().arrivalTime))
     });
     if (arrivalTimeFromStudent) {
       arrivalTimeFromStudent.sort((a: any, b: any) => {
@@ -42,6 +45,7 @@ const useDetailsStudents = () => {
         }
         return 0;
       })
+      console.log('arrivalTimeFromStudent',arrivalTimeFromStudent)
       dispatch({ type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT, payload: arrivalTimeFromStudent })
     }
   }

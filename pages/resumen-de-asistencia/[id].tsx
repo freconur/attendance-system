@@ -58,10 +58,10 @@ const ResumenAsistencia = () => {
           {
             resumeAttendanceStudent?.map((item) => {
               return (
-                <tr key={item.date} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer w-full'>
-                  <td className='text-sm text-center'>{item.date}</td>
-                  <td className='uppercase text-sm text-center'>{item.day}</td>
-                  <td className='text-center text-sm'>{item.attendance}</td>
+                <tr key={item?.date} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer w-full'>
+                  <td className='text-sm text-center'>{item?.date}</td>
+                  <td className='uppercase text-sm text-center'>{item?.day}</td>
+                  <td className='text-center text-sm'>{item?.attendance}</td>
                   <td></td>
                 </tr>
               )

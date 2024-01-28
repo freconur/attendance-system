@@ -18,6 +18,10 @@ const initialState: Student = {
   resumeAttendanceStudent: [],
   studentDataBySearch:{},
   userData:{},
+  justificacionFaltaModal:false,
+  justificacionFaltaConfirmationModal:false,
+  justificacionMotivoModal:false,
+  justificacionStudent:{}
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

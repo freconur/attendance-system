@@ -12,15 +12,19 @@ import { app } from '@/firebase/firebaseConfig';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 import useAuthentication from '@/features/hooks/useAuthentication';
 import Link from 'next/link';
+import { currentDate } from '@/dates/date';
+import JustificacionFaltaModal from '@/Modals/JustificacionFaltaModal';
+import JustificacionFaltaMotivo from '@/Modals/JustificacionFaltaMotivo';
 
 const AttendanceRegister = () => {
   const { getUserData } = useAuthentication()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
-  const { studentsByGradeAndSection, sections, grades, userData } = useGlobalContext()
-  const { filterRegisterByGradeAndSection } = useAttendanceRegister()
+  const { studentsByGradeAndSection, sections, grades, userData, justificacionFaltaModal, justificacionStudent, justificacionMotivoModal } = useGlobalContext()
+  const { filterRegisterByGradeAndSection, showJustificaconFaltaModal, justificacionInfoByStudent, showJustificacionMotivo } = useAttendanceRegister()
   const { getSections, getGrades } = UseRegisterStudents()
   const [startDate, setStartDate] = useState(dayjs());
+  const [dniStudent, setDniStudent] = useState("");
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
   const handleChangesValuesSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValuesByFilter({
@@ -43,8 +47,30 @@ const AttendanceRegister = () => {
     }
   }, [userData.dni])
 
+  const resultAttendance = (value: string, dni: string) => {
+    if (value === "justificado") {
+      return <span onClick={() => { justificacionInfoByStudent(dni, `${startDate.date()}`); showJustificacionMotivo(!justificacionMotivoModal) }}>{value}</span>
+    } else if (value === "falto") {
+      return (
+        <>
+          {value} <span onClick={() => { showJustificaconFaltaModal(!justificacionFaltaModal); setDniStudent(dni as string) }} className='p-1 hover:bg-orange-400 duration-300 text-slate-700 bg-yellow-300 w-[15px] h-[15px] flex justify-center items-center text-[10px] rounded-sm'>J</span>
+        </>
+      )
+    } else {
+      return <span>{value}</span>
+    }
+  }
   return (
     <div className='relative p-2'>
+      {justificacionMotivoModal ?
+        <JustificacionFaltaMotivo justificacionStudent={justificacionStudent}/>
+        :
+        null
+      }
+      {justificacionFaltaModal ?
+        <JustificacionFaltaModal date={startDate.date()} dniStudent={dniStudent} />
+        :
+        null}
       <h1 className='text-2xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
       <div className='relative z-10 flex justify-end items-center mb-3'>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -57,7 +83,7 @@ const AttendanceRegister = () => {
           {
             grades?.map((gr, index) => {
               return (
-                <option className='text-slate-500' key={index} value={gr.grade}>{gr.traditionalGrade}</option>
+                <option key={index} className='text-slate-500' value={gr.grade}>{gr.traditionalGrade}</option>
               )
             })
           }
@@ -67,7 +93,7 @@ const AttendanceRegister = () => {
           {
             sections?.map((gr, index) => {
               return (
-                <option className='uppercase text-slate-500' key={index} value={gr.section}>{gr.section}</option>
+                <option key={index} className='uppercase text-slate-500' value={gr.section}>{gr.section}</option>
               )
             })
           }
@@ -88,31 +114,33 @@ const AttendanceRegister = () => {
           <tbody className="divide-y divide-gray-100 bg-white">
             {
               studentsByGradeAndSection?.map((student, index) => {
-                return (
-                  <tr key={student.dni} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
-                    <td className='text-center text-[12px] px-3'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
-                        {index + 1}
-                      </Link>
 
-                    </td>
-                    <td className='text-[12px] text-center'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
-                        {student.dni}
-                      </Link>
-                    </td>
-                    <td className='uppercase text-[12px] text-center'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
-                        {student.lastname} {student.name}
-                      </Link>
-                    </td>
-                    <td className='text-center text-[12px]'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
-                        {student.attendanceByDate}
-                      </Link>
-                    </td>
-                    <td></td>
-                  </tr>
+                return (
+
+                    <tr key={index} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
+                      <td className='text-center text-[12px] px-3'>
+                        <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                          {index + 1}
+                        </Link>
+
+                      </td>
+                      <td className='text-[12px] text-center'>
+                        <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                          {student.dni}
+                        </Link>
+                      </td>
+                      <td className='uppercase text-[12px] text-center'>
+                        <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                          {student.lastname} {student.name}
+                        </Link>
+                      </td>
+                      <td className={`${student.attendanceByDate === "justificado" ? "text-blue-600" : "text-slate-400"} flex  gap-1 justify-center  pt-3 text-[12px]`}>
+                        {
+                          resultAttendance(student.attendanceByDate as string, student.dni as string)
+                        }
+                      </td>
+                      <td></td>
+                    </tr>
                 )
               })
             }

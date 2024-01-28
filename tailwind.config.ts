@@ -110,12 +110,13 @@ module.exports = {
         '8': 'repeat(8, minmax(0, 1fr))',
         'gridSideBar': 'auto calc(100vh - 194px) auto',
         'flashcardWelcome': 'auto auto',
-        'gridRows': 'auto 1fr auto',
+        'gridRows': '320px auto 10%',
         'gridRowsSales': '10% auto',
         'gridRowsSalesPay': '90% 10%',
         'gridRowsSalesPayModal': '50% 10%',
         'layout': '200px minmax(900px, 1fr) 100px',
-        'tableSales': '90px'
+        'tableSales': '90px',
+        // 'promtpr':'20% auto 10%'
       },
       gridTemplateColumns: {
         'gridSale': '1fr 30%',

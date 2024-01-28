@@ -38,6 +38,10 @@ export type Student = {
   studentDataBySearch: StudentData,
   resumeAttendanceStudent: DetailsPerDayOfStudent[],
   userData:UserData,
+  justificacionFaltaModal:boolean
+  justificacionFaltaConfirmationModal:boolean,
+  justificacionMotivoModal:boolean,
+  justificacionStudent:JustificacionStudent
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -58,6 +62,17 @@ export interface UserData {
   born?: string,
   dni?: string,
 }
+
+export interface JustificationValue {
+  justification:string
+}
+
+export interface JustificacionStudent {
+  arrivalTime?:string,
+  justification?:boolean,
+  justificationMotive?:string,
+  id?:string
+}
 export type AttendanceAction =
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
   | { type: AttendanceRegister.GRADES; payload: Grades[] }
@@ -70,6 +85,10 @@ export type AttendanceAction =
   | { type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT; payload: DetailsPerDayOfStudent[] }
   | { type: AttendanceRegister.DATA_STUDENT; payload: StudentData }
   | { type: AttendanceRegister.USER_DATA; payload: UserData }
+  | { type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_MODAL; payload: boolean }
+  | { type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL; payload: boolean }
+  | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL; payload: boolean }
+  | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO; payload: JustificacionStudent }
 
 export type AuthenticationFormSignIn = {
   email: string,

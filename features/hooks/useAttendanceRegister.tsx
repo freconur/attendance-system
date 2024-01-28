@@ -1,7 +1,7 @@
 import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext'
 import { app } from '@/firebase/firebaseConfig'
-import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore'
-import { Grades, Section, StudentData } from '../types/types'
+import { collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore'
+import { Grades, JustificacionStudent, JustificationValue, Section, StudentData } from '../types/types'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { currentDate, currentMonth, currentYear, hoursUnixDate } from '@/dates/date'
@@ -18,17 +18,18 @@ const useAttendanceRegister = () => {
     await Promise.all(students.map(async (student) => {
       const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
       const attendance = await getDoc(refAttendance)
-      const newData = { ...student, attendanceByDate: attendance.exists() ? hoursUnixDate(attendance.data().arrivalTime) : "no ingreso" }
+      // const newData = { ...student, attendanceByDate: attendance.exists() ? hoursUnixDate(attendance.data().arrivalTime) : "falto" }
+      const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : hoursUnixDate(attendance.data().arrivalTime) : "falto" }
       return studentsArray.push(newData)
     }))
     if (studentsArray) {
-      studentsArray.sort((a:any, b:any) => {
-        const fe:string = a && a.lastname
-        const se:string = b && b.lastname
+      studentsArray.sort((a: any, b: any) => {
+        const fe: string = a && a.lastname
+        const se: string = b && b.lastname
 
         if (fe > se) {
           return 1;
-        } 
+        }
         // if(fe && se) {}
         if (fe < se) {
           return -1;
@@ -56,9 +57,30 @@ const useAttendanceRegister = () => {
 
   }
 
+  const justificarFalta = async (id: string, date: string , justication:JustificationValue) => {
+    const attendanceRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`);
+    //deberia crear un modal con campos para poner un motivo de la falta 
+    await setDoc(attendanceRef, { arrivalTime: "justificado", justification: true, justificationMotive:justication.justification });
+  }
 
+  const justificacionInfoByStudent = async (id:string, date:string) => {
+    const attendanceRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`);
+    const docSnap = await getDoc(attendanceRef);
+    // console.log('docSnap',docSnap.data())
+    const rta:JustificacionStudent = { ...docSnap.data(), id:docSnap.id}
+    dispatch({type:AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO, payload:rta})
+  }
+  const showJustificacionMotivo = (value:boolean) => {
+    dispatch({type:AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL, payload:value})
+  }
+  const showJustificaconFaltaModal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_MODAL, payload: value })
+  }
+  const showJustificaconFaltaConfirmationModal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL, payload: value })
+  }
 
-  return { filterRegisterByGradeAndSection }
+  return { showJustificacionMotivo,justificacionInfoByStudent,filterRegisterByGradeAndSection, justificarFalta, showJustificaconFaltaModal, showJustificaconFaltaConfirmationModal }
 }
 
 export default useAttendanceRegister
