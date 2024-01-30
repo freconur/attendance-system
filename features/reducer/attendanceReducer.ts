@@ -4,7 +4,12 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
-    case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO:
+    case AttendanceRegister.VALIDATE_MY_PRODUCTS:
+      return {
+        ...state,
+        validateMyProducts:action.payload
+      }
+      case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO:
       return {
         ...state,
         justificacionStudent:action.payload

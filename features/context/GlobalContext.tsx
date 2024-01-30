@@ -21,7 +21,8 @@ const initialState: Student = {
   justificacionFaltaModal:false,
   justificacionFaltaConfirmationModal:false,
   justificacionMotivoModal:false,
-  justificacionStudent:{}
+  justificacionStudent:{},
+  validateMyProducts:{},
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

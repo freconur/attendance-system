@@ -37,11 +37,12 @@ export type Student = {
   studentData: StudentData,
   studentDataBySearch: StudentData,
   resumeAttendanceStudent: DetailsPerDayOfStudent[],
-  userData:UserData,
-  justificacionFaltaModal:boolean
-  justificacionFaltaConfirmationModal:boolean,
-  justificacionMotivoModal:boolean,
-  justificacionStudent:JustificacionStudent
+  userData: UserData,
+  justificacionFaltaModal: boolean
+  justificacionFaltaConfirmationModal: boolean,
+  justificacionMotivoModal: boolean,
+  justificacionStudent: JustificacionStudent,
+  validateMyProducts:ValidateMyProducts,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -64,14 +65,22 @@ export interface UserData {
 }
 
 export interface JustificationValue {
-  justification:string
+  justification: string
 }
 
 export interface JustificacionStudent {
-  arrivalTime?:string,
-  justification?:boolean,
-  justificationMotive?:string,
-  id?:string
+  arrivalTime?: string,
+  justification?: boolean,
+  justificationMotive?: string,
+  id?: string
+}
+
+export interface ValidateMyProducts {
+  attendance?: boolean,
+  employeeAttendance?: boolean,
+  comedor?: boolean,
+  notas?: boolean,
+  name?: string
 }
 export type AttendanceAction =
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
@@ -89,6 +98,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL; payload: boolean }
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL; payload: boolean }
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO; payload: JustificacionStudent }
+  | { type: AttendanceRegister.VALIDATE_MY_PRODUCTS; payload: ValidateMyProducts }
 
 export type AuthenticationFormSignIn = {
   email: string,

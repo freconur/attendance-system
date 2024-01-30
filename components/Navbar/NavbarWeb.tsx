@@ -37,7 +37,7 @@ const NavbarWeb = () => {
         <TfiMenu className='text-principal text-3xl cursor-pointer' />
       </div>
 
-      {pathname === "/registros-de-asistencias" ?
+      {pathname === "/registros-de-asistencias" || pathname === "/estudiantes/registros-de-asistencias" ?
         <div className='relative w-full flex justify-center items-center px-5'>
 
           <input
