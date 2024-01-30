@@ -108,7 +108,7 @@ const AttendanceRegister = () => {
               <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">dni</th>
               <th className="py-3 md:p-2 text-[12px] text-center uppercase">apellidos y nombres</th>
               <th className="py-3 md:p-2 text-[12px] text-center uppercase">ingreso</th>
-              <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th>
+              {/* <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th> */}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
@@ -139,7 +139,7 @@ const AttendanceRegister = () => {
                           resultAttendance(student.attendanceByDate as string, student.dni as string)
                         }
                       </td>
-                      <td></td>
+                      {/* <td></td> */}
                     </tr>
                 )
               })

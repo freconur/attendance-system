@@ -51,7 +51,7 @@ const ResumenAsistencia = () => {
             <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>
             <th className="py-3 md:p-2 text-sm text-center uppercase">dia</th>
             <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
+            {/* <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th> */}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 bg-white">
@@ -62,7 +62,7 @@ const ResumenAsistencia = () => {
                   <td className='text-sm text-center'>{item?.date}</td>
                   <td className='uppercase text-sm text-center'>{item?.day}</td>
                   <td className='text-center text-sm'>{item?.attendance}</td>
-                  <td></td>
+                  {/* <td></td> */}
                 </tr>
               )
             })
