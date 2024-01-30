@@ -55,7 +55,7 @@ const MisProductos = () => {
           </div>
           <div>
             {
-              validateMyProducts.attendance ?
+              validateMyProducts.employeeAttendance ?
                 <>
                   <Link href="/asistencia-de-empleados" className='bg-green-400 hover:bg-green-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
                     <FaUserTie className='text-white text-[90px]' />
