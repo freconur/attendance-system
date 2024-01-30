@@ -36,6 +36,8 @@ const useAuthentication = () => {
     }
   }
   const signIn = async (loginData: AuthenticationFormSignIn) => {
+    dispatch({type:AttendanceRegister.WARNING_ACCOUNT, payload:""})
+    dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:true})
     let rta: any = {}
     try {
       await setPersistence(auth, browserSessionPersistence)
@@ -46,12 +48,14 @@ const useAuthentication = () => {
           //   console.log('rta', rta)
           // }
         })
-
+        dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:false})
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log('errorCode', errorCode)
-      console.log('errorMessage', errorMessage)
+      if(error) {
+        dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:false})
+        dispatch({type:AttendanceRegister.WARNING_ACCOUNT, payload:"nombre de usuario o contraseña incorrecto"})
+      }
     }
   }
 

@@ -43,6 +43,8 @@ export type Student = {
   justificacionMotivoModal: boolean,
   justificacionStudent: JustificacionStudent,
   validateMyProducts:ValidateMyProducts,
+  warningAccount:string,
+  loadingAccount:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -99,6 +101,8 @@ export type AttendanceAction =
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL; payload: boolean }
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO; payload: JustificacionStudent }
   | { type: AttendanceRegister.VALIDATE_MY_PRODUCTS; payload: ValidateMyProducts }
+  | { type: AttendanceRegister.WARNING_ACCOUNT; payload: string }
+  | { type: AttendanceRegister.LOADING_ACCOUNT; payload: boolean }
 
 export type AuthenticationFormSignIn = {
   email: string,

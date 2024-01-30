@@ -23,6 +23,8 @@ const initialState: Student = {
   justificacionMotivoModal:false,
   justificacionStudent:{},
   validateMyProducts:{},
+  warningAccount:"",
+  loadingAccount:false
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])
