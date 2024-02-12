@@ -132,18 +132,18 @@ const AttendanceRegister = () => {
 
                   <tr key={index} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
                     <td className='text-center text-[12px] px-3'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
                         {index + 1}
                       </Link>
 
                     </td>
                     <td className='text-[12px] text-center'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
                         {student.dni}
                       </Link>
                     </td>
                     <td className='uppercase text-[12px] text-center'>
-                      <Link href={`/resumen-de-asistencia/${student.dni}`}>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
                         {student.lastname} {student.name}
                       </Link>
                     </td>

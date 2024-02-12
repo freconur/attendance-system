@@ -40,13 +40,14 @@ const useAttendanceRegister = () => {
     return studentsArray
   }
   const saveChangesFromAttendanceByGradeSecction = (students: StudentData[]) => {
+    const currentlyDate = new Date()
     students.map(async (student) => {
       const pathRef = `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}`
       // console.log('fecha.getMonth()',fecha.getMonth())
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), 7, 59, 1)) });
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date()) });
-      if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(2024, 1, 11, 7, 59, 1)) });
-      if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(2024, 1, 11, 8, 1, 1) });
+      if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) });
+      if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) });
       if (student.falta) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null});
       // if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(Number(fecha.getFullYear()), Number(fecha.getMonth()), Number(fecha.getDate()), 8, 1, 0) });
       // Timestamp.fromDate(new Date())
