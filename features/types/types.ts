@@ -17,7 +17,10 @@ export interface StudentData {
   section?: string,
   cellPhone?: string,
   currentAttendance?: Date,
-  attendanceByDate?: string
+  attendanceByDate?: string,
+  falta?:boolean,
+  presente?:boolean,
+  tardanza?:boolean,
 }
 export interface Section {
   section?: string
@@ -44,7 +47,9 @@ export type Student = {
   justificacionStudent: JustificacionStudent,
   validateMyProducts:ValidateMyProducts,
   warningAccount:string,
-  loadingAccount:boolean
+  loadingAccount:boolean,
+  loadingSearchStudents:boolean,
+  studentsForAttendance:StudentData[],
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -103,6 +108,9 @@ export type AttendanceAction =
   | { type: AttendanceRegister.VALIDATE_MY_PRODUCTS; payload: ValidateMyProducts }
   | { type: AttendanceRegister.WARNING_ACCOUNT; payload: string }
   | { type: AttendanceRegister.LOADING_ACCOUNT; payload: boolean }
+  | { type: AttendanceRegister.LOADING_SEARCH_STUDENTS; payload: boolean }
+  | { type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE; payload: StudentData[] }
+  
 
 export type AuthenticationFormSignIn = {
   email: string,

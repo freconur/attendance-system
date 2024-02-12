@@ -23,24 +23,25 @@ const ResumenAsistencia = () => {
   }
   useEffect(() => {
     getUserData()
-    if(userData){
+    if (userData) {
       dataStudent(`${router.query.id}`)
       getDetailsofAttendance(`${router.query.id}`, month.month)
     }
     // dataStudent(`${router.query.id}`)
-  }, [month, router.query.id,userData.name])
-
+  }, [month, router.query.id, userData.name])
+console.log('month', month.month)
   return (
     <div className='p-5'>
       <h3 className='text-2xl text-slate-500 font-semibold uppercase text-center my-5'>Resumen de asistencia de {studentData.name} {studentData.lastname}</h3>
 
       <div className='flex justify-end'>
         <select className='p-3 rounded-md w-[200px] mb-5 text-slate-500 uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
+          <option value={month.month}>--{month.month}--</option>
           {
             EnableMonths().map((month, index) => {
               return (
-                <option key={index} value={month}>{month}</option>
-              )
+          <option key={index} value={month}>{month}</option>
+          )
             })
           }
         </select>

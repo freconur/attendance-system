@@ -28,10 +28,10 @@ const useDetailsStudents = () => {
     const arrivalTimeFromStudent: any = []
     
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       // arrivalTimeFromStudent.push(doc.data().justification ? "justificado" : hoursUnixDateForDetailStudent(doc.data().arrivalTime))
       //debo de hacer el mes dinamico para esta ocasion
-      arrivalTimeFromStudent.push(doc.data().justification ? getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())} ${doc.id}, ${currentYear()}`)) : hoursUnixDateForDetailStudent(doc.data().arrivalTime))
+      arrivalTimeFromStudent.push(doc.data().justification ? getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)) : doc.data().arrivalTime && hoursUnixDateForDetailStudent(doc.data().arrivalTime))
+      // arrivalTimeFromStudent.push(doc.data().justification ? getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())} ${doc.id}, ${currentYear()}`)) : hoursUnixDateForDetailStudent(doc.data().arrivalTime))
     });
     if (arrivalTimeFromStudent) {
       arrivalTimeFromStudent.sort((a: any, b: any) => {
@@ -45,7 +45,6 @@ const useDetailsStudents = () => {
         }
         return 0;
       })
-      console.log('arrivalTimeFromStudent',arrivalTimeFromStudent)
       dispatch({ type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT, payload: arrivalTimeFromStudent })
     }
   }

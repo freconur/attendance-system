@@ -18,17 +18,11 @@ export const useAttendance = () => {
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
-    console.log('Data', Data)
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
-    console.log('studentData', studentData.data())
     if (studentData.exists()) {
-      console.log('numberPhone', `51${studentData.data().numberFather}@c.us`)
       studentArrivalTime(studentCode)
-      // const studentsData:StudentData[] = Data
       Data?.unshift(studentData.data())
-      // console.log('fecha', Date())
-      console.log('fecha2', dateConvertObjectStudent(new Date))
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if (studentData.data().numberFather) {
         try {

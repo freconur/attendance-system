@@ -11,7 +11,7 @@ export const todayDateArray = () => {
   }
   return today
 }
-export const transformMonthToEnglish = (mes:string) => {
+export const transformMonthToEnglish = (mes: string) => {
   if (mes === "enero") return "january"
   if (mes === "febrero") return "February"
   if (mes === "marzo") return "March"
@@ -24,7 +24,7 @@ export const transformMonthToEnglish = (mes:string) => {
   if (mes === "octubre") return "October"
   if (mes === "noviembre") return "November"
   if (mes === "diciembre") return "December"
-  
+
 }
 export const EnableMonths = () => {
   const date = new Date()
@@ -64,16 +64,43 @@ export const functionBirthdayDate = (date: Date) => {
   return `${birthdayUser.getDate()} de ${months[birthdayUser.getMonth()]} del ${birthdayUser.getFullYear()}`
 }
 export const hoursUnixDate = (date: Date) => {
-  const seconds = date.toString().slice(18, 28)
-  const nanoseconds = date.toString().slice(42, 49)
-  const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
-  const hour = new Date(rta)
-  return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
+  // console.log('hoursUnixDate', date.toString())
+  const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  const seconds = date?.toString().slice(18, 28)
+  const nanoseconds = date?.toString().slice(42, 49)
+  if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
+    return `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
+  } else {
+    const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
+    const hour = new Date(rta)
+    return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
+  }
 }
-
+export const hoursUnixDateForDetailStudent = (date: Date) => {
+  const seconds = date?.toString().slice(18, 28)
+  const nanoseconds = date?.toString().slice(42, 49)
+  const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  // console.log('hourSecondsksk', hourSeconds)
+  if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
+    const detailsPerDayOfStudent = {
+      day:days[hourSeconds.getDay()],
+      date:`${hourSeconds.getDate()}`,
+      attendance:`${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
+    }
+    return detailsPerDayOfStudent
+  } else {
+    const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
+    const fecha = new Date(rta)
+    const detailsPerDayOfStudent = {
+      day: days[fecha.getDay()],
+      date: `${fecha.getDate()}`,
+      attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`
+    }
+    return detailsPerDayOfStudent
+  }
+}
 export const getDayFromDate = (date: Date) => {
-  console.log(date.getDay())
-  console.log(date)
+  console.log('estamos en getDayFromDate')
   const detailsPerDayOfStudent = {
     day: days[date.getDay()],
     date: `${date.getDate()}`,
@@ -81,18 +108,7 @@ export const getDayFromDate = (date: Date) => {
   }
   return detailsPerDayOfStudent
 }
-export const hoursUnixDateForDetailStudent = (date: Date) => {
-  const seconds = date.toString().slice(18, 28)
-  const nanoseconds = date.toString().slice(42, 49)
-  const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
-  const fecha = new Date(rta)
-  const detailsPerDayOfStudent = {
-    day: days[fecha.getDay()],
-    date: `${fecha.getDate()}`,
-    attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`
-  }
-  return detailsPerDayOfStudent
-}
+
 export const dateConvertObject = (date: Date) => {
   return {
     date: date.getDate(),
