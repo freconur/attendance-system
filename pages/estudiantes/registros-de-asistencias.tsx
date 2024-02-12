@@ -74,14 +74,14 @@ const AttendanceRegister = () => {
         <JustificacionFaltaModal date={startDate.date()} dniStudent={dniStudent} />
         :
         null}
-      <h1 className='text-2xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
+      <h1 className='text-xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
       <div className='relative z-10 flex justify-end items-center mb-3'>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
         </LocalizationProvider>
       </div>
       <div className='flex gap-5 w-full my-3'>
-        <select name="grade" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase text-slate-500'>
+        <select name="grade" onChange={handleChangesValuesSelect} className='w-full bg-white rounded-md p-3  shadow-md uppercase text-slate-400'>
           <option className='text-slate-500' value="">--SELECCIONAR GRADO--</option>
           {
             grades?.map((gr, index) => {
@@ -91,7 +91,7 @@ const AttendanceRegister = () => {
             })
           }
         </select>
-        <select name="section" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase text-slate-500'>
+        <select name="section" onChange={handleChangesValuesSelect} className='w-full bg-white rounded-md p-3 shadow-md uppercase text-slate-400'>
           <option className='text-slate-500' value="">--SELECCIONAR SECCION--</option>
           {
             sections?.map((gr, index) => {

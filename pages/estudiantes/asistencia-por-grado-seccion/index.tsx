@@ -1,3 +1,4 @@
+import ConfirmationSaveAttendanceByGradeSection from '@/Modals/ConfirmationSaveAttendanceByGradeSection'
 import { currentDate, currentMonth, currentYear } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import useAttendanceRegister from '@/features/hooks/useAttendanceRegister'
@@ -16,10 +17,10 @@ const AsistenciaGradoseccion = () => {
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
   const [testing, setTesting] = useState(initialStateByAttendance)
   const { getSections, getGrades } = UseRegisterStudents()
-  const { userData, grades, sections, studentsForAttendance, loadingSearchStudents } = useGlobalContext()
+  const { userData, grades, sections, studentsForAttendance, confirmationSaveAttendanceByGradeSectionModal, loadingSearchStudents } = useGlobalContext()
   const [startDate, setStartDate] = useState(dayjs());
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
-  const { filterRegisterByGradeAndSection, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction } = useAttendanceRegister()
+  const { filterRegisterByGradeAndSection, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction, saveAttendance } = useAttendanceRegister()
   const [attendance, setAttendance] = useState('asistencia-grado')
 
 
@@ -49,9 +50,13 @@ const AsistenciaGradoseccion = () => {
       [e.target.name]: e.target.value
     })
   }
-  console.log('studentsForAttendance', studentsForAttendance)
+
+  const handleSaveAttendance = () => {
+    saveAttendance(confirmationSaveAttendanceByGradeSectionModal)
+  }
   return (
     <div className='p-2'>
+      {confirmationSaveAttendanceByGradeSectionModal ? <ConfirmationSaveAttendanceByGradeSection /> : null}
 
       <h1 className='text-xl my-5 font-semibold uppercase text-slate-600 text-center'>Tomar asistencias por grado</h1>
       <div className='relative z-10 flex justify-between items-center mb-3'>
@@ -59,10 +64,11 @@ const AsistenciaGradoseccion = () => {
         {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
         </LocalizationProvider> */}
-        <div onClick={() => saveChangesFromAttendanceByGradeSecction(studentsForAttendance)} className='bg-blue-400 text-white rounded-sm shadow-md p-3 cursor-pointer hover:bg-blue-300 duration-300'>Guardar asistencia</div>
+        {/* <div onClick={() => saveChangesFromAttendanceByGradeSecction(studentsForAttendance)} className='bg-blue-400 text-white rounded-sm shadow-md p-3 cursor-pointer hover:bg-blue-300 duration-300'>Guardar asistencia</div> */}
+        <button disabled={studentsForAttendance.length > 0 ? false : true } onClick={handleSaveAttendance} className={` text-white rounded-sm shadow-md p-3 cursor-pointer  duration-300 ${studentsForAttendance.length > 0 ? "bg-blue-400 hover:bg-blue-300" : "bg-gray-200 hover:bg-gray-200"}`}>Guardar asistencia</button>
       </div>
       <div className='flex gap-5 w-full my-3'>
-        <select name="grade" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase text-slate-500'>
+        <select name="grade" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase bg-white rounded-md text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-none'>
           <option className='text-slate-500' value="">--SELECCIONAR GRADO--</option>
           {
             grades?.map((gr, index) => {
@@ -72,7 +78,7 @@ const AsistenciaGradoseccion = () => {
             })
           }
         </select>
-        <select name="section" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase text-slate-500'>
+        <select name="section" onChange={handleChangesValuesSelect} className='w-full p-3 shadow-md uppercase bg-white rounded-md text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-none '>
           <option className='text-slate-500' value="">--SELECCIONAR SECCION--</option>
           {
             sections?.map((gr, index) => {
@@ -99,9 +105,18 @@ const AsistenciaGradoseccion = () => {
               <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">#</th>
               <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">dni</th>
               <th className="py-3 md:p-2 text-[12px] text-center uppercase">apellidos y nombres</th>
-              <th className="py-3 md:p-2 text-[12px] text-center uppercase">presente</th>
-              <th className="py-3 md:p-2 text-[12px] text-center uppercase">tardanza</th>
-              <th className="py-3 md:p-2 text-[12px] text-center uppercase">falta</th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                <span className='block xm:hidden'>P</span>
+                <span className='hidden xm:block'>Presente</span>
+              </th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                <span className='block xm:hidden'>T</span>
+                <span className='hidden xm:block'>Tardanza</span>
+              </th>
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                <span className='block xm:hidden'>F</span>
+                <span className='hidden xm:block'>Falta</span>
+              </th>
               {/* <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th> */}
             </tr>
           </thead>
@@ -127,13 +142,16 @@ const AsistenciaGradoseccion = () => {
                       {/* {
                         resultAttendance(student.attendanceByDate as string, student.dni as string)
                       } */}
-                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `presente`)} checked={student.presente ? true : false} name="presente" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2' />
+                      {/* <div className='border-[1px] border-green-400 bg-green-200 rounded-full w-[20px] h-[20px] flex justify-center overflow-hidden items-center'>
+
+                      </div> */}
+                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `presente`)} checked={student.presente ? true : false} name="presente" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2 accent-green-300  focus:accent-blue-500' />
                     </td>
                     <td className='text-center pt-3 '>
-                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `tardanza`)} checked={student.tardanza ? true : false} name="tardanza" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2' />
+                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `tardanza`)} checked={student.tardanza ? true : false} name="tardanza" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2 accent-yellow-300 focus:accent-blue-500' />
                     </td>
                     <td className='text-center pt-3 '>
-                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `falta`)} checked={student.falta ? true : false} name="falta" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2' />
+                      <input onChange={() => changeAttendanceFromStudent(`${student.dni}`, studentsForAttendance, `falta`)} checked={student.falta ? true : false} name="falta" type="checkbox" className='w-[20px] h-[20px] rounded-full mr-2 accent-red-400 focus:accent-blue-500' />
                     </td>
                   </tr>
                 )

@@ -50,6 +50,8 @@ export type Student = {
   loadingAccount:boolean,
   loadingSearchStudents:boolean,
   studentsForAttendance:StudentData[],
+  confirmationSaveAttendanceByGradeSectionModal: boolean,
+  loadingSaveAttendanceByGradeSectionModal: boolean,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -110,6 +112,8 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADING_ACCOUNT; payload: boolean }
   | { type: AttendanceRegister.LOADING_SEARCH_STUDENTS; payload: boolean }
   | { type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE; payload: StudentData[] }
+  | { type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL; payload: boolean }
+  | { type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION; payload: boolean }
   
 
 export type AuthenticationFormSignIn = {

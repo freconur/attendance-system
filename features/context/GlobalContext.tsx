@@ -26,7 +26,9 @@ const initialState: Student = {
   warningAccount:"",
   loadingAccount:false,
   loadingSearchStudents:false,
-  studentsForAttendance:[]
+  studentsForAttendance:[],
+  confirmationSaveAttendanceByGradeSectionModal:false,
+  loadingSaveAttendanceByGradeSectionModal:false,
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

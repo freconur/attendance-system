@@ -4,6 +4,17 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+
+    case AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION:
+      return {
+        ...state,
+        loadingSaveAttendanceByGradeSectionModal:action.payload
+      }
+    case AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL:
+    return {
+      ...state,
+      confirmationSaveAttendanceByGradeSectionModal:action.payload
+    }
     case AttendanceRegister.STUDENTS_FOR_ATTENDANCE:
       return {
         ...state,

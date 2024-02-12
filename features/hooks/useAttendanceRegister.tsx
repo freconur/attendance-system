@@ -14,7 +14,7 @@ const useAttendanceRegister = () => {
 
   async function getDataStudentsByDate(students: StudentData[], date: string) {
     const studentsArray: StudentData[] = []
-    
+
     await Promise.all(students.map(async (student) => {
       const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
       const attendance = await getDoc(refAttendance)
@@ -40,15 +40,35 @@ const useAttendanceRegister = () => {
     return studentsArray
   }
   const saveChangesFromAttendanceByGradeSecction = (students: StudentData[]) => {
+    dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:true})
     const currentlyDate = new Date()
     students.map(async (student) => {
       const pathRef = `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}`
       // console.log('fecha.getMonth()',fecha.getMonth())
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), 7, 59, 1)) });
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date()) });
-      if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) });
-      if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) });
-      if (student.falta) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null});
+      if (student.presente) {
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
+        .then(response => {
+          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
+          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
+        })
+      }
+      if (student.tardanza) {
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
+        .then(response => {
+          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
+          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
+        })
+      }
+      if (student.falta) {
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null })
+        .then(response => {
+          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
+          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
+        })
+      }
+      dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
       // if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(Number(fecha.getFullYear()), Number(fecha.getMonth()), Number(fecha.getDate()), 8, 1, 0) });
       // Timestamp.fromDate(new Date())
     })
@@ -121,7 +141,11 @@ const useAttendanceRegister = () => {
     dispatch({ type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL, payload: value })
   }
 
-  return { showJustificacionMotivo, justificacionInfoByStudent, filterRegisterByGradeAndSection, justificarFalta, showJustificaconFaltaModal, showJustificaconFaltaConfirmationModal, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction }
+  const saveAttendance = (value: boolean) => {
+    console.log('value', value)
+    dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: !value })
+  }
+  return { saveAttendance, showJustificacionMotivo, justificacionInfoByStudent, filterRegisterByGradeAndSection, justificarFalta, showJustificaconFaltaModal, showJustificaconFaltaConfirmationModal, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction }
 }
 
 export default useAttendanceRegister

@@ -32,10 +32,10 @@ const ResumenAsistencia = () => {
 console.log('month', month.month)
   return (
     <div className='p-5'>
-      <h3 className='text-2xl text-slate-500 font-semibold uppercase text-center my-5'>Resumen de asistencia de {studentData.name} {studentData.lastname}</h3>
+      <h3 className='text-xl text-slate-500 font-semibold uppercase text-center my-5'>Resumen de asistencia de {studentData.name} {studentData.lastname}</h3>
 
       <div className='flex justify-end'>
-        <select className='p-3 rounded-md w-[200px] mb-5 text-slate-500 uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
+        <select className='p-3 bg-white rounded-md w-[200px] mb-5 text-slate-400 shadow-md uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
           <option value={month.month}>--{month.month}--</option>
           {
             EnableMonths().map((month, index) => {
