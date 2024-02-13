@@ -29,7 +29,6 @@ const ResumenAsistencia = () => {
     }
     // dataStudent(`${router.query.id}`)
   }, [month, router.query.id, userData.name])
-console.log('month', month.month)
   return (
     <div className='p-5'>
       <h3 className='text-xl text-slate-500 font-semibold uppercase text-center my-5'>Resumen de asistencia de {studentData.name} {studentData.lastname}</h3>

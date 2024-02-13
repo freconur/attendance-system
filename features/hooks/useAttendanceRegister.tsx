@@ -48,21 +48,21 @@ const useAttendanceRegister = () => {
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), 7, 59, 1)) });
       // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date()) });
       if (student.presente) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))})
         .then(response => {
           dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
           // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
         })
       }
       if (student.tardanza) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1)})
         .then(response => {
           dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
           // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
         })
       }
       if (student.falta) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null })
+        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta:true })
         .then(response => {
           dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
           // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})

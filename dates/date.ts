@@ -100,7 +100,6 @@ export const hoursUnixDateForDetailStudent = (date: Date) => {
   }
 }
 export const getDayFromDate = (date: Date) => {
-  console.log('estamos en getDayFromDate')
   const detailsPerDayOfStudent = {
     day: days[date.getDay()],
     date: `${date.getDate()}`,
@@ -108,7 +107,14 @@ export const getDayFromDate = (date: Date) => {
   }
   return detailsPerDayOfStudent
 }
-
+export const getDayFromDateFalta = (date: Date) => {
+  const detailsPerDayOfStudent = {
+    day: days[date.getDay()],
+    date: `${date.getDate()}`,
+    attendance: "falta"
+  }
+  return detailsPerDayOfStudent
+}
 export const dateConvertObject = (date: Date) => {
   return {
     date: date.getDate(),
