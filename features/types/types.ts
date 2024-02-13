@@ -21,6 +21,7 @@ export interface StudentData {
   falta?:boolean,
   presente?:boolean,
   tardanza?:boolean,
+  manualAttendance?:boolean
 }
 export interface Section {
   section?: string

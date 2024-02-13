@@ -27,7 +27,7 @@ const MisProductos = () => {
             {
               validateMyProducts.attendance ?
                 <div>
-                  <Link href="/registros-de-asistencias" className='bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center m-auto'>
+                  <Link href="/estudiantes/registros-de-asistencias" className='bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center m-auto'>
                     <TbCalendarUser className='text-white text-[90px]' />
                   </Link>
                   <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>estudiantes</h2>
@@ -57,7 +57,7 @@ const MisProductos = () => {
             {
               validateMyProducts.employeeAttendance ?
                 <>
-                  <Link href="/asistencia-de-empleados" className='bg-green-400 hover:bg-green-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
+                  <Link href="/empleados/asistencia-de-empleados" className='bg-green-400 hover:bg-green-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
                     <FaUserTie className='text-white text-[90px]' />
                   </Link>
                   <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>empleados</h2>

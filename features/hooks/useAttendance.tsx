@@ -14,7 +14,7 @@ export const useAttendance = () => {
 
   const studentArrivalTime = async (studentCode: string) => {
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
-    await setDoc(arrivalTimeRef, { arrivalTime: new Date() })
+    await setDoc(arrivalTimeRef, { arrivalTime: new Date() , manualAttendance:true})
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {

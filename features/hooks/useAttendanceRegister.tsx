@@ -4,9 +4,9 @@ import { Timestamp, collection, doc, getDoc, getDocs, getFirestore, orderBy, que
 import { Grades, JustificacionStudent, JustificationValue, Section, StudentData } from '../types/types'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { currentDate, currentMonth, currentYear, hoursUnixDate } from '@/dates/date'
-
-
+import { currentDate, currentMonth, currentYear, dateConvertObjectStudent, hoursUnixDate } from '@/dates/date'
+import axios from 'axios'
+const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 const useAttendanceRegister = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
@@ -40,37 +40,80 @@ const useAttendanceRegister = () => {
     return studentsArray
   }
   const saveChangesFromAttendanceByGradeSecction = (students: StudentData[]) => {
-    dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:true})
+    dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: true })
     const currentlyDate = new Date()
     students.map(async (student) => {
       const pathRef = `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}`
-      // console.log('fecha.getMonth()',fecha.getMonth())
-      // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), 7, 59, 1)) });
-      // if (student.presente) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date()) });
-      if (student.presente) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))})
-        .then(response => {
-          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
-          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
-        })
+
+      const docRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`);
+      const dataStudent = await getDoc(docRef)
+      console.log('dataStudent', dataStudent?.data())
+      if (dataStudent.exists()) {
+        if (dataStudent.data().manualAttendance === true) {
+          //no hacemos nada y pasamos al siguiente paso
+        } else {
+          if (student.presente) {
+            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
+              .then(response => {
+
+                if (student.numberFather) {
+                  try {
+                    axios
+                      // .post(`/api/whatsapp`,
+                      .post(`${URL_API}/message`,
+                        {
+                          phoneNumber: `51${student.numberFather}@c.us`,
+                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
+                        })
+                  } catch (error) {
+                    console.log('error', error)
+                  }
+                }
+                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+
+              })
+          }
+          if (student.tardanza) {
+            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
+              .then(response => {
+                if (student.numberFather) {
+                  try {
+                    axios
+                      // .post(`/api/whatsapp`,
+                      .post(`${URL_API}/message`,
+                        {
+                          phoneNumber: `51${student.numberFather}@c.us`,
+                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
+                        })
+                  } catch (error) {
+                    console.log('error', error)
+                  }
+                }
+                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+              })
+          }
+          if (student.falta) {
+            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
+              .then(response => {
+                if (student.numberFather) {
+                  try {
+                    axios
+                      // .post(`/api/whatsapp`,
+                      .post(`${URL_API}/message`,
+                        {
+                          phoneNumber: `51${student.numberFather}@c.us`,
+                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
+                        })
+                  } catch (error) {
+                    console.log('error', error)
+                  }
+                }
+                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+              })
+          }
+          dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
+        }
       }
-      if (student.tardanza) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1)})
-        .then(response => {
-          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
-          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
-        })
-      }
-      if (student.falta) {
-        await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta:true })
-        .then(response => {
-          dispatch({type:AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload:false})
-          // dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
-        })
-      }
-      dispatch({type:AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload:false})
-      // if (student.tardanza) await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(Number(fecha.getFullYear()), Number(fecha.getMonth()), Number(fecha.getDate()), 8, 1, 0) });
-      // Timestamp.fromDate(new Date())
     })
   }
   const changeAttendanceFromStudent = (id: string, students: StudentData[], attendance: string) => {
