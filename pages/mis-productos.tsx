@@ -30,7 +30,7 @@ const MisProductos = () => {
                   <Link href="/registros-de-asistencias" className='bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center m-auto'>
                     <TbCalendarUser className='text-white text-[90px]' />
                   </Link>
-                  <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>asistencia estudiantes</h2>
+                  <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>estudiantes</h2>
                 </div>
                 :
                 <>
