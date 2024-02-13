@@ -23,7 +23,7 @@ const MisProductos = () => {
       <div className='my-10'>
         <h1 className='text-slate-600 uppercase font-semibold text-center text-2xl my-10'>mis productos</h1>
         <div className='flex flex-wrap items-center justify-center gap-10'>
-          <div className='m-auto'>
+          <div className=''>
             {
               validateMyProducts.attendance ?
                 <div>
@@ -33,12 +33,12 @@ const MisProductos = () => {
                   <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>estudiantes</h2>
                 </div>
                 :
-                <>
+                <div>
                   <div className='bg-gray-300 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
                     <TbCalendarUser className='text-white text-[90px]' />
                   </div>
-                  <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>asistencia estudiantes</h2>
-                </>
+                  <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>estudiantes</h2>
+                </div>
             }
           </div>
           <div>
