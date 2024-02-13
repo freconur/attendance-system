@@ -7,14 +7,13 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { currentDate, currentMonth, currentYear, dateConvertObjectStudent, hoursUnixDate } from '@/dates/date'
 import axios from 'axios'
 const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
+
 const useAttendanceRegister = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
-
   async function getDataStudentsByDate(students: StudentData[], date: string) {
     const studentsArray: StudentData[] = []
-
     await Promise.all(students.map(async (student) => {
       const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
       const attendance = await getDoc(refAttendance)
@@ -44,13 +43,13 @@ const useAttendanceRegister = () => {
     const currentlyDate = new Date()
     students.map(async (student) => {
       const pathRef = `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}`
-
+      // await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date() })
       const docRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`);
       const dataStudent = await getDoc(docRef)
       console.log('dataStudent', dataStudent?.data())
       if (dataStudent.exists()) {
         if (dataStudent.data().manualAttendance === true) {
-          //no hacemos nada y pasamos al siguiente paso
+              // no haremos nada
         } else {
           if (student.presente) {
             await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })

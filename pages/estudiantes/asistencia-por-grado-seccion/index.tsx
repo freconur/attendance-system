@@ -54,6 +54,7 @@ const AsistenciaGradoseccion = () => {
   const handleSaveAttendance = () => {
     saveAttendance(confirmationSaveAttendanceByGradeSectionModal)
   }
+  console.log('studentsForAttendance', studentsForAttendance)
   return (
     <div className='p-2'>
       {confirmationSaveAttendanceByGradeSectionModal ? <ConfirmationSaveAttendanceByGradeSection /> : null}
