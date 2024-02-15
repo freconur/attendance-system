@@ -39,80 +39,155 @@ const useAttendanceRegister = () => {
     return studentsArray
   }
   const saveChangesFromAttendanceByGradeSecction = (students: StudentData[]) => {
+    //activo el loader
     dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: true })
+    //configuro la fecha para toma de asistencia
     const currentlyDate = new Date()
+
+    //itero cada estudiante del grado y seccion
     students.map(async (student) => {
+      //la ruta de la base de datos del estudiante
       const pathRef = `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}`
       // await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date() })
       const docRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`);
+      // await setDoc(docRef,{manualAttendance:false})
+
+
       const dataStudent = await getDoc(docRef)
-      console.log('dataStudent', dataStudent?.data())
       if (dataStudent.exists()) {
-        if (dataStudent.data().manualAttendance === true) {
-              // no haremos nada
-        } else {
-          if (student.presente) {
-            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
-              .then(response => {
+        console.log('si existe, entonces no hacemos nada')
+      } else {
+        if (student.presente) {
+          await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
+            .then(response => {
 
-                if (student.numberFather) {
-                  try {
-                    axios
-                      // .post(`/api/whatsapp`,
-                      .post(`${URL_API}/message`,
-                        {
-                          phoneNumber: `51${student.numberFather}@c.us`,
-                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
-                        })
-                  } catch (error) {
-                    console.log('error', error)
-                  }
+              if (student.numberFather) {
+                try {
+                  axios
+                    // .post(`/api/whatsapp`,
+                    .post(`${URL_API}/message`,
+                      {
+                        phoneNumber: `51${student.numberFather}@c.us`,
+                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
+                      })
+                } catch (error) {
+                  console.log('error', error)
                 }
-                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+              }
+              dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
 
-              })
-          }
-          if (student.tardanza) {
-            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
-              .then(response => {
-                if (student.numberFather) {
-                  try {
-                    axios
-                      // .post(`/api/whatsapp`,
-                      .post(`${URL_API}/message`,
-                        {
-                          phoneNumber: `51${student.numberFather}@c.us`,
-                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
-                        })
-                  } catch (error) {
-                    console.log('error', error)
-                  }
-                }
-                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
-              })
-          }
-          if (student.falta) {
-            await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
-              .then(response => {
-                if (student.numberFather) {
-                  try {
-                    axios
-                      // .post(`/api/whatsapp`,
-                      .post(`${URL_API}/message`,
-                        {
-                          phoneNumber: `51${student.numberFather}@c.us`,
-                          message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
-                        })
-                  } catch (error) {
-                    console.log('error', error)
-                  }
-                }
-                dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
-              })
-          }
-          dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
+            })
         }
+        if (student.tardanza) {
+          await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
+            .then(response => {
+              if (student.numberFather) {
+                try {
+                  axios
+                    // .post(`/api/whatsapp`,
+                    .post(`${URL_API}/message`,
+                      {
+                        phoneNumber: `51${student.numberFather}@c.us`,
+                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
+                      })
+                } catch (error) {
+                  console.log('error', error)
+                }
+              }
+              dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+            })
+        }
+        if (student.falta) {
+          await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
+            .then(response => {
+              if (student.numberFather) {
+                try {
+                  axios
+                    // .post(`/api/whatsapp`,
+                    .post(`${URL_API}/message`,
+                      {
+                        phoneNumber: `51${student.numberFather}@c.us`,
+                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
+                      })
+                } catch (error) {
+                  console.log('error', error)
+                }
+              }
+              dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+            })
+        }
+        dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
       }
+      // if (dataStudent.exists()) {
+      //   if (dataStudent.data().manualAttendance === true) {
+      //     // no haremos nada
+      //     console.log('no estamos entrando')
+      //   } else if (dataStudent === undefined) {
+      //     console.log('ahora si estamos entrando')
+
+      //     // if (student.presente) {
+      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
+      //     //     .then(response => {
+
+      //     //       if (student.numberFather) {
+      //     //         try {
+      //     //           axios
+      //     //             // .post(`/api/whatsapp`,
+      //     //             .post(`${URL_API}/message`,
+      //     //               {
+      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
+      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
+      //     //               })
+      //     //         } catch (error) {
+      //     //           console.log('error', error)
+      //     //         }
+      //     //       }
+      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+
+      //     //     })
+      //     // }
+      //     // if (student.tardanza) {
+      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
+      //     //     .then(response => {
+      //     //       if (student.numberFather) {
+      //     //         try {
+      //     //           axios
+      //     //             // .post(`/api/whatsapp`,
+      //     //             .post(`${URL_API}/message`,
+      //     //               {
+      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
+      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
+      //     //               })
+      //     //         } catch (error) {
+      //     //           console.log('error', error)
+      //     //         }
+      //     //       }
+      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+      //     //     })
+      //     // }
+      //     // if (student.falta) {
+      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
+      //     //     .then(response => {
+      //     //       if (student.numberFather) {
+      //     //         try {
+      //     //           axios
+      //     //             // .post(`/api/whatsapp`,
+      //     //             .post(`${URL_API}/message`,
+      //     //               {
+      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
+      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
+      //     //               })
+      //     //         } catch (error) {
+      //     //           console.log('error', error)
+      //     //         }
+      //     //       }
+      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+      //     //     })
+      //     // }
+      //     // dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
+      //   }
+      // }
+
     })
   }
   const changeAttendanceFromStudent = (id: string, students: StudentData[], attendance: string) => {
