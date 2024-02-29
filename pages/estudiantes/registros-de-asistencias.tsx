@@ -16,6 +16,7 @@ import { currentDate } from '@/dates/date';
 import JustificacionFaltaModal from '@/Modals/JustificacionFaltaModal';
 import JustificacionFaltaMotivo from '@/Modals/JustificacionFaltaMotivo';
 import { RiLoader4Line } from 'react-icons/ri';
+import { attendanceState } from '@/utils/attendanceState';
 
 const AttendanceRegister = () => {
   const { getUserData } = useAuthentication()
@@ -60,7 +61,7 @@ const AttendanceRegister = () => {
         </>
       )
     } else {
-      return <span>{value}</span>
+      return <span className={`${attendanceState(value) ? "text-green-400" : "text-red-400"}`}>{value}</span>
     }
   }
   return (
