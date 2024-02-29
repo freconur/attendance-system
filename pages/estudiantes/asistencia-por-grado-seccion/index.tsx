@@ -48,7 +48,7 @@ const AsistenciaGradoseccion = () => {
     setValuesByFilter({
       ...valuesByFilter,
       [e.target.name]: e.target.value
-    })
+    })  
   }
 
   const handleSaveAttendance = () => {

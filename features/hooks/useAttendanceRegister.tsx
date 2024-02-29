@@ -52,10 +52,12 @@ const useAttendanceRegister = () => {
       const docRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`);
       // await setDoc(docRef,{manualAttendance:false})
 
-
       const dataStudent = await getDoc(docRef)
       if (dataStudent.exists()) {
         console.log('si existe, entonces no hacemos nada')
+        dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
+        dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
+
       } else {
         if (student.presente) {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
@@ -118,76 +120,6 @@ const useAttendanceRegister = () => {
         }
         dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
       }
-      // if (dataStudent.exists()) {
-      //   if (dataStudent.data().manualAttendance === true) {
-      //     // no haremos nada
-      //     console.log('no estamos entrando')
-      //   } else if (dataStudent === undefined) {
-      //     console.log('ahora si estamos entrando')
-
-      //     // if (student.presente) {
-      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
-      //     //     .then(response => {
-
-      //     //       if (student.numberFather) {
-      //     //         try {
-      //     //           axios
-      //     //             // .post(`/api/whatsapp`,
-      //     //             .post(`${URL_API}/message`,
-      //     //               {
-      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
-      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
-      //     //               })
-      //     //         } catch (error) {
-      //     //           console.log('error', error)
-      //     //         }
-      //     //       }
-      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
-
-      //     //     })
-      //     // }
-      //     // if (student.tardanza) {
-      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
-      //     //     .then(response => {
-      //     //       if (student.numberFather) {
-      //     //         try {
-      //     //           axios
-      //     //             // .post(`/api/whatsapp`,
-      //     //             .post(`${URL_API}/message`,
-      //     //               {
-      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
-      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
-      //     //               })
-      //     //         } catch (error) {
-      //     //           console.log('error', error)
-      //     //         }
-      //     //       }
-      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
-      //     //     })
-      //     // }
-      //     // if (student.falta) {
-      //     //   await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
-      //     //     .then(response => {
-      //     //       if (student.numberFather) {
-      //     //         try {
-      //     //           axios
-      //     //             // .post(`/api/whatsapp`,
-      //     //             .post(`${URL_API}/message`,
-      //     //               {
-      //     //                 phoneNumber: `51${student.numberFather}@c.us`,
-      //     //                 message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
-      //     //               })
-      //     //         } catch (error) {
-      //     //           console.log('error', error)
-      //     //         }
-      //     //       }
-      //     //       dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
-      //     //     })
-      //     // }
-      //     // dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
-      //   }
-      // }
-
     })
   }
   const changeAttendanceFromStudent = (id: string, students: StudentData[], attendance: string) => {

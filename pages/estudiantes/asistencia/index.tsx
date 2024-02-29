@@ -5,7 +5,7 @@ import { useAttendance } from '@/features/hooks/useAttendance'
 import useAuthentication from '@/features/hooks/useAuthentication'
 import { convertGrade } from '@/utils/validateGrade'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const Asistencia = () => {
   const initialState = { studentCode: "" }
@@ -13,12 +13,18 @@ const Asistencia = () => {
   const [studenCode, setStudenCode] = useState(initialState)
   const { getStudentData, studentArrivalTime } = useAttendance()
   const { studentsData, userData } = useGlobalContext()
+  const focusRef = useRef<HTMLInputElement>(null)
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
       ...studenCode,
       [e.target.name]: e.target.value
     })
   }
+  useEffect(() => {
+    if (focusRef.current) {
+      focusRef.current.focus();
+    }
+  },[])
   useEffect(() => {
     if (studenCode.studentCode.length === 8) {
       getStudentData(studenCode.studentCode, studentsData)
@@ -40,6 +46,7 @@ const Asistencia = () => {
           <div className='w-full'>
             <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div>
             <input
+              ref={focusRef}
               value={studenCode.studentCode}
               onChange={onChangeStudentCode}
               name="studentCode"

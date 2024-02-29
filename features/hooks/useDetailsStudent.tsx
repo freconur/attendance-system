@@ -51,6 +51,7 @@ const useDetailsStudents = () => {
         }
         return 0;
       })
+      console.log('arrivalTimeFromStudent', arrivalTimeFromStudent)
       dispatch({ type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT, payload: arrivalTimeFromStudent })
     }
   }
