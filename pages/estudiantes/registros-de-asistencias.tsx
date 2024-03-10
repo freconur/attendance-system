@@ -12,7 +12,7 @@ import { app } from '@/firebase/firebaseConfig';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 import useAuthentication from '@/features/hooks/useAuthentication';
 import Link from 'next/link';
-import { currentDate } from '@/dates/date';
+import { currentDate, hoursUnixDate } from '@/dates/date';
 import JustificacionFaltaModal from '@/Modals/JustificacionFaltaModal';
 import JustificacionFaltaMotivo from '@/Modals/JustificacionFaltaMotivo';
 import { RiLoader4Line } from 'react-icons/ri';
@@ -61,9 +61,12 @@ const AttendanceRegister = () => {
         </>
       )
     } else {
+      console.log('value',value)
       return <span className={`${attendanceState(value) ? "text-green-400" : "text-red-400"}`}>{value}</span>
     }
   }
+
+  console.log('studentsByGradeAndSection', studentsByGradeAndSection)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?
@@ -121,7 +124,7 @@ const AttendanceRegister = () => {
               <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">dni</th>
               <th className="py-3 md:p-2 text-[12px] text-center uppercase">apellidos y nombres</th>
               <th className="py-3 md:p-2 text-[12px] text-center uppercase">ingreso</th>
-              {/* <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th> */}
+              <th className="py-3 md:p-2 text-[12px] text-center uppercase">salida</th>
             </tr>
           </thead>
 
@@ -153,7 +156,7 @@ const AttendanceRegister = () => {
                         resultAttendance(student.attendanceByDate as string, student.dni as string)
                       }
                     </td>
-                    {/* <td></td> */}
+                    <td className='text-center text-[12px]'>{student.departureByDate}</td>
                   </tr>
                 )
               })

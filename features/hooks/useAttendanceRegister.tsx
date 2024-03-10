@@ -12,15 +12,20 @@ const useAttendanceRegister = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
+
+
   async function getDataStudentsByDate(students: StudentData[], date: string) {
     const studentsArray: StudentData[] = []
     await Promise.all(students.map(async (student) => {
       const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
-      const attendance = await getDoc(refAttendance)
+      const attendance = await getDoc(refAttendance)//iteramos cada estudiante del grado y seccion
       // const newData = { ...student, attendanceByDate: attendance.exists() ? hoursUnixDate(attendance.data().arrivalTime) : "falto" }
-      const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : attendance.data().arrivalTime === null ? "falto" : hoursUnixDate(attendance.data().arrivalTime) : "falto" }
+      const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : attendance.data().arrivalTime === null ? "falto" : attendance.data().arrivalTime ? hoursUnixDate(attendance.data().arrivalTime) : "falto" : "falto", departureByDate: attendance.exists() ? attendance?.data().departure ? hoursUnixDate(attendance?.data().departure ): "sin registro" : "sin registro"}
+      // const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : attendance.data().arrivalTime === null ? "falto" : hoursUnixDate(attendance.data().arrivalTime) : "falto" }
       return studentsArray.push(newData)
     }))
+
+    console.log('studentsArray;;', studentsArray)
     if (studentsArray) {
       studentsArray.sort((a: any, b: any) => {
         const fe: string = a && a.lastname
@@ -36,6 +41,7 @@ const useAttendanceRegister = () => {
         return 0;
       })
     }
+    console.log('studentsArray', studentsArray)
     return studentsArray
   }
   const saveChangesFromAttendanceByGradeSecction = (students: StudentData[]) => {
@@ -57,7 +63,7 @@ const useAttendanceRegister = () => {
         console.log('si existe, entonces no hacemos nada')
         dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
         dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
-
+        
       } else {
         if (student.presente) {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })

@@ -21,7 +21,8 @@ export interface StudentData {
   falta?:boolean,
   presente?:boolean,
   tardanza?:boolean,
-  manualAttendance?:boolean
+  manualAttendance?:boolean,
+  departureByDate?:string
 }
 export interface Section {
   section?: string
@@ -58,6 +59,7 @@ export interface DetailsPerDayOfStudent {
   day: string,
   date: string,
   attendance: string,
+  departure: string
 }
 
 export interface UserData {
@@ -120,4 +122,9 @@ export type AttendanceAction =
 export type AuthenticationFormSignIn = {
   email: string,
   password: string
+}
+
+export type AttendanceDepartureTime = {
+  attendance?:boolean,
+  departure?:boolean,
 }

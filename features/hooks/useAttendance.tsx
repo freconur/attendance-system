@@ -6,6 +6,7 @@ import { AttendanceRegister } from "../actions/actionAttendance";
 import { currentDate, currentMonth, currentYear, dateConvertObject, dateConvertObjectStudent, hoursUnixDate } from "@/dates/date";
 import { StudentData } from "../types/types";
 import axios from 'axios'
+import { attendanceDepartureTime, attendanceState } from "@/utils/attendanceState";
 const db = getFirestore(app)
 const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 export const useAttendance = () => {
@@ -14,13 +15,25 @@ export const useAttendance = () => {
 
   const studentArrivalTime = async (studentCode: string) => {
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
-    await setDoc(arrivalTimeRef, { arrivalTime: new Date() , manualAttendance:true})
+
+    //aqui deberia de condicionar segun la hora si registra la hora de ingreso o la salida o en todo caso si es la version de prueba quitar la validacion
+    const currentHour = new Date()
+
+    const data = attendanceDepartureTime(currentHour.getHours().toString().padStart(2, "0"))
+    if (data?.attendance === true && data?.departure === false) {
+      // const rta: AttendanceDepartureTime = attendanceDepartureTime(`${currentHour.getHours()}`)
+      console.log('estamos en ingreso')
+      await setDoc(arrivalTimeRef, { arrivalTime: new Date(), manualAttendance: true })//crea la hora de ingreso (el arrivaltime) del estudiante
+    } else if (data?.attendance === false && data?.departure === true) {
+      console.log('estamos en salida')
+      await setDoc(arrivalTimeRef, { departure: new Date(), manualAttendance: true }, { merge: true })//crea la hora de salida (el arrivaltime) del estudiante
+    }
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
-    if (studentData.exists()) {
+    if (studentData.exists()) {//primero verifico si la data existe
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
@@ -28,7 +41,7 @@ export const useAttendance = () => {
         try {
           axios
             // .post(`/api/whatsapp`,
-              .post(`${URL_API}/message`,
+            .post(`${URL_API}/message`,
               {
                 phoneNumber: `51${studentData.data().numberFather}@c.us`,
                 message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`

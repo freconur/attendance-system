@@ -65,7 +65,10 @@ export const functionBirthdayDate = (date: Date) => {
 }
 export const hoursUnixDate = (date: Date) => {
   // console.log('hoursUnixDate', date.toString())
+  console.log('date', Number(date?.toString().slice(18, 28)))
+
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  console.log('hourSeconds', hourSeconds.getDay())
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
   if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
@@ -73,19 +76,24 @@ export const hoursUnixDate = (date: Date) => {
   } else {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
     const hour = new Date(rta)
+    const numDays = (y:any, m:any) => new Date(y, m, 0).getDate();
+    console.log('numDays', numDays(2024,3))
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
-export const hoursUnixDateForDetailStudent = (date: Date) => {
+export const hoursUnixDateForDetailStudent = (date: Date, dateDepure?:Date) => {
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  const hourSecondsDeparture = new Date(Number(dateDepure?.toString().slice(18, 28)) * 1000)
+
   // console.log('hourSecondsksk', hourSeconds)
   if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
     const detailsPerDayOfStudent = {
       day:days[hourSeconds.getDay()],
       date:`${hourSeconds.getDate()}`,
-      attendance:`${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
+      attendance:`${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`,
+      departure: hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
     }
     return detailsPerDayOfStudent
   } else {
@@ -94,7 +102,8 @@ export const hoursUnixDateForDetailStudent = (date: Date) => {
     const detailsPerDayOfStudent = {
       day: days[fecha.getDay()],
       date: `${fecha.getDate()}`,
-      attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`
+      attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`,
+      departure:hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
     }
     return detailsPerDayOfStudent
   }
