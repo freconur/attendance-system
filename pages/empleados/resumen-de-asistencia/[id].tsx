@@ -1,25 +1,24 @@
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { EnableMonths, currentMonth } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
+import useAttendanceEmployee from '@/features/hooks/useAttendanceEmployee'
 import useAuthentication from '@/features/hooks/useAuthentication'
 import useDetailsStudents from '@/features/hooks/useDetailsStudent'
 import useNavbarSearch from '@/features/hooks/useNavbarSearch'
-import { DetailsPerDayOfStudent } from '@/features/types/types'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
 
-const ResumenAsistencia = () => {
-
+const ResumenDeAsistencia = () => {
   const pdfRef = useRef(null)
   const { getUserData } = useAuthentication()
+  const { employeeData } = useGlobalContext()
+  const { studentData, userData, resumenAttendanceEmployee } = useGlobalContext()
   const router = useRouter()
   const [month, setMonth] = useState({ month: currentMonth() })
-  const { dataStudent } = useNavbarSearch()
-  const { getDetailsofAttendance } = useDetailsStudents()
-  const { resumeAttendanceStudent, studentData, userData } = useGlobalContext()
-
+  const { dataEmployee } = useNavbarSearch()
+  const { getDetailAttendanceEmployee } = useAttendanceEmployee()
   const handleChangeValueMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonth({
       ...month,
@@ -29,22 +28,10 @@ const ResumenAsistencia = () => {
   useEffect(() => {
     getUserData()
     if (userData) {
-      dataStudent(`${router.query.id}`)
-      getDetailsofAttendance(`${router.query.id}`, month.month)
+      dataEmployee(`${router.query.id}`)
+      getDetailAttendanceEmployee(`${router.query.id}`, month.month)
     }
-    // dataStudent(`${router.query.id}`)
   }, [month, router.query.id, userData.name])
-
-  const createCalendarOfAttendance = (resumeAttendanceStudents: DetailsPerDayOfStudent[]) => {
-    // const lala = "holi"
-    resumeAttendanceStudents?.map(item => {
-      // console.log('item', item)
-      return (
-        <div className='text-slate-500'>{item.date}</div>
-      )
-    })
-  }
-
   const onDownloadPdf = () => {
     const input: any = pdfRef.current
     html2canvas(input).then((canvas) => {
@@ -62,9 +49,23 @@ const ResumenAsistencia = () => {
 
     })
   }
-  console.log('resumeAttendanceStudent', resumeAttendanceStudent)
+  console.log('resumenAttendanceEmployee', resumenAttendanceEmployee)
   return (
-    <div className='p-2'>
+    <div className='m-3'>
+      {/* <h1>resumen de asistencia</h1>
+      <select className='p-3 bg-white rounded-md w-[200px] mb-5 text-slate-400 shadow-md uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
+        <option value={month.month}>--{month.month}--</option>
+        {
+          EnableMonths().map((month, index) => {
+            return (
+              <option key={index} value={month}>{month}</option>
+            )
+          })
+        }
+      </select> */}
+
+
+
       <div className='w-full'>
         <div className='m-auto w-[1002px] '>
           <div className='flex justify-between'>
@@ -82,22 +83,14 @@ const ResumenAsistencia = () => {
           </div>
 
         </div>
+        <div className='w-full m-auto' ref={pdfRef}>
 
-
-      </div>
-      
-      <div className='w-full m-auto' ref={pdfRef}>
-        <div className='max-w-[1002px] m-auto flex justify-between'>
-          <h3 className='text-xl text-slate-500 uppercase text-center mb-5'>asistencia de <span className='font-semibold'>{studentData.name} {studentData.lastname}</span></h3>
-          <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>
-        </div>
-        <div className='m-auto flex max-w-[1002px] flex-wrap rounded-md overflow-hidden border-[1px] border-slate-300 shadow-md'>
-          {/* <div>
-          {createCalendarOfAttendance(resumeAttendanceStudent)}
-        </div> */}
-          {
-            resumeAttendanceStudent?.map((item, index) => {
-              // console.log('item', item)
+          <div className='max-w-[1002px] m-auto flex justify-between'>
+            <h3 className='text-xl text-slate-500 uppercase text-center mb-5'>asistencia de <span className='font-semibold'>{employeeData?.name} {employeeData?.lastname}</span></h3>
+            <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>
+          </div>
+          <div className='m-auto flex max-w-[1002px] flex-wrap rounded-md overflow-hidden border-[1px] border-slate-300 shadow-md'>
+            {resumenAttendanceEmployee?.map(item => {
               return (
                 <div key={item.date} className='text-slate-500 hover:bg-blue-50 cursor-pointer grow border-r-[1px] border-b-[1px] w-[200px] h-[130px] border-slate-300 p-1 bg-white'>
                   <div className='rounded-full w-[30px] h-[30px] bg-yellow-300 flex justify-center items-center'>
@@ -110,39 +103,14 @@ const ResumenAsistencia = () => {
                   <div className='text-[12px]'>Sal.: {item.departure}</div>
                 </div>
               )
-            })
-          }
+            })}
+          </div>
         </div>
 
       </div>
-      <table className='w-[81%] shadow-md mt-5 m-auto'>
-        <thead className='bg-blue-100 border-b-2 border-gray-200 '>
-          <tr className="text-slate-600 capitalize font-nunito ">
-            <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">dia</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100 bg-white">
-          {
-            resumeAttendanceStudent?.map((item) => {
-              return (
-                <tr key={item?.date} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer w-full'>
-                  <td className='text-sm text-center'>{item?.date}</td>
-                  <td className='uppercase text-sm text-center'>{item?.day}</td>
-                  <td className='text-center text-sm'>{item?.attendance}</td>
-                  <td className='text-center'>{item?.departure}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
-
     </div>
   )
 }
 
-export default ResumenAsistencia
-ResumenAsistencia.Auth = PrivateRoutes
+export default ResumenDeAsistencia
+ResumenDeAsistencia.Auth = PrivateRoutes

@@ -4,6 +4,36 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+    case AttendanceRegister.LOADER_GET_EMPLOYEE:
+      return {
+        ...state,
+        loaderGetEmployee:action.payload
+      }
+    case AttendanceRegister.DATA_EMPLOYEE:
+      return {
+        ...state,
+        employeeData:action.payload
+      }
+    case AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE: 
+    return {
+      ...state,
+      resumenAttendanceEmployee:action.payload
+    }
+    case AttendanceRegister.GET_EMPLOYEE:
+      return {
+        ...state,
+        employee: action.payload
+      }
+    case AttendanceRegister.GET_EMPLOYEES:
+      return {
+        ...state,
+        employees: action.payload
+      }
+    case AttendanceRegister.GET_TYPES_EMPLOYEE:
+      return {
+        ...state,
+        typesEmployee: action.payload
+      }
 
     case AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION:
       return {

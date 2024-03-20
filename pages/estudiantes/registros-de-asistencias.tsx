@@ -28,7 +28,7 @@ const AttendanceRegister = () => {
   const [startDate, setStartDate] = useState(dayjs());
   const [dniStudent, setDniStudent] = useState("");
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
-  const [ attendance , setAttendance ] = useState('registros')
+  const [attendance, setAttendance] = useState('registros')
 
   const handleChangesValuesSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValuesByFilter({
@@ -61,12 +61,11 @@ const AttendanceRegister = () => {
         </>
       )
     } else {
-      console.log('value',value)
+      console.log('value', value)
       return <span className={`${attendanceState(value) ? "text-green-400" : "text-red-400"}`}>{value}</span>
     }
   }
 
-  console.log('studentsByGradeAndSection', studentsByGradeAndSection)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?

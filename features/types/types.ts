@@ -3,6 +3,11 @@ import { AttendanceRegister } from '../actions/actionAttendance'
 export type AuthProviderProps = {
   children: React.ReactNode
 }
+
+export interface TypesEmployee {
+  code?:number,
+  name?:string
+}
 export interface StudentData {
   nameFather?: string,
   nameMother?: string,
@@ -54,6 +59,12 @@ export type Student = {
   studentsForAttendance:StudentData[],
   confirmationSaveAttendanceByGradeSectionModal: boolean,
   loadingSaveAttendanceByGradeSectionModal: boolean,
+  typesEmployee: TypesEmployee[],
+  employees:Employee[],
+  employee:Employee | undefined,
+  resumenAttendanceEmployee:ResumenEmployeeAttendanceDeparture[],
+  employeeData:Employee,
+  loaderGetEmployee:boolean,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -94,6 +105,32 @@ export interface ValidateMyProducts {
   notas?: boolean,
   name?: string
 }
+
+export interface Employee {
+  name?:string,
+  firstname?:string,
+  lastname?:string,
+  dni?:string,
+  rol?:number,
+  pictureProfile?:string,
+  attendanceByDate?:string,
+  departureByDate?:string,
+  manualAttendance?:boolean
+}
+
+export interface EmployeeAttendanceDeparture {
+  arrivalTime?:string,
+  departureTime?:string,
+  manualAttendance?:boolean,
+
+}
+
+export interface ResumenEmployeeAttendanceDeparture {
+  day: string,
+  date: string,
+  attendance: string,
+  departure: string
+}
 export type AttendanceAction =
   | { type: AttendanceRegister.ATTENDANCE_REGISTER; payload: StudentData[] }
   | { type: AttendanceRegister.GRADES; payload: Grades[] }
@@ -117,6 +154,13 @@ export type AttendanceAction =
   | { type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE; payload: StudentData[] }
   | { type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL; payload: boolean }
   | { type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION; payload: boolean }
+  | { type: AttendanceRegister.GET_TYPES_EMPLOYEE; payload: TypesEmployee[] }
+  | { type: AttendanceRegister.GET_EMPLOYEES; payload: Employee[] }
+  | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee | undefined}
+  | { type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE; payload: ResumenEmployeeAttendanceDeparture[]}
+  | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee}
+  | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}
+
   
 
 export type AuthenticationFormSignIn = {

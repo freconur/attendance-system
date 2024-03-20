@@ -29,6 +29,12 @@ const initialState: Student = {
   studentsForAttendance:[],
   confirmationSaveAttendanceByGradeSectionModal:false,
   loadingSaveAttendanceByGradeSectionModal:false,
+  typesEmployee: [],
+  employees:[],
+  employee: {},
+  resumenAttendanceEmployee:[],
+  employeeData:{},
+  loaderGetEmployee:false,
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])
