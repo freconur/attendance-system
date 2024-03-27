@@ -119,6 +119,7 @@ module.exports = {
         // 'promtpr':'20% auto 10%'
       },
       gridTemplateColumns: {
+        'gridCardStudent': '50% 50%',
         'gridSale': '1fr 30%',
         'layoutDecks': '80% minmax(40px, 50px)',
         'gridCardProduct': '40% 60%',

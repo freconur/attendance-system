@@ -4,21 +4,26 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+    case AttendanceRegister.LOADING_GET_STUDENTS:
+      return {
+        ...state,
+        loadingGetStudents: action.payload
+      }
     case AttendanceRegister.LOADER_GET_EMPLOYEE:
       return {
         ...state,
-        loaderGetEmployee:action.payload
+        loaderGetEmployee: action.payload
       }
     case AttendanceRegister.DATA_EMPLOYEE:
       return {
         ...state,
-        employeeData:action.payload
+        employeeData: action.payload
       }
-    case AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE: 
-    return {
-      ...state,
-      resumenAttendanceEmployee:action.payload
-    }
+    case AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE:
+      return {
+        ...state,
+        resumenAttendanceEmployee: action.payload
+      }
     case AttendanceRegister.GET_EMPLOYEE:
       return {
         ...state,
@@ -38,54 +43,54 @@ export const attendance = (state: Student, action: AttendanceAction) => {
     case AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION:
       return {
         ...state,
-        loadingSaveAttendanceByGradeSectionModal:action.payload
+        loadingSaveAttendanceByGradeSectionModal: action.payload
       }
     case AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL:
-    return {
-      ...state,
-      confirmationSaveAttendanceByGradeSectionModal:action.payload
-    }
+      return {
+        ...state,
+        confirmationSaveAttendanceByGradeSectionModal: action.payload
+      }
     case AttendanceRegister.STUDENTS_FOR_ATTENDANCE:
       return {
         ...state,
-        studentsForAttendance:action.payload
+        studentsForAttendance: action.payload
       }
     case AttendanceRegister.LOADING_SEARCH_STUDENTS:
       return {
-      ...state,
-      loadingSearchStudents:action.payload
+        ...state,
+        loadingSearchStudents: action.payload
       }
-      case AttendanceRegister.LOADING_ACCOUNT:
+    case AttendanceRegister.LOADING_ACCOUNT:
       return {
         ...state,
-        loadingAccount:action.payload
+        loadingAccount: action.payload
       }
-      case AttendanceRegister.WARNING_ACCOUNT:
+    case AttendanceRegister.WARNING_ACCOUNT:
       return {
         ...state,
-        warningAccount:action.payload
+        warningAccount: action.payload
       }
     case AttendanceRegister.VALIDATE_MY_PRODUCTS:
       return {
         ...state,
-        validateMyProducts:action.payload
+        validateMyProducts: action.payload
       }
-      case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO:
+    case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO:
       return {
         ...state,
-        justificacionStudent:action.payload
+        justificacionStudent: action.payload
       }
-      case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL:
+    case AttendanceRegister.SHOW_JUSTIFICACION_MOTIVO_MODAL:
       return {
         ...state,
-        justificacionMotivoModal:action.payload
+        justificacionMotivoModal: action.payload
       }
-      case AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL:
+    case AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL:
       return {
         ...state,
-        justificacionFaltaConfirmationModal:action.payload
+        justificacionFaltaConfirmationModal: action.payload
       }
-      case AttendanceRegister.SHOW_JUSTIFICACION_FALTA_MODAL:
+    case AttendanceRegister.SHOW_JUSTIFICACION_FALTA_MODAL:
       return {
         ...state,
         justificacionFaltaModal: action.payload
@@ -93,27 +98,27 @@ export const attendance = (state: Student, action: AttendanceAction) => {
     case AttendanceRegister.USER_DATA:
       return {
         ...state,
-        userData:action.payload
+        userData: action.payload
       }
     case AttendanceRegister.DATA_STUDENT:
       return {
         ...state,
-        studentData:action.payload
+        studentData: action.payload
       }
     case AttendanceRegister.RESUME_ATTENDANCE_STUDENT:
       return {
         ...state,
-        resumeAttendanceStudent:action.payload
+        resumeAttendanceStudent: action.payload
       }
     case AttendanceRegister.DATA_STUDENT_BY_SEARCH:
       return {
         ...state,
-        studentDataBySearch:action.payload
+        studentDataBySearch: action.payload
       }
     case AttendanceRegister.SHOW_SIDEBAR:
       return {
         ...state,
-        showSidebar:action.payload
+        showSidebar: action.payload
       }
     case AttendanceRegister.ATTENDANCE_REGISTER:
       return {
@@ -139,7 +144,7 @@ export const attendance = (state: Student, action: AttendanceAction) => {
     case AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION:
       return {
         ...state,
-        studentsByGradeAndSection:action.payload
+        studentsByGradeAndSection: action.payload
       }
     default:
       return state

@@ -6,13 +6,14 @@ import useAuthentication from '@/features/hooks/useAuthentication'
 import { convertGrade } from '@/utils/validateGrade'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
+import { RiLoader4Line } from 'react-icons/ri'
 
 const Asistencia = () => {
   const initialState = { studentCode: "" }
   const { getUserData } = useAuthentication()
   const [studenCode, setStudenCode] = useState(initialState)
   const { getStudentData, studentArrivalTime } = useAttendance()
-  const { studentsData, userData } = useGlobalContext()
+  const { studentsData, userData, loadingGetStudents } = useGlobalContext()
   const focusRef = useRef<HTMLInputElement>(null)
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
@@ -24,7 +25,7 @@ const Asistencia = () => {
     if (focusRef.current) {
       focusRef.current.focus();
     }
-  },[])
+  }, [])
   useEffect(() => {
     if (studenCode.studentCode.length === 8) {
       getStudentData(studenCode.studentCode, studentsData)
@@ -56,29 +57,47 @@ const Asistencia = () => {
           </div>
         </div>
       </div>
+      <>
+        {loadingGetStudents ?
+          <div className="flex w-full mt-5 items-center m-auto justify-center">
+            <RiLoader4Line className="animate-spin text-3xl text-slate-500 " />
+            <p className="text-slate-500">buscando resultados...</p>
+          </div>
+          :
+          null
+        }</>
       <div className='w-full flex justify-center items-center'>
         <ul className='w-full xs:w-[520px] tablet:w-[660px]'>
           {studentsData?.map((student, index) => {
             return (
-              <li key={index} className='flex gap-10 mt-5 bg-white p-2 rounded-md'>
-                <div className='w-[200px]'>
+              <li key={index} className='grid grid-cols-2 gap-5 mt-5 bg-white p-2 rounded-md'>
+                {/* <div className='rounded-full shadow-md overflow-hidden w-[50%]'> */}
                   {student.pictureProfile &&
-                    <div className="overflow-hidden h-[200px] w-[200px] rounded-md">
+                    <div className="overflow-hidden rounded-md">
                       <Image
                         alt="foto de perfil"
                         src={`${student.pictureProfile}`}
-                        width={200}
-                        height={200}
+                        // fill
+                        width={350}
+                        height={350}
                       />
                     </div>
                   }
-                </div>
-                <div className='grid flex-col gap-5 content-between h-full'>
-                  <p className='text-slate-400'>DNI: <span className='uppercase font-semibold text-slate-500'> {student.dni}</span></p>
-                  <p className='text-slate-400'>NOMBRE: <span className='uppercase font-semibold text-slate-500'> {student.name}</span></p>
-                  <p className='text-slate-400'>APELLIDOS: <span className='uppercase font-semibold text-slate-500'> {student.lastname}</span></p>
-                  <p className='text-slate-400'>GRADO: <span className='uppercase font-semibold text-slate-500'> {convertGrade(`${student.grade}`)}</span></p>
-                  <p className='text-slate-400'>SECCION: <span className='uppercase font-semibold text-slate-500'> {student.section}</span></p>
+                {/* </div> */}
+                {/* <div className='flex flex-col gap-2 content-between h-full'> */}
+                <div className='flex items-center text-[10px] xsm:text-[12px] xm:text-[15px] md:text-[20px]'>
+                  <div className=''>
+                    <p className='text-slate-400'>DNI: </p>
+                    <span className='uppercase font-semibold text-slate-500'> {student.dni}</span>
+                    <p className='text-slate-400'>NOMBRE: </p>
+                    <span className='uppercase font-semibold text-slate-500'> {student.name}</span>
+                    <p className='text-slate-400'>APELLIDOS: </p>
+                    <span className='uppercase font-semibold text-slate-500'> {student.lastname}</span>
+                    <p className='text-slate-400'>GRADO: </p>
+                    <span className='uppercase font-semibold text-slate-500'> {convertGrade(`${student.grade}`)}</span>
+                    <p className='text-slate-400'>SECCION: </p>
+                    <span className='uppercase font-semibold text-slate-500'> {student.section}</span>
+                  </div>
 
                 </div>
               </li>

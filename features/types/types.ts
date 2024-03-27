@@ -65,6 +65,7 @@ export type Student = {
   resumenAttendanceEmployee:ResumenEmployeeAttendanceDeparture[],
   employeeData:Employee,
   loaderGetEmployee:boolean,
+  loadingGetStudents:boolean,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -160,6 +161,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE; payload: ResumenEmployeeAttendanceDeparture[]}
   | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee}
   | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}
+  | { type: AttendanceRegister.LOADING_GET_STUDENTS; payload: boolean}
 
   
 

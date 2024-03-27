@@ -31,6 +31,7 @@ export const useAttendance = () => {
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
+    dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:true})
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
     if (studentData.exists()) {//primero verifico si la data existe
@@ -64,6 +65,7 @@ export const useAttendance = () => {
         }
       }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
+      dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:false})
     }
 
   }
