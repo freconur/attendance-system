@@ -26,7 +26,7 @@ const SidebarInfoUser = () => {
           </div>
         }
       </div>
-      <div className='mt-1'><p className='capitalize text-center text-slate-500'>{userData.name} {userData.firstname} {userData.lastname}</p></div>
+      <div className='mt-1'><p className='capitalize text-center text-slate-500'>{userData.name} {userData.lastname} {userData.firstname}</p></div>
       <div className='mt-1'><p className='capitalize text-center text-slate-400'>{userData.rol}</p></div>
     </div>
   )
