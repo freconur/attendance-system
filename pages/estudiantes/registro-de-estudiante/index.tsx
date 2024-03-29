@@ -9,27 +9,36 @@ import { useForm } from 'react-hook-form'
 const EstudentsRegister = () => {
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
   const { registerNewStudent, getSections, getGrades, sendPictureProfile } = UseRegisterStudents()
-  const { sections, grades, pictureProfileUrl, userData} = useGlobalContext()
+  const { sections, grades, pictureProfileUrl, userData } = useGlobalContext()
   const { getUserData } = useAuthentication()
-
+  const [gradeValue, setGradeValue] = useState(0)
+  const [seccionActive, setSeccionActive] = useState<boolean>()
   const handleSubmitform = handleSubmit(data => {
     registerNewStudent(data, pictureProfileUrl)
     reset()
   })
-  
   useEffect(() => {
-    if(watch('pictureProfile') !== undefined) {
+    if (watch('pictureProfile') !== undefined) {
       sendPictureProfile(watch('pictureProfile')[0])
     }
   }, [watch('pictureProfile')])
 
   useEffect(() => {
     getUserData()
-    if(userData){
+    if (userData) {
       getSections()
       getGrades()
     }
   }, [userData.name])
+  useEffect(() => {
+    if(gradeValue >= 0) {
+      setSeccionActive(grades[gradeValue]?.gotSection)
+      // console.log('rta',grades[gradeValue]?.gotSection)
+      // console.log('grades',grades)
+      // console.log('gradeValue',gradeValue)
+    }
+
+  },[gradeValue])
   return (
     <div className='p-2'>
       <h1 className='text-2xl my-5 font-semibold uppercase text-center text-slate-600'>registro de estudiantes</h1>
@@ -49,20 +58,32 @@ const EstudentsRegister = () => {
             )}
           />
           {errors.name && <span className='text-red-400'>{errors.name.message as string}</span>}
-          <div className='uppercase text-slate-600'>Apellidos:</div>
+          <div className='uppercase text-slate-600'>Apellidos paterno:</div>
           <input
             className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
             placeholder="apellidos"
             {...register("lastname",
               {
-                required: { value: true, message: "apellido es requerido" },
-                minLength: { value: 2, message: "apellido debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "apellido debe tener un maximo de 20 caracteres" },
+                required: { value: true, message: "apellido paterno es requerido" },
+                minLength: { value: 2, message: "apellido paterno debe tener un minimo de 2 caracteres" },
+                maxLength: { value: 20, message: "apellido paterno debe tener un maximo de 20 caracteres" },
               }
             )}
           />
           {errors.lastname && <span className='text-red-400'>{errors.lastname.message as string}</span>}
-
+          <div className='uppercase text-slate-600'>Apellidos materno:</div>
+          <input
+            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
+            placeholder="apellidos"
+            {...register("firstname",
+              {
+                required: { value: true, message: "apellido materno es requerido" },
+                minLength: { value: 2, message: "apellido materno debe tener un minimo de 2 caracteres" },
+                maxLength: { value: 20, message: "apellido materno debe tener un maximo de 20 caracteres" },
+              }
+            )}
+          />
+          {errors.firstname && <span className='text-red-400'>{errors.firstname.message as string}</span>}
           <div className='uppercase text-slate-600'>dni:</div>
           <input
             className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
@@ -76,48 +97,63 @@ const EstudentsRegister = () => {
             )}
           />
           {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
-
+          
           {/* //esto tiene que ser un select */}
           <div className='uppercase text-slate-600'>grado:</div>
           <select
             className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
             {...register("grade",
               {
-                required: { value: true, message: "grado es requerido" }
-              }
+                required: { value: true, message: "grado es requerido" },
+                onChange(event) {
+                  setGradeValue(Number(event.target.value - 1))
+                },
+              },
+                
             )}
           >
             <option className='uppercase text-slate-500' value="">--seleccionar--</option>
             {
               grades?.map((gr, index) => {
                 return (
-                  <option className='uppercase text-slate-500' key={index} value={gr.grade}>{gr.traditionalGrade}</option>
+                  <option className='uppercase text-slate-500' key={index} value={gr.grade}>{gr.traditionalGrade}{gr.gotSection}</option>
                 )
               })
             }
           </select>
           {errors.grade && <span className='text-red-400'>{errors.grade.message as string}</span>}
 
-          <div className='uppercase text-slate-600'>seccion:</div>
-          <select
-            className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
-            {...register("section",
-              {
-                required: { value: true, message: "seccion es requerido" }
-              }
-            )}
-          >
-            <option className='uppercase text-slate-500' value="">--seleccionar--</option>
-
             {
-              sections?.map((sec, index) => {
-                return (
-                  <option className='uppercase text-slate-500' key={index} value={sec.section}>{sec.section}</option>
-                )
-              })
+              seccionActive ? 
+              <>
+              <div className='uppercase text-slate-600'>seccion:</div>
+              <select
+                className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
+                {...register("section",
+                  {
+                    required: { value: true, message: "seccion es requerido" }
+                  }
+                )}
+              >
+                <option className='uppercase text-slate-500' value="">--seleccionar--</option>
+    
+                {
+                  grades?.map((gr, index) => {
+                    return (
+                      // gr.gotSection
+                      sections?.map((sec, index) => {
+                        return (
+                          <option className='uppercase text-slate-500' key={index} value={sec.section}>{sec.section}</option>
+                        )
+                      })
+                    )
+                })
+                }
+              </select>
+              {errors.section && <span className='text-red-400'>{errors.section.message as string}</span>}
+              </>
+              : null
             }
-          </select>
-          {errors.section && <span className='text-red-400'>{errors.section.message as string}</span>}
           <div className='uppercase text-slate-600'>foto de perfil:</div>
           {!watch('pictureProfile') || watch('pictureProfile').length === 0 ? (
             <input
@@ -127,9 +163,9 @@ const EstudentsRegister = () => {
               // onChange={fileHandler}
               disabled={pictureProfileUrl ? true : false}
               {...register("pictureProfile",
-                {
-                  required: { value: true, message: "foto de perfil es requerido" },
-                }
+                // {
+                //   required: { value: false, message: "foto de perfil es requerido" },
+                // }
               )}
             />
           ) : (<strong>{watch('pictureProfile')[0].name}</strong>)}
@@ -165,7 +201,7 @@ const EstudentsRegister = () => {
           <div
             className='uppercase text-slate-600'>celular del padre:</div>
           <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text" placeholder="celularPadre"
+            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularPadre"
             {...register("numberFather",
               {
                 required: { value: true, message: "celular es requerido" },
@@ -191,7 +227,7 @@ const EstudentsRegister = () => {
           <div
             className='uppercase text-slate-600'>celular de la madre:</div>
           <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text" placeholder="celularMadre"
+            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularMadre"
             {...register("numberMother",
               {
                 required: { value: true, message: "celular es requerido" },

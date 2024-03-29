@@ -7,7 +7,7 @@ import { convertGrade } from '@/utils/validateGrade'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { RiLoader4Line } from 'react-icons/ri'
-
+import { FaUserAlt } from "react-icons/fa";
 const Asistencia = () => {
   const initialState = { studentCode: "" }
   const { getUserData } = useAuthentication()
@@ -72,17 +72,21 @@ const Asistencia = () => {
             return (
               <li key={index} className='grid grid-cols-2 gap-5 mt-5 bg-white p-2 rounded-md'>
                 {/* <div className='rounded-full shadow-md overflow-hidden w-[50%]'> */}
-                  {student.pictureProfile &&
-                    <div className="overflow-hidden rounded-md">
-                      <Image
-                        alt="foto de perfil"
-                        src={`${student.pictureProfile}`}
-                        // fill
-                        width={350}
-                        height={350}
-                      />
-                    </div>
-                  }
+                {student?.pictureProfile ?
+                  <div className="overflow-hidden rounded-md">
+                    <Image
+                      alt="foto de perfil"
+                      src={`${student.pictureProfile}`}
+                      // fill
+                      width={350}
+                      height={350}
+                    />
+                  </div>
+                  :
+                  <div className='bg-blue-100 p-3 rounded-sm  flex items-center justify-center'>
+                    <FaUserAlt  className='w-[50%] h-[50%] text-blue-200'/>
+                  </div>
+                }
                 {/* </div> */}
                 {/* <div className='flex flex-col gap-2 content-between h-full'> */}
                 <div className='flex items-center text-[10px] xsm:text-[12px] xm:text-[15px] md:text-[20px]'>

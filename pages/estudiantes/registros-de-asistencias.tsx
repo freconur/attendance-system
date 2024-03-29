@@ -22,9 +22,10 @@ const AttendanceRegister = () => {
   const { getUserData } = useAuthentication()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
-  const { studentsByGradeAndSection, sections, grades, userData, justificacionFaltaModal, justificacionStudent, justificacionMotivoModal, loadingSearchStudents } = useGlobalContext()
-  const { filterRegisterByGradeAndSection, showJustificaconFaltaModal, justificacionInfoByStudent, showJustificacionMotivo } = useAttendanceRegister()
+  const { studentsByGradeAndSection, sections, grades, userData, justificacionFaltaModal, justificacionStudent, justificacionMotivoModal, loadingSearchStudents, studentsByGrade } = useGlobalContext()
+  const { filterRegisterByGradeAndSection, showJustificaconFaltaModal, justificacionInfoByStudent, showJustificacionMotivo, filterRegisterByGrade } = useAttendanceRegister()
   const { getSections, getGrades } = UseRegisterStudents()
+  const [gradeValue, setGradeValue] = useState(0)
   const [startDate, setStartDate] = useState(dayjs());
   const [dniStudent, setDniStudent] = useState("");
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
@@ -37,12 +38,19 @@ const AttendanceRegister = () => {
     })
   }
   useEffect(() => {
+    //tendria que validar si existe el valor del grado y si tiene la propiedad de gotSection en true para acceder a la busqueda de los alumnos
+    if( grades[Number(valuesByFilter.grade) - 1]?.gotSection === false && valuesByFilter.grade) {
+      //tengo que llamar la funcion simple de los alumnos sin seccion solo grado
+      console.log('estoy solo con grados')
+      filterRegisterByGrade(valuesByFilter.grade,`${startDate.date()}` )
+    }
     if (valuesByFilter.grade && valuesByFilter.section) {
       filterRegisterByGradeAndSection(valuesByFilter.grade, valuesByFilter.section, `${startDate.date()}`, attendance)
     } else {
       console.log('no se encontro registros')
     }
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()])
+
   useEffect(() => {
     getUserData()
     if (userData) {
@@ -61,11 +69,12 @@ const AttendanceRegister = () => {
         </>
       )
     } else {
-      console.log('value', value)
       return <span className={`${attendanceState(value) ? "text-green-400" : "text-red-400"}`}>{value}</span>
     }
   }
 
+  console.log('studentsByGrade', studentsByGrade)
+  console.log('gradeValue', gradeValue)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?
@@ -94,16 +103,23 @@ const AttendanceRegister = () => {
             })
           }
         </select>
-        <select name="section" onChange={handleChangesValuesSelect} className='w-full bg-white rounded-md p-3 shadow-md uppercase text-slate-400'>
-          <option className='text-slate-500' value="">--SELECCIONAR SECCION--</option>
-          {
-            sections?.map((gr, index) => {
-              return (
-                <option key={index} className='uppercase text-slate-500' value={gr.section}>{gr.section}</option>
-              )
-            })
-          }
-        </select>
+
+        {
+          grades[Number(valuesByFilter.grade) - 1]?.gotSection ?
+
+            <select name="section" onChange={handleChangesValuesSelect} className='w-full bg-white rounded-md p-3 shadow-md uppercase text-slate-400'>
+              <option className='text-slate-500' value="">--SELECCIONAR SECCION--</option>
+              {
+                sections?.map((gr, index) => {
+                  return (
+                    <option key={index} className='uppercase text-slate-500' value={gr.section}>{gr.section}</option>
+                  )
+                })
+              }
+            </select>
+            : null
+        }
+
       </div>
 
       <div className='mt-5'>
@@ -128,6 +144,36 @@ const AttendanceRegister = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-100 bg-white">
+            {
+              studentsByGrade?.map((student, index) => {
+                return (
+                  <tr key={index} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer'>
+                    <td className='text-center text-[12px] px-3'>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
+                        {index + 1}
+                      </Link>
+
+                    </td>
+                    <td className='text-[12px] text-center'>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
+                        {student.dni}
+                      </Link>
+                    </td>
+                    <td className='uppercase text-[12px] text-center'>
+                      <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
+                        {student.lastname} {student.name}
+                      </Link>
+                    </td>
+                    <td className={`${student.attendanceByDate === "justificado" ? "text-blue-600" : "text-slate-400"} flex  gap-1 justify-center  pt-3 text-[12px]`}>
+                      {
+                        resultAttendance(student.attendanceByDate as string, student.dni as string)
+                      }
+                    </td>
+                    <td className='text-center text-[12px]'>{student.departureByDate}</td>
+                  </tr>
+                )
+              })
+            }
             {
               studentsByGradeAndSection?.map((student, index) => {
 

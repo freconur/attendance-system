@@ -13,7 +13,25 @@ const UseRegisterStudents = () => {
   const dispatch = useGlobalContextDispatch()
 
   const registerNewStudent = async (dataFromStudent: StudentData, pictureProfileUrl: string) => {
-    await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${dataFromStudent.dni}`), { ...dataFromStudent, pictureProfile: pictureProfileUrl });
+    const data = {
+      dni: dataFromStudent.dni,
+      grade: dataFromStudent.grade,
+      firstname:dataFromStudent.firstname,
+      lastname: dataFromStudent.lastname,
+      name: dataFromStudent.name,
+      nameFather: dataFromStudent.nameFather,
+      nameMother: dataFromStudent.nameMother,
+      numberFather: dataFromStudent.numberFather,
+      numberMother: dataFromStudent.numberMother,
+      section: dataFromStudent.section,
+    }
+    if (pictureProfileUrl.length > 0) {
+      console.log('existe la ruta')
+      await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${dataFromStudent.dni}`), { ...dataFromStudent, pictureProfile: pictureProfileUrl });
+
+    } else {
+      await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${data.dni}`), data);
+    }
   }
   const getGrades = async () => {
     const docRef = (collection(db, `/intituciones/${userData?.idInstitution}/grades`));

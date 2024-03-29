@@ -66,7 +66,7 @@ const ResumenAsistencia = () => {
   return (
     <div className='p-2'>
       <div className='w-full'>
-        <div className='m-auto w-[1002px] '>
+        <div className='m-auto hidden md:block w-[100%] md:w-[81%] '>
           <div className='flex justify-between'>
             <div onClick={onDownloadPdf} className='rounded-md bg-red-300 text-center p-3 h-[50px] font-semibold text-white cursor-pointer capitalize'>descargar pdf</div>
             <select className='p-3 bg-white rounded-md w-[200px] mb-5 text-slate-400 shadow-md uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
@@ -86,7 +86,7 @@ const ResumenAsistencia = () => {
 
       </div>
       
-      <div className='w-full m-auto' ref={pdfRef}>
+      <div className='w-full m-auto hidden md:block' ref={pdfRef}>
         <div className='max-w-[1002px] m-auto flex justify-between'>
           <h3 className='text-xl text-slate-500 uppercase text-center mb-5'>asistencia de <span className='font-semibold'>{studentData.name} {studentData.lastname}</span></h3>
           <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>
@@ -115,7 +115,11 @@ const ResumenAsistencia = () => {
         </div>
 
       </div>
-      <table className='w-[81%] shadow-md mt-5 m-auto'>
+      <div className='md:hidden w-[100%] md:w-[81%] m-auto flex justify-between mt-5'>
+          <h3 className='text-xl text-slate-500 uppercase mb-1'>asistencia de <span className='font-semibold'>{studentData.name} {studentData.lastname}</span></h3>
+          <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>
+        </div>
+      <table className='w-[100%] md:w-[81%] shadow-md mt-5 m-auto'>
         <thead className='bg-blue-100 border-b-2 border-gray-200 '>
           <tr className="text-slate-600 capitalize font-nunito ">
             <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>

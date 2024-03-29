@@ -173,6 +173,21 @@ const useAttendanceRegister = () => {
     }
   }
 
+  const filterRegisterByGrade = async (grade:string, date:string) => {
+    dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: true })
+    const refStudents = collection(db, `/intituciones/${userData.idInstitution}/students`)
+    const q = query(refStudents, where("grade", "==", grade));
+    const docSnap = await getDocs(q)
+    const studentsFilter: StudentData[] = []
+    docSnap.forEach((rta) => {
+      studentsFilter.push(rta.data())
+    })
+    const rta =await getDataStudentsByDate(studentsFilter, date)
+    if(rta) {
+      dispatch({ type: AttendanceRegister.STUDENT_BY_GRADE, payload: rta })
+      dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
+    }
+  }
   const justificarFalta = async (id: string, date: string, justication: JustificationValue) => {
     const attendanceRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`);
     //deberia crear un modal con campos para poner un motivo de la falta 
@@ -200,7 +215,7 @@ const useAttendanceRegister = () => {
     console.log('value', value)
     dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: !value })
   }
-  return { saveAttendance, showJustificacionMotivo, justificacionInfoByStudent, filterRegisterByGradeAndSection, justificarFalta, showJustificaconFaltaModal, showJustificaconFaltaConfirmationModal, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction }
+  return { saveAttendance, showJustificacionMotivo, justificacionInfoByStudent, filterRegisterByGradeAndSection, justificarFalta, showJustificaconFaltaModal, showJustificaconFaltaConfirmationModal, changeAttendanceFromStudent, saveChangesFromAttendanceByGradeSecction, filterRegisterByGrade }
 }
 
 export default useAttendanceRegister

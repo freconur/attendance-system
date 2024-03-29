@@ -14,7 +14,17 @@ const useAttendanceEmployee = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
-
+  
+  const registerEmployee = async (data:Employee) => {
+    const employee = {
+      name: data.name,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      rol: Number(data.rol),
+      dni: data.dni,
+      }
+    await setDoc(doc(db, `/intituciones/${userData.idInstitution}/employee`, `${data.dni}`), employee);
+  }
   const getTypeEmployee = async () => {
     const typesEmployee: TypesEmployee[] = []
     const querySnapshot = await getDocs(collection(db, `/intituciones/${userData.idInstitution}/types-employee`))
@@ -186,7 +196,8 @@ const useAttendanceEmployee = () => {
     }
   }
 
-  return { getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee }
+  
+  return { registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee }
 }
 
 export default useAttendanceEmployee

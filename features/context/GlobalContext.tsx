@@ -36,6 +36,7 @@ const initialState: Student = {
   employeeData:{},
   loaderGetEmployee:false,
   loadingGetStudents:false,
+  studentsByGrade: []
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

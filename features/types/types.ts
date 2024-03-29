@@ -17,6 +17,7 @@ export interface StudentData {
   pictureProfile?: string,
   grade?: string,
   name?: string,
+  firstname?:string,
   lastname?: string,
   qr?: string,
   section?: string,
@@ -34,7 +35,8 @@ export interface Section {
 }
 export interface Grades {
   grade?: string,
-  traditionalGrade?: string
+  traditionalGrade?: string,
+  gotSection?:boolean
 }
 export type Student = {
   studentsData: StudentData[],
@@ -66,6 +68,7 @@ export type Student = {
   employeeData:Employee,
   loaderGetEmployee:boolean,
   loadingGetStudents:boolean,
+  studentsByGrade:StudentData[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -139,6 +142,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
   | { type: AttendanceRegister.PICTURE_PROFILE_URL; payload: string }
   | { type: AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION; payload: StudentData[] }
+  | { type: AttendanceRegister.STUDENT_BY_GRADE; payload: StudentData[] }
   | { type: AttendanceRegister.SHOW_SIDEBAR; payload: boolean }
   | { type: AttendanceRegister.DATA_STUDENT_BY_SEARCH; payload: StudentData }
   | { type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT; payload: DetailsPerDayOfStudent[] }
