@@ -98,7 +98,7 @@ const AsistenciaEmpleados = () => {
                       </td>
                       <td className='uppercase text-[12px] text-center'>
                         <Link href={`/empleados/resumen-de-asistencia/${emp.dni}`}>
-                          {emp.firstname} {emp.lastname} {emp.name}
+                          {emp.lastname} {emp.firstname} {emp.name}
                         </Link>
                       </td>
                       <td className="text-center">{emp.attendanceByDate}</td>

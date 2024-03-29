@@ -44,7 +44,7 @@ const RegistroEmpleados = () => {
         <div className='uppercase text-slate-600'>Apellidos paterno:</div>
         <input
           className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
-          placeholder="apellidos"
+          placeholder="apellidos paterno"
           {...register("lastname",
             {
               required: { value: true, message: "apellido paterno es requerido" },
@@ -57,7 +57,7 @@ const RegistroEmpleados = () => {
         <div className='uppercase text-slate-600'>Apellidos materno:</div>
         <input
           className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
-          placeholder="apellidos"
+          placeholder="apellidos materno"
           {...register("firstname",
             {
               required: { value: true, message: "apellido materno es requerido" },
@@ -69,7 +69,7 @@ const RegistroEmpleados = () => {
         {errors.firstname && <span className='text-red-400'>{errors.firstname.message as string}</span>}
         <div className='uppercase text-slate-600'>dni:</div>
         <input
-          className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
+          className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number"
           placeholder="dni"
           {...register("dni",
             {
@@ -88,12 +88,12 @@ const RegistroEmpleados = () => {
           {...register("phone",
             {
               required: { value: true, message: "dni es requerido" },
-              minLength: { value: 8, message: "dni debe tener 8 caracteres" },
-              maxLength: { value: 8, message: "dni debe tener 8 caracteres" },
+              minLength: { value: 9, message: "dni debe tener 8 caracteres" },
+              maxLength: { value: 9, message: "dni debe tener 8 caracteres" },
             }
           )}
         />
-        {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
+        {errors.phone && <span className='text-red-400'>{errors.phone.message as string}</span>}
         <div className='uppercase text-slate-600'>rol:</div>
           <select
             className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'

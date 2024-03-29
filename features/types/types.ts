@@ -119,7 +119,8 @@ export interface Employee {
   pictureProfile?:string,
   attendanceByDate?:string,
   departureByDate?:string,
-  manualAttendance?:boolean
+  manualAttendance?:boolean,
+  phone?:string
 }
 
 export interface EmployeeAttendanceDeparture {

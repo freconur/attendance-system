@@ -22,6 +22,7 @@ const useAttendanceEmployee = () => {
       lastname: data.lastname,
       rol: Number(data.rol),
       dni: data.dni,
+      phone: data.phone
       }
     await setDoc(doc(db, `/intituciones/${userData.idInstitution}/employee`, `${data.dni}`), employee);
   }
