@@ -7,8 +7,9 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { TiThMenu } from "react-icons/ti";
 import { TfiMenu } from "react-icons/tfi";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenu } from "react-icons/hi";
 import useAuthentication from '@/features/hooks/useAuthentication';
-
 const NavbarWeb = () => {
   const initialValue = { dni: "" }
   const { pathname } = useRouter()
@@ -34,7 +35,7 @@ const NavbarWeb = () => {
   return (
     <div className='w-full flex justify-between h-[60px] shadow-md bg-white'>
       <div onClick={() => showSidebarContext(!showSidebar)} className=' bg-ggw-1 w-[60px] flex justify-center items-center '>
-        <TfiMenu className='text-principal text-3xl cursor-pointer' />
+        <HiOutlineMenu className='text-principal text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
       </div>
 
       {pathname === "/registros-de-asistencias" || pathname === "/estudiantes/registros-de-asistencias" ?
