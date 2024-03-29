@@ -140,7 +140,6 @@ const EstudentsRegister = () => {
                 {
                   grades?.map((gr, index) => {
                     return (
-                      // gr.gotSection
                       sections?.map((sec, index) => {
                         return (
                           <option className='uppercase text-slate-500' key={index} value={sec.section}>{sec.section}</option>

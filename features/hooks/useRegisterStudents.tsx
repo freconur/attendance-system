@@ -13,6 +13,8 @@ const UseRegisterStudents = () => {
   const dispatch = useGlobalContextDispatch()
 
   const registerNewStudent = async (dataFromStudent: StudentData, pictureProfileUrl: string) => {
+    console.log('dataFromStudent', dataFromStudent)
+
     const data = {
       dni: dataFromStudent.dni,
       grade: dataFromStudent.grade,
@@ -23,13 +25,16 @@ const UseRegisterStudents = () => {
       nameMother: dataFromStudent.nameMother,
       numberFather: dataFromStudent.numberFather,
       numberMother: dataFromStudent.numberMother,
-      section: dataFromStudent.section,
+      section: dataFromStudent.section !== undefined ? dataFromStudent.section : "",
     }
+    console.log('data', data)
     if (pictureProfileUrl.length > 0) {
-      console.log('existe la ruta')
+      console.log('con picture profile')
       await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${dataFromStudent.dni}`), { ...dataFromStudent, pictureProfile: pictureProfileUrl });
 
     } else {
+      console.log('sin foto de perfil')
+
       await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${data.dni}`), data);
     }
   }
