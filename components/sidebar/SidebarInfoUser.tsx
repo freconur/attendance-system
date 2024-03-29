@@ -22,7 +22,7 @@ const SidebarInfoUser = () => {
           </div>
           :
           <div className='bg-green-400 w-[100px] h-[100px] rounded-full m-auto flex justify-content items-center'>
-            <p className='text-center text-3xl uppercase font-semibold m-auto'>F</p>
+            <p className='text-center text-4xl uppercase font-semibold m-auto'>{userData.name ? userData.name[0]: null}</p>
           </div>
         }
       </div>

@@ -39,10 +39,10 @@ const AttendanceRegister = () => {
   }
   useEffect(() => {
     //tendria que validar si existe el valor del grado y si tiene la propiedad de gotSection en true para acceder a la busqueda de los alumnos
-    if( grades[Number(valuesByFilter.grade) - 1]?.gotSection === false && valuesByFilter.grade) {
+    if (grades[Number(valuesByFilter.grade) - 1]?.gotSection === false && valuesByFilter.grade) {
       //tengo que llamar la funcion simple de los alumnos sin seccion solo grado
       console.log('estoy solo con grados')
-      filterRegisterByGrade(valuesByFilter.grade,`${startDate.date()}` )
+      filterRegisterByGrade(valuesByFilter.grade, `${startDate.date()}`)
     }
     if (valuesByFilter.grade && valuesByFilter.section) {
       filterRegisterByGradeAndSection(valuesByFilter.grade, valuesByFilter.section, `${startDate.date()}`, attendance)
@@ -211,11 +211,10 @@ const AttendanceRegister = () => {
 
         </table>
         {
-          loadingSearchStudents
-            ? null
-            :
-            studentsByGradeAndSection.length === 0 &&
-            <div className='text-slate-400 text-md w-full text-center mt-5'>No se encontro resultados</div>
+            studentsByGradeAndSection.length > 0 || studentsByGrade.length > 0 ?
+              null
+              :
+              <div className='text-slate-400 text-md w-full text-center mt-5'>No se encontro resultadoss</div>
         }
       </div>
     </div>
