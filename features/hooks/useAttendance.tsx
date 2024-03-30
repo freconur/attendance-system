@@ -41,7 +41,7 @@ export const useAttendance = () => {
       Data?.unshift(studentData.data())
       console.log(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if (studentData.data().firstContact) {
+      if (studentData.data().firstContact?.length > 0) {
         console.log('entramos al primer contacto')
         console.log('studentData.data().firstContact', studentData.data().firstContact)
         console.log('studentData.data().firstContact', studentData.data().firstNumberContact)
@@ -61,16 +61,16 @@ export const useAttendance = () => {
       if (studentData.data()?.secondContact?.length > 0) {
         console.log('entramos al segundo contacto')
 
-        // try {
-        //   axios
-        //     .post(`${URL_API}/message`,
-        //       {
-        //         phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-        //         message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
-        //       })
-        // } catch (error) {
-        //   console.log('error', error)
-        // }
+        try {
+          axios
+            .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
       }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
       dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:false})
