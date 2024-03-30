@@ -9,10 +9,14 @@ export interface TypesEmployee {
   name?:string
 }
 export interface StudentData {
-  nameFather?: string,
-  nameMother?: string,
-  numberFather?: string,
-  numberMother?: string,
+  firstContact?:string,
+  secondContact?:string,
+  firstNumberContact?:string,
+  secondNumberContact?:string,
+  // nameFather?: string,
+  // nameMother?: string,
+  // numberFather?: string,
+  // numberMother?: string,
   dni?: string,
   pictureProfile?: string,
   grade?: string,
@@ -120,7 +124,8 @@ export interface Employee {
   attendanceByDate?:string,
   departureByDate?:string,
   manualAttendance?:boolean,
-  phone?:string
+  phone?:string,
+  currentlyHour?:string
 }
 
 export interface EmployeeAttendanceDeparture {
@@ -163,6 +168,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.GET_TYPES_EMPLOYEE; payload: TypesEmployee[] }
   | { type: AttendanceRegister.GET_EMPLOYEES; payload: Employee[] }
   | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee | undefined}
+  // | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee}
   | { type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE; payload: ResumenEmployeeAttendanceDeparture[]}
   | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee}
   | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}

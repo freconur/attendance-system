@@ -38,27 +38,27 @@ export const useAttendance = () => {
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if (studentData.data().numberFather) {
+      if (studentData.data().firstContact) {
         try {
           axios
             // .post(`/api/whatsapp`,
             .post(`${URL_API}/message`,
               {
-                phoneNumber: `51${studentData.data().numberFather}@c.us`,
-                message: `sr. ${studentData.data().nameFather}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
           console.log('error', error)
         }
       }
 
-      if (studentData.data().numberMother) {
+      if (studentData.data().secondContact !== "") {
         try {
           axios
             .post(`${URL_API}/message`,
               {
-                phoneNumber: `51${studentData.data().numberMother}@c.us`,
-                message: `sra. ${studentData.data().nameMother}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
           console.log('error', error)

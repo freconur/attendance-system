@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } 
 import { useGlobalContext, useGlobalContextDispatch } from "../context/GlobalContext"
 import { Employee, TypesEmployee } from "../types/types"
 import { AttendanceRegister } from "../actions/actionAttendance"
-import { currentDate, currentMonth, currentYear, getDayFromDate, getDayFromDateFalta, hoursUnixDate, hoursUnixDateForDetailStudent, transformMonthToEnglish } from "@/dates/date"
+import { currentDate, currentMonth, currentYear, currentlyHour, functionDateConvert, getDayFromDate, getDayFromDateFalta, hoursUnixDate, hoursUnixDateForDetailStudent, transformMonthToEnglish } from "@/dates/date"
 import { attendanceDepartureTime } from "@/utils/attendanceState"
 import { validateDepartureTime } from "@/utils/validateRolEmployee"
 
@@ -106,6 +106,8 @@ const useAttendanceEmployee = () => {
     dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: true })
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-employee/${employee}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
     const refData = doc(db, `/intituciones/${userData.idInstitution}/employee`, `${employee}`)
+    //creo una constante con la hora que esta marcando el ingreso o salida
+    const hourAttendanDeparture = new Date()
     //los ingresos de los profesores no se enviaran al whatsapp, siemplemente quedaran registrados en la base de datos, para el libre acceso del los cargos superiores.
     const employeeData = await getDoc(refData)
     const employeeAttendanceData = await getDoc(arrivalTimeRef)
@@ -116,29 +118,29 @@ const useAttendanceEmployee = () => {
         if (employeeAttendanceData.data().arrivalTime && employeeAttendanceData.data().departureTime === undefined) {
           //aqui deberia de verificar mediante una funcion para validar que no se haya marcado por error la hora de salida en caso haga una doble registro de ingreso.
           //1- primero me traigo el valor de arrivalTime
-          const validateDataEmployee = { hour: new Date().getHours(), min: new Date().getMinutes() }
+          const validateDataEmployee = { hour: hourAttendanDeparture.getHours(), min: hourAttendanDeparture.getMinutes() }
           const rta = validateDepartureTime(employeeAttendanceData.data()?.arrivalTime, validateDataEmployee)
 
           //esperamos la respuesta de rta y segun la espuesta manjamos la funcionalidad
           rta
-            ? await setDoc(arrivalTimeRef, { departureTime: new Date(), manualAttendance: true }, { merge: true })
+            ? await setDoc(arrivalTimeRef, { departureTime: hourAttendanDeparture, manualAttendance: true }, { merge: true })
             : console.log("ya no genera otra vez el ingreso")
 
-          // await setDoc(arrivalTimeRef, { departureTime: new Date(), manualAttendance: true }, { merge: true })
+          // await setDoc(arrivalTimeRef, { departureTime: hourAttendanDeparture, manualAttendance: true }, { merge: true })
         } else if (employeeAttendanceData.data().arrivalTime === undefined) {
-          await setDoc(arrivalTimeRef, { arrivalTime: new Date(), manualAttendance: true })
+          await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
           dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
 
         } else console.log('ya no se hace nada')
       } else {
-        await setDoc(arrivalTimeRef, { arrivalTime: new Date(), manualAttendance: true })
+        await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
       }
 
-      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: employeeData.data() })
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: {...employeeData.data(), currentlyHour:currentlyHour(hourAttendanDeparture)} })
       dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
 
     } else {
-      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: employeeData.data() })
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: {...employeeData.data(), currentlyHour:currentlyHour(hourAttendanDeparture)} })
       dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
     }
 

@@ -5,6 +5,7 @@ import useAuthentication from '@/features/hooks/useAuthentication'
 import { validateRol } from '@/utils/validateRolEmployee'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
+import { FaUserAlt } from 'react-icons/fa'
 import { RiLoader4Line } from 'react-icons/ri'
 
 const IngresoSalidaEmployee = () => {
@@ -39,6 +40,7 @@ const IngresoSalidaEmployee = () => {
       focusRef.current.focus();
     }
   }, [])
+  console.log('employee', employee)
   return (
     <div className='p-2'>
       <h2 className='text-xl text-slate-400 text-center uppercase '>ingreso y salida de empleados</h2>
@@ -64,25 +66,39 @@ const IngresoSalidaEmployee = () => {
           : null
       }
       {employee?.dni ?
-        <div className='border-[1px] shadow-md p-3 rounded-md w-[60%] m-auto bg-white'>
-          <div className='flex gap-10 bg-white p-2 rounded-md'>
-            <div className='w-[200px]'>
-              {employee.pictureProfile &&
-                <div className="overflow-hidden h-[200px] w-[200px] rounded-md">
+        <div className='w-full xs:w-[520px] tablet:w-[660px] m-auto'>
+          <div className='grid grid-cols-2 gap-5 mt-5 bg-white p-2 rounded-md'>
+            {/* <div className='w-[50%]'> */}
+              {employee.pictureProfile ?
+                <div className="overflow-hidden  rounded-md">
                   <Image
                     alt="foto de perfil"
                     src={`${employee.pictureProfile}`}
-                    width={200}
-                    height={200}
+                    width={350}
+                    height={350}
                   />
                 </div>
+                :
+                <div className='bg-blue-100 p-3 rounded-sm  flex items-center justify-center w-full'>
+                  <FaUserAlt className='w-[40%] h-[100px] text-blue-200' />
+                </div>
               }
-            </div>
-            <div className='grid flex-col gap-5 content-center h-full'>
-              <p className='text-slate-400'>DNI: <span className='uppercase font-semibold text-slate-500'> {employee.dni}</span></p>
-              <p className='text-slate-400'>NOMBRE: <span className='uppercase font-semibold text-slate-500'> {employee.name}</span></p>
-              <p className='text-slate-400'>APELLIDOS: <span className='uppercase font-semibold text-slate-500'> {employee.firstname} {employee.lastname}</span></p>
-              <p className='text-slate-400'>CARGO: <span className='uppercase font-semibold text-slate-500'> {validateRol(employee?.rol)}</span></p>
+            {/* </div> */}
+            <div className='flex items-center text-[10px] xsm:text-[12px] xm:text-[15px] md:text-[20px]'>
+              <div>
+                <p className='text-slate-400'>DNI: </p>
+                <span className='uppercase font-semibold text-slate-500'> {employee.dni}</span>
+                <p className='text-slate-400'>NOMBRE: </p>
+                <span className='uppercase font-semibold text-slate-500'> {employee.name}</span>
+                <p className='text-slate-400'>APELLIDOS: </p>
+                <span className='uppercase font-semibold text-slate-500'> {employee.firstname} {employee.lastname}</span>
+                <p className='text-slate-400'>CARGO: </p>
+                <span className='uppercase font-semibold text-slate-500'> {validateRol(employee?.rol)}</span>
+                <p className='text-slate-400'>HORA: </p>
+                <span className='uppercase font-semibold text-slate-500'> {employee?.currentlyHour}</span>
+
+              </div>
+
             </div>
           </div>
         </div>

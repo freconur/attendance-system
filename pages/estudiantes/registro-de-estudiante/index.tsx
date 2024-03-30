@@ -185,57 +185,58 @@ const EstudentsRegister = () => {
         <div className='w-full rounded-sm shadow-md p-5 bg-white'>
           <h3 className='text-xl text-slate-500 uppercase font-semibold mb-3'>padres del estudiante</h3>
           <div
-            className='uppercase text-slate-600'>Nombre del padre:</div>
+            className='uppercase text-slate-600'>Nombre del primer contacto:</div>
           <input
             className='w-full border-[1px] outline-none border-blue-400 p-2 text-slate-500 rounded-sm my-2' type="text" placeholder="nombrePadre"
-            {...register("nameFather",
+            {...register("firstContact",
               {
-                required: { value: true, message: "nombre del padre es requerido" },
+                required: { value: true, message: "nombre del primer contacto es requerido" },
                 minLength: { value: 2, message: "nombre del padre debe tener un minimo de 2 caracteres" },
                 maxLength: { value: 20, message: "nombre del padre debe tener un maximo de 20 caracteres" },
               }
             )}
           />
-          {errors.nameFather && <span className='text-red-400'>{errors.nameFather.message as string}</span>}
+          {errors.firstContact && <span className='text-red-400'>{errors.firstContact.message as string}</span>}
           <div
-            className='uppercase text-slate-600'>celular del padre:</div>
+            className='uppercase text-slate-600'>celular del primer contacto:</div>
           <input
             className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularPadre"
-            {...register("numberFather",
+            {...register("firstNumberContact",
               {
-                required: { value: true, message: "celular es requerido" },
-                minLength: { value: 9, message: "celular del padre debe tener un minimo de 9 caracteres" },
-                maxLength: { value: 9, message: "celular del padre debe tener un maximo de 9 caracteres" },
+                required: { value: true, message: "celular del contacto es requerido" },
+                minLength: { value: 9, message: "celular del contacto debe tener un minimo de 9 caracteres" },
+                maxLength: { value: 9, message: "celular del contacto debe tener un maximo de 9 caracteres" },
               }
             )}
           />
-          {errors.numberFather && <span className='text-red-400'>{errors.numberFather.message as string}</span>}
+          {errors.firstNumberContact && <span className='text-red-400'>{errors.firstNumberContact.message as string}</span>}
           <div
-            className='uppercase text-slate-600'>nombre de la madre:</div>
+            className='uppercase text-slate-600'>nombre del segundo contacto:</div>
           <input
             className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text" placeholder="nombres"
-            {...register("nameMother",
+            {...register("secondContact",
               {
-                required: { value: true, message: "nombre es requerido" },
-                minLength: { value: 2, message: "nombre de la madre debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "nombre de la madre debe tener un maximo de 20 caracteres" },
+                // required: { value: true, message: "nombre del segundo contacto es requerido" },
+                minLength: { value: 2, message: "nombre del contacto debe tener un minimo de 2 caracteres" },
+                maxLength: { value: 20, message: "nombre del contacto debe tener un maximo de 20 caracteres" },
               }
             )}
           />
-          {errors.nameMother && <span className='text-red-400'>{errors.nameMother.message as string}</span>}
+          {errors.secondContact && <span className='text-red-400'>{errors.secondContact.message as string}</span>}
           <div
-            className='uppercase text-slate-600'>celular de la madre:</div>
+            className='uppercase text-slate-600'>celular del segundo contacto:</div>
           <input
             className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularMadre"
-            {...register("numberMother",
+            {...register("secondNumberContact",
               {
-                required: { value: true, message: "celular es requerido" },
+                // required: { value: true, message: "celular del contacto es requerido" },
                 minLength: { value: 9, message: "celular de la madre debe tener un minimo de 9 caracteres" },
                 maxLength: { value: 9, message: "celular de la madre debe tener un maximo de 9 caracteres" },
+                
               }
             )}
           />
-          {errors.numberMother && <span className='text-red-400'>{errors.numberMother.message as string}</span>}
+          {errors.secondNumberContact && <span className='text-red-400'>{errors.secondNumberContact.message as string}</span>}
 
         </div>
         <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>

@@ -21,10 +21,10 @@ const UseRegisterStudents = () => {
       firstname:dataFromStudent.firstname,
       lastname: dataFromStudent.lastname,
       name: dataFromStudent.name,
-      nameFather: dataFromStudent.nameFather,
-      nameMother: dataFromStudent.nameMother,
-      numberFather: dataFromStudent.numberFather,
-      numberMother: dataFromStudent.numberMother,
+      firstContact: dataFromStudent.firstContact,
+      firstNumberContact: dataFromStudent.firstNumberContact,
+      secondContact: dataFromStudent.secondContact !== undefined ? dataFromStudent.secondContact : "",
+      secondNumberContact: dataFromStudent.secondNumberContact !== undefined ? dataFromStudent.secondNumberContact : "",
       section: dataFromStudent.section !== undefined ? dataFromStudent.section : "",
     }
     console.log('data', data)

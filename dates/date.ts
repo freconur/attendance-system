@@ -51,6 +51,9 @@ export const functionDateConvert = (date: Date) => {
   // console.log(`${date.getDate()}/${monthNumber[date.getMonth()]}/${date.getFullYear().toString().slice(2, 4)}`)
   return `${date.getDate()}/${monthNumber[date.getMonth()]}/${date.getFullYear().toString().slice(2, 4)}`
 }
+export const currentlyHour = (date:Date) => {
+  return `${date.getHours().toString().padStart(2, "0")}: ${date.getMinutes().toString().padStart(2, "0")}: ${date.getSeconds().toString().padStart(2, "0")} ${date.getHours() < 12 ? "am" : "pm"}`
+}
 export const functionDateToPrinter = (date: Date) => {
   // console.log(`${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`)
   // console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
@@ -92,7 +95,7 @@ export const hoursUnixDateEmployeeValidate = (date: Date) => {
   }
 }
 export const hoursUnixDate = (date: Date) => {
-  // console.log('hoursUnixDate', date.toString())
+  console.log('hoursUnixDate', date)
   // console.log('date', Number(date?.toString().slice(18, 28)))
 
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
