@@ -8,7 +8,9 @@ import { StudentData } from "../types/types";
 import axios from 'axios'
 import { attendanceDepartureTime, attendanceState } from "@/utils/attendanceState";
 const db = getFirestore(app)
-const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
+// const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
+const URL_API = "https://whatsapp-api-production-2059.up.railway.app"
+
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
   const { userData } = useGlobalContext()
@@ -37,8 +39,12 @@ export const useAttendance = () => {
     if (studentData.exists()) {//primero verifico si la data existe
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
+      console.log(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if (studentData.data().firstContact) {
+        console.log('entramos al primer contacto')
+        console.log('studentData.data().firstContact', studentData.data().firstContact)
+        console.log('studentData.data().firstContact', studentData.data().firstNumberContact)
         try {
           axios
             // .post(`/api/whatsapp`,
@@ -52,17 +58,19 @@ export const useAttendance = () => {
         }
       }
 
-      if (studentData.data().secondContact !== "") {
-        try {
-          axios
-            .post(`${URL_API}/message`,
-              {
-                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
-              })
-        } catch (error) {
-          console.log('error', error)
-        }
+      if (studentData.data()?.secondContact?.length > 0) {
+        console.log('entramos al segundo contacto')
+
+        // try {
+        //   axios
+        //     .post(`${URL_API}/message`,
+        //       {
+        //         phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+        //         message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+        //       })
+        // } catch (error) {
+        //   console.log('error', error)
+        // }
       }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
       dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:false})
