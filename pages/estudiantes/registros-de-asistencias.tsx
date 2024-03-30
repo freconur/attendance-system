@@ -190,7 +190,7 @@ const AttendanceRegister = () => {
                         resultAttendance(student.attendanceByDate as string, student.dni as string)
                       }
                     </td>
-                    <td className='text-center text-[12px]'>{student.departureByDate}</td>
+                    <td className='text-center text-[12px] text-blue-600'>{student.departureByDate}</td>
                   </tr>
                 )
               })
@@ -222,7 +222,7 @@ const AttendanceRegister = () => {
                         resultAttendance(student.attendanceByDate as string, student.dni as string)
                       }
                     </td>
-                    <td className='text-center text-[12px]'>{student.departureByDate}</td>
+                    <td className='text-center text-[12px] text-blue-600'>{student.departureByDate}</td>
                   </tr>
                 )
               })

@@ -18,12 +18,12 @@ const UseRegisterStudents = () => {
     const data = {
       dni: dataFromStudent.dni,
       grade: dataFromStudent.grade,
-      firstname:dataFromStudent.firstname,
-      lastname: dataFromStudent.lastname,
-      name: dataFromStudent.name,
-      firstContact: dataFromStudent.firstContact,
+      firstname:dataFromStudent.firstname?.toLowerCase(),
+      lastname: dataFromStudent.lastname?.toLowerCase(),
+      name: dataFromStudent.name?.toLowerCase(),
+      firstContact: dataFromStudent.firstContact?.toLowerCase(),
       firstNumberContact: dataFromStudent.firstNumberContact,
-      secondContact: dataFromStudent.secondContact !== undefined ? dataFromStudent.secondContact : "",
+      secondContact: dataFromStudent.secondContact !== undefined ? dataFromStudent.secondContact?.toLowerCase() : "",
       secondNumberContact: dataFromStudent.secondNumberContact !== undefined ? dataFromStudent.secondNumberContact : "",
       section: dataFromStudent.section !== undefined ? dataFromStudent.section : "",
     }
