@@ -91,7 +91,7 @@ const IngresoSalidaEmployee = () => {
                 <p className='text-slate-400'>NOMBRE: </p>
                 <span className='uppercase font-semibold text-slate-500'> {employee.name}</span>
                 <p className='text-slate-400'>APELLIDOS: </p>
-                <span className='uppercase font-semibold text-slate-500'> {employee.firstname} {employee.lastname}</span>
+                <span className='uppercase font-semibold text-slate-500'>{employee.lastname} {employee.firstname}</span>
                 <p className='text-slate-400'>CARGO: </p>
                 <span className='uppercase font-semibold text-slate-500'> {validateRol(employee?.rol)}</span>
                 <p className='text-slate-400'>HORA: </p>

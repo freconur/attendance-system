@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from '@/firebase/firebaseConfig';
@@ -17,8 +17,12 @@ import JustificacionFaltaModal from '@/Modals/JustificacionFaltaModal';
 import JustificacionFaltaMotivo from '@/Modals/JustificacionFaltaMotivo';
 import { RiLoader4Line } from 'react-icons/ri';
 import { attendanceState } from '@/utils/attendanceState';
+import QRCode from 'react-qr-code';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const AttendanceRegister = () => {
+  const pdfRef = useRef(null)
   const { getUserData } = useAuthentication()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
@@ -31,6 +35,23 @@ const AttendanceRegister = () => {
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
   const [attendance, setAttendance] = useState('registros')
 
+  const onDownloadPdf = () => {
+    const input: any = pdfRef.current
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF('portrait', 'mm', 'a4', true)
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight()
+      const imageWidth = canvas.width
+      const imageHeight = canvas.height
+      const ratio = Math.min(pdfWidth / imageWidth, pdfHeight / imageHeight)
+      const imgX = (pdfWidth - imageWidth * ratio) / 2
+      const imgY = 30
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imageWidth * ratio, imageHeight * ratio)
+      pdf.save(`codigos-qr.pdf`)
+
+    })
+  }
   const handleChangesValuesSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValuesByFilter({
       ...valuesByFilter,
@@ -210,11 +231,34 @@ const AttendanceRegister = () => {
           </tbody>
 
         </table>
-        {
-            studentsByGradeAndSection.length > 0 || studentsByGrade.length > 0 ?
-              null
+        <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
+        <ul ref={pdfRef} className='m-auto grid grid-cols-5 gap-5 w-full p-5'>
+          {
+            studentsByGrade.length > 0 ?
+              // <QRCode value="hey" />
+              studentsByGrade?.map(student => {
+                return (
+                  <li className='w-auto'>
+                    <div className='w-full mb-5'>
+                      <p className='text-center text-lg font-semibold capitalize'>{student.name} {student.lastname} {student.firstname}</p>
+                    </div>
+                    <QRCode
+                      size={256}
+                      style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                      value={`${student.dni}`} />
+                  </li>
+                )
+              })
               :
-              <div className='text-slate-400 text-md w-full text-center mt-5'>No se encontro resultadoss</div>
+              null
+          }
+
+        </ul>
+        {
+          studentsByGradeAndSection.length > 0 || studentsByGrade.length > 0 ?
+            null
+            :
+            <div className='text-slate-400 text-md w-full text-center mt-5'>No se encontro resultadoss</div>
         }
       </div>
     </div>
