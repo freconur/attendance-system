@@ -52,10 +52,10 @@ const InfoStudent = () => {
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">dni:</span> {studentData.dni}</p>
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">grado:</span> {convertGrade(studentData.grade as string)}</p>
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">sección:</span> {studentData.section}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del padre:</span> {studentData.nameFather}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.numberFather}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del madre:</span> {studentData.nameMother}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.numberMother}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del padre:</span> {studentData.firstContact}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.firstNumberContact}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del madre:</span> {studentData.secondContact}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.secondNumberContact}</p>
           </div>
         </div>
       </div>

@@ -69,14 +69,14 @@ const useAttendanceRegister = () => {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
             .then(response => {
 
-              if (student.numberFather) {
+              if (student.firstNumberContact) {
                 try {
                   axios
                     // .post(`/api/whatsapp`,
                     .post(`${URL_API}/message`,
                       {
-                        phoneNumber: `51${student.numberFather}@c.us`,
-                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
+                        phoneNumber: `51${student.firstNumberContact}@c.us`,
+                        message: `sr. ${student.firstContact}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1))}.`
                       })
                 } catch (error) {
                   console.log('error', error)
@@ -89,14 +89,14 @@ const useAttendanceRegister = () => {
         if (student.tardanza) {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1) })
             .then(response => {
-              if (student.numberFather) {
+              if (student.firstNumberContact) {
                 try {
                   axios
                     // .post(`/api/whatsapp`,
                     .post(`${URL_API}/message`,
                       {
-                        phoneNumber: `51${student.numberFather}@c.us`,
-                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
+                        phoneNumber: `51${student.firstNumberContact}@c.us`,
+                        message: `sr. ${student.firstContact}, el estudiante ${student.name} ${student.lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 1, 1))}.`
                       })
                 } catch (error) {
                   console.log('error', error)
@@ -108,14 +108,14 @@ const useAttendanceRegister = () => {
         if (student.falta) {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: null, falta: true })
             .then(response => {
-              if (student.numberFather) {
+              if (student.firstNumberContact) {
                 try {
                   axios
                     // .post(`/api/whatsapp`,
                     .post(`${URL_API}/message`,
                       {
-                        phoneNumber: `51${student.numberFather}@c.us`,
-                        message: `sr. ${student.nameFather}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
+                        phoneNumber: `51${student.firstNumberContact}@c.us`,
+                        message: `sr. ${student.firstContact}, el estudiante ${student.name} ${student.lastname} no asistio al colegio ${dateConvertObjectStudent(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 8, 0, 0))}.`
                       })
                 } catch (error) {
                   console.log('error', error)
