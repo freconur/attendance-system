@@ -232,7 +232,7 @@ const AttendanceRegister = () => {
 
         </table>
         <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
-        <ul ref={pdfRef} className='m-auto grid grid-cols-8 gap-5 w-full p-5'>
+        <ul ref={pdfRef} className='m-auto grid grid-cols-7 gap-5 w-full p-5'>
           {
             studentsByGrade.length > 0 ?
               // <QRCode value="hey" />
