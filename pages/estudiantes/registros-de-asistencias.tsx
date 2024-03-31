@@ -46,7 +46,7 @@ const AttendanceRegister = () => {
       const imageHeight = canvas.height
       const ratio = Math.min(pdfWidth / imageWidth, pdfHeight / imageHeight)
       const imgX = (pdfWidth - imageWidth * ratio) / 2
-      const imgY = 30
+      const imgY = 5
       pdf.addImage(imgData, 'PNG', imgX, imgY, imageWidth * ratio, imageHeight * ratio)
       pdf.save(`codigos-qr.pdf`)
 
@@ -232,7 +232,7 @@ const AttendanceRegister = () => {
 
         </table>
         <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
-        <ul ref={pdfRef} className='m-auto grid grid-cols-7 gap-5 w-full p-5'>
+        <ul ref={pdfRef} className='m-auto grid grid-cols-8 gap-5 w-full p-5'>
           {
             studentsByGrade.length > 0 ?
               // <QRCode value="hey" />
