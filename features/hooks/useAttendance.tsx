@@ -33,7 +33,7 @@ export const useAttendance = () => {
   }
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
-    dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:true})
+    dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: true })
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
     if (studentData.exists()) {//primero verifico si la data existe
@@ -41,10 +41,7 @@ export const useAttendance = () => {
       Data?.unshift(studentData.data())
       console.log(studentData.data())
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if (studentData.data().firstContact?.length > 0) {
-        console.log('entramos al primer contacto')
-        console.log('studentData.data().firstContact', studentData.data().firstContact)
-        console.log('studentData.data().firstContact', studentData.data().firstNumberContact)
+      if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
         try {
           axios
             // .post(`/api/whatsapp`,
@@ -59,7 +56,7 @@ export const useAttendance = () => {
         }
       }
 
-      if (studentData.data()?.secondContact?.length > 0) {
+      if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
         console.log('entramos al segundo contacto')
 
         try {
@@ -75,7 +72,7 @@ export const useAttendance = () => {
         }
       }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
-      dispatch({type:AttendanceRegister.LOADING_GET_STUDENTS, payload:false})
+      dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
     }
 
   }
