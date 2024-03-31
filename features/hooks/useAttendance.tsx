@@ -50,7 +50,8 @@ export const useAttendance = () => {
             // .post(`/api/whatsapp`,
             .post(`${URL_API}/message`,
               {
-                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                phoneNumber: `51982752688@c.us`,
                 message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
@@ -65,7 +66,8 @@ export const useAttendance = () => {
           axios
             .post(`${URL_API}/message`,
               {
-                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                phoneNumber: `51982752688@c.us`,
                 message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
               })
         } catch (error) {
