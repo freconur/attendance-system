@@ -61,11 +61,11 @@ const NavbarWeb = () => {
                   <Link onClick={() => {setShowContainerStudent(false), cleanSearchStudent()}} href={`registros-de-asistencias/${studentDataBySearch.dni}`} className='p-3 shadow-md bg-blue-50 flex justify-between'>
                     <div>
                       <div className='text-slate-500'>DNI: {studentDataBySearch.dni}</div>
-                      <div className='text-slate-600 uppercase'>{studentDataBySearch.lastname} {studentDataBySearch.name}</div>
+                      <div className='text-slate-600 uppercase font-semibold'>{studentDataBySearch.lastname} {studentDataBySearch.firstname} {studentDataBySearch.name}</div>
                     </div>
                     <div>
                       <div className='text-slate-600 uppercase'>grado: {convertGrade(`${studentDataBySearch.grade}`)}</div>
-                      <div className='text-slate-600 uppercase'>sección: {studentDataBySearch.section}</div>
+                      {/* <div className='text-slate-600 uppercase'>sección: {studentDataBySearch.section}</div> */}
                     </div>
 
                   </Link>

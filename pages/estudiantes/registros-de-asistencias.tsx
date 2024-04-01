@@ -95,7 +95,8 @@ const AttendanceRegister = () => {
   }
 
   console.log('studentsByGrade', studentsByGrade)
-  console.log('gradeValue', gradeValue)
+  console.log('valuesByFilter', valuesByFilter)
+  console.log('studentsByGrade', studentsByGrade)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?
@@ -182,7 +183,7 @@ const AttendanceRegister = () => {
                     </td>
                     <td className='uppercase text-[12px] text-center'>
                       <Link href={`/estudiantes/resumen-de-asistencia/${student.dni}`}>
-                        {student.lastname} {student.name}
+                        {student.lastname} {student.firstname}, {student.name}
                       </Link>
                     </td>
                     <td className={`${student.attendanceByDate === "justificado" ? "text-blue-600" : "text-slate-400"} flex  gap-1 justify-center  pt-3 text-[12px]`}>
@@ -231,7 +232,7 @@ const AttendanceRegister = () => {
           </tbody>
 
         </table>
-        <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
+        {/* <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
         <ul ref={pdfRef} className='m-auto grid grid-cols-7 gap-5 w-full p-5'>
           {
             studentsByGrade.length > 0 ?
@@ -253,7 +254,7 @@ const AttendanceRegister = () => {
               null
           }
 
-        </ul>
+        </ul> */}
         {
           studentsByGradeAndSection.length > 0 || studentsByGrade.length > 0 ?
             null

@@ -26,7 +26,7 @@ const InfoStudent = () => {
     <div className="p-5 ">
       <div className="">
         <div className="my-5">
-          <h3 className="text-2xl text-slate-500 uppercase text-center font-semibold">{studentData.name} {studentData.lastname}</h3>
+          <h3 className="text-2xl text-slate-500 uppercase text-center font-semibold">{studentData.name} {studentData.lastname} {studentData.firstname}</h3>
         </div>
         {
           studentData?.pictureProfile ?
@@ -52,10 +52,16 @@ const InfoStudent = () => {
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">dni:</span> {studentData.dni}</p>
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">grado:</span> {convertGrade(studentData.grade as string)}</p>
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">sección:</span> {studentData.section}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del padre:</span> {studentData.firstContact}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.firstNumberContact}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">nombre del madre:</span> {studentData.secondContact}</p>
-            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">numero:</span> {studentData.secondNumberContact}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">1er contacto:</span> {studentData.firstContact}</p>
+            <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">1er numero:</span> {studentData.firstNumberContact}</p>
+            {
+              studentData.secondContact && studentData.secondNumberContact ?
+                <>
+                  <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">2do contacto:</span> {studentData.secondContact}</p>
+                  <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">2do numero:</span> {studentData.secondNumberContact}</p>
+                </>
+                : null
+            }
           </div>
         </div>
       </div>
