@@ -12,7 +12,7 @@ import { app } from '@/firebase/firebaseConfig';
 import PrivateRoutes from '@/components/layouts/PrivateRoutes';
 import useAuthentication from '@/features/hooks/useAuthentication';
 import Link from 'next/link';
-import { currentDate, hoursUnixDate } from '@/dates/date';
+import { currentDate, hoursUnixDate, monthToString } from '@/dates/date';
 import JustificacionFaltaModal from '@/Modals/JustificacionFaltaModal';
 import JustificacionFaltaMotivo from '@/Modals/JustificacionFaltaMotivo';
 import { RiLoader4Line } from 'react-icons/ri';
@@ -32,7 +32,8 @@ const AttendanceRegister = () => {
   const [gradeValue, setGradeValue] = useState(0)
   const [startDate, setStartDate] = useState(dayjs());
   const [dniStudent, setDniStudent] = useState("");
-  const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
+  const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023)));
+  // const [minDate, setMinDate] = useState(dayjs(new Date().setDate(0)));
   const [attendance, setAttendance] = useState('registros')
 
   const onDownloadPdf = () => {
@@ -63,13 +64,14 @@ const AttendanceRegister = () => {
     if (grades[Number(valuesByFilter.grade) - 1]?.gotSection === false && valuesByFilter.grade) {
       //tengo que llamar la funcion simple de los alumnos sin seccion solo grado
       console.log('estoy solo con grados')
-      filterRegisterByGrade(valuesByFilter.grade, `${startDate.date()}`)
+      filterRegisterByGrade(valuesByFilter.grade, `${startDate.date()}`, monthToString(startDate.month()))
     }
     if (valuesByFilter.grade && valuesByFilter.section) {
-      filterRegisterByGradeAndSection(valuesByFilter.grade, valuesByFilter.section, `${startDate.date()}`, attendance)
+      filterRegisterByGradeAndSection(valuesByFilter.grade, valuesByFilter.section, `${startDate.date()}`, attendance, monthToString(startDate.month()))
     } else {
       console.log('no se encontro registros')
     }
+
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()])
 
   useEffect(() => {
@@ -94,9 +96,9 @@ const AttendanceRegister = () => {
     }
   }
 
-  console.log('studentsByGrade', studentsByGrade)
-  console.log('valuesByFilter', valuesByFilter)
-  console.log('studentsByGrade', studentsByGrade)
+  console.log('startDate.date()', startDate.date())
+  console.log('startDate.month()', monthToString(startDate.month()))
+  // console.log('studentsByGrade', studentsByGrade)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?

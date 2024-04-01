@@ -23,7 +23,6 @@ const SidebarList = () => {
   //     return true
   //   }
   // }
-  console.log('route', route.pathname.includes('empleados'))
   return (
     <div className='overflow-y-scroll'>
       {/* {

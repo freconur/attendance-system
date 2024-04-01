@@ -14,18 +14,29 @@ const useAttendanceRegister = () => {
   const dispatch = useGlobalContextDispatch()
 
 
-  async function getDataStudentsByDate(students: StudentData[], date: string) {
+  async function getDataStudentsByDate(students: StudentData[], date: string, month:string) {
+    console.log('entro a getDataStudentsByDate')
     const studentsArray: StudentData[] = []
     await Promise.all(students.map(async (student) => {
-      const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`)
+      const refAttendance = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${month}/${month}/${date}`)
       const attendance = await getDoc(refAttendance)//iteramos cada estudiante del grado y seccion
       // const newData = { ...student, attendanceByDate: attendance.exists() ? hoursUnixDate(attendance.data().arrivalTime) : "falto" }
-      const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : attendance.data().arrivalTime === null ? "falto" : attendance.data().arrivalTime ? hoursUnixDate(attendance.data().arrivalTime) : "falto" : "falto", departureByDate: attendance.exists() ? attendance?.data().departure ? hoursUnixDate(attendance?.data().departure ): "sin registro" : "sin registro"}
+      console.log(`/intituciones/${userData.idInstitution}/attendance-student/${student.dni}/${currentYear()}/${month}/${month}/${date}`)
+      const newData = {
+        ...student, attendanceByDate: attendance.exists()
+          ? attendance.data().justification
+            ? "justificado"
+            : attendance.data().arrivalTime === null
+              ? "falto"
+              : attendance.data().arrivalTime
+                ? hoursUnixDate(attendance.data().arrivalTime)
+                : "falto"
+          : "falto"
+        , departureByDate: attendance.exists() ? attendance?.data().departure ? hoursUnixDate(attendance?.data().departure) : "sin registro" : "sin registro"
+      }
       // const newData = { ...student, attendanceByDate: attendance.exists() ? attendance.data().justification ? "justificado" : attendance.data().arrivalTime === null ? "falto" : hoursUnixDate(attendance.data().arrivalTime) : "falto" }
       return studentsArray.push(newData)
     }))
-
-    console.log('studentsArray;;', studentsArray)
     if (studentsArray) {
       studentsArray.sort((a: any, b: any) => {
         const fe: string = a && a.lastname
@@ -63,7 +74,7 @@ const useAttendanceRegister = () => {
         console.log('si existe, entonces no hacemos nada')
         dispatch({ type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION, payload: false })
         dispatch({ type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL, payload: false })
-        
+
       } else {
         if (student.presente) {
           await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: Timestamp.fromDate(new Date(currentlyDate.getFullYear(), currentlyDate.getMonth(), currentlyDate.getDate(), 7, 59, 1)) })
@@ -150,7 +161,7 @@ const useAttendanceRegister = () => {
     })
     dispatch({ type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE, payload: students })
   }
-  const filterRegisterByGradeAndSection = async (grade: string, section: string, date: string, tipoDeAsistencia?: string) => {
+  const filterRegisterByGradeAndSection = async (grade: string, section: string, date: string, tipoDeAsistencia?: string, month?:string) => {
     dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: true })
     const refStudents = collection(db, `/intituciones/${userData.idInstitution}/students`)
     const q1 = query(refStudents, where("grade", "==", `${grade}`), where("section", "==", `${section}`));
@@ -161,19 +172,23 @@ const useAttendanceRegister = () => {
       const data = { ...rta.data(), tardanza: false, presente: false, falta: true }
       studentsFilter.push(data)
     })
-    const rta = await getDataStudentsByDate(studentsFilter, date)
-    if (rta && tipoDeAsistencia === "asistencia-grado") {
-      dispatch({ type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE, payload: rta })
-      dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
-    } else if (rta && tipoDeAsistencia === "registros") {
-      dispatch({ type: AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION, payload: rta })
-      dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
-    } else {
-      dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
+
+    if (month) {
+      const rta = await getDataStudentsByDate(studentsFilter, date, month)
+      if (rta && tipoDeAsistencia === "asistencia-grado") {
+        dispatch({ type: AttendanceRegister.STUDENTS_FOR_ATTENDANCE, payload: rta })
+        dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
+      } else if (rta && tipoDeAsistencia === "registros") {
+        dispatch({ type: AttendanceRegister.STUDENT_BY_GRADE_AND_SECTION, payload: rta })
+        dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
+      } else {
+        dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
+      }
+
     }
   }
 
-  const filterRegisterByGrade = async (grade:string, date:string) => {
+  const filterRegisterByGrade = async (grade: string, date: string, month:string) => {
     dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: true })
     const refStudents = collection(db, `/intituciones/${userData.idInstitution}/students`)
     const q = query(refStudents, where("grade", "==", grade));
@@ -182,8 +197,8 @@ const useAttendanceRegister = () => {
     docSnap.forEach((rta) => {
       studentsFilter.push(rta.data())
     })
-    const rta =await getDataStudentsByDate(studentsFilter, date)
-    if(rta) {
+    const rta = await getDataStudentsByDate(studentsFilter, date, month)
+    if (rta) {
       dispatch({ type: AttendanceRegister.STUDENT_BY_GRADE, payload: rta })
       dispatch({ type: AttendanceRegister.LOADING_SEARCH_STUDENTS, payload: false })
     }

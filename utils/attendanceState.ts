@@ -1,7 +1,6 @@
 import { AttendanceDepartureTime } from "@/features/types/types"
 
 export const attendanceState = (attendance?: string) => {
-  console.log('attendance', attendance)
   if (attendance) {
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
       return true
@@ -14,14 +13,12 @@ export const attendanceState = (attendance?: string) => {
 }
 
 export const attendanceDepartureTime = (attendance?: string) => {
-  console.log('attendance', attendance)
   if (attendance) {
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
       return { attendance: true, departure: false } as AttendanceDepartureTime
     } else if (attendance[0].toString() === "0" && attendance[1].toString() === "6") {
       return { attendance: true, departure: false } as AttendanceDepartureTime
     } else if (attendance === "14") {
-      console.log('attendance', attendance)
       return { attendance: false, departure: true } as AttendanceDepartureTime
     }else if (attendance === "13") {
       return { departure: false, attendance: true } as AttendanceDepartureTime

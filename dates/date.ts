@@ -34,7 +34,9 @@ export const todayDate = () => {
   const date = new Date()
   return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
-
+export const monthToString = (month:number) => {
+  return months[month]
+}
 export const currentMonth = () => {
   const date = new Date()
   return months[date.getMonth()]
@@ -95,11 +97,8 @@ export const hoursUnixDateEmployeeValidate = (date: Date) => {
   }
 }
 export const hoursUnixDate = (date: Date) => {
-  console.log('hoursUnixDate', date)
-  // console.log('date', Number(date?.toString().slice(18, 28)))
 
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
-  // console.log('hourSeconds', hourSeconds.getDay())
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
   if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
@@ -108,7 +107,6 @@ export const hoursUnixDate = (date: Date) => {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
     const hour = new Date(rta)
     const numDays = (y: any, m: any) => new Date(y, m, 0).getDate();
-    // console.log('numDays', numDays(2024,3))
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
