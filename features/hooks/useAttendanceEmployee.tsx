@@ -17,12 +17,12 @@ const useAttendanceEmployee = () => {
   
   const registerEmployee = async (data:Employee) => {
     const employee = {
-      name: data.name,
-      firstname: data.firstname,
-      lastname: data.lastname,
+      name: data.name?.toLowerCase(),
+      firstname: data.firstname?.toLowerCase(),
+      lastname: data.lastname?.toLowerCase(),
       rol: Number(data.rol),
       dni: data.dni,
-      phone: data.phone
+      // phone: data.phone
       }
     await setDoc(doc(db, `/intituciones/${userData.idInstitution}/employee`, `${data.dni}`), employee);
   }

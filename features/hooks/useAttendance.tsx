@@ -39,7 +39,10 @@ export const useAttendance = () => {
     if (studentData.exists()) {//primero verifico si la data existe
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
-      console.log(studentData.data())
+      // const testspice = Data.slice(0,5)
+      // console.log('resultado de memoria',Data.slice(0,5))
+      // console.log('ver como resultado de una constante',testspice)
+      // console.log('ver si se modifica la data o solo lo hace en memoria',Data)
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
         try {
@@ -71,7 +74,7 @@ export const useAttendance = () => {
           console.log('error', error)
         }
       }
-      dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data })
+      dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0,5) })
       dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
     }
 

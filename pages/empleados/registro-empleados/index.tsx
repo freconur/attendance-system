@@ -81,7 +81,7 @@ const RegistroEmpleados = () => {
         />
         {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
 
-        <div className='uppercase text-slate-600'>celular:</div>
+        {/* <div className='uppercase text-slate-600'>celular:</div>
         <input
           className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number"
           placeholder="celular"
@@ -93,7 +93,7 @@ const RegistroEmpleados = () => {
             }
           )}
         />
-        {errors.phone && <span className='text-red-400'>{errors.phone.message as string}</span>}
+        {errors.phone && <span className='text-red-400'>{errors.phone.message as string}</span>} */}
         <div className='uppercase text-slate-600'>rol:</div>
           <select
             className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'

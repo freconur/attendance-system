@@ -96,7 +96,7 @@ const Asistencia = () => {
                     <p className='text-slate-400'>NOMBRE: </p>
                     <span className='uppercase font-semibold text-slate-500'> {student.name}</span>
                     <p className='text-slate-400'>APELLIDOS: </p>
-                    <span className='uppercase font-semibold text-slate-500'> {student.lastname}</span>
+                    <span className='uppercase font-semibold text-slate-500'> {student.lastname} {student.firstname}</span>
                     <p className='text-slate-400'>GRADO: </p>
                     <span className='uppercase font-semibold text-slate-500'> {convertGrade(`${student.grade}`)}</span>
                     <p className='text-slate-400'>SECCION: </p>
