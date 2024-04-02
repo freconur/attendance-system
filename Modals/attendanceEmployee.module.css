@@ -1,0 +1,119 @@
+.containerModal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.23);
+  z-index: 2000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-content: center;
+
+}
+.closeModalContainer{
+  width:100%;
+  justify-content: end;
+  display:flex
+}
+.closeModal {
+  border-radius: 100%;
+  background-color: red;
+  font-weight: 600;
+  color:white;
+  width:30px;
+  height:30px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.containerSale {
+  /* display: grid; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* place-content: center; */
+  /* width:500vw ; */
+  width: 310px;
+  /* height: 250px; */
+  /* background: linear-gradient(90deg, rgba(246,246,246,1) 0%, rgba(210,210,210,1) 51%, rgba(196,196,196,1) 100%); */
+  /* text-transform: capitalize; */
+  background-color: #f6fdff;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 10px;
+  
+}
+@media (min-width: 400px) {
+  .containerSale {
+    width: 390px;
+  }
+}
+@media (min-width: 500px) {
+  .containerSale {
+    width: 490px;
+  }
+}
+@media (min-width: 600px) {
+  .containerSale {
+    width: 590px;
+  }
+}
+@media (min-width: 768px) {
+  .containerSale {
+    width: 300px;
+  }
+}
+.title {
+  font-family: "DM Mono";
+  font-size: medium;
+  text-align: center;
+  margin-bottom: 20px;
+  /* color: #182c18; */
+  color: white;
+}
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+.optionButtonAgree {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  /* background: linear-gradient(90deg, rgba(103,226,207,1) 0%, rgba(62,188,191,1) 48%, rgba(49,154,138,1) 100%); */
+  background-color: #7777dd;
+  color: white;
+  font-family: "DM Mono";
+  cursor: pointer;
+}
+.optionButtonCancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  height: 40px;
+  border-radius: 5px;
+  color: rgb(97, 105, 172);
+  cursor: pointer;
+  width: 100px;
+  font-family: "Nunito";
+  font-weight: 700;
+}
+.list {
+  display:grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}

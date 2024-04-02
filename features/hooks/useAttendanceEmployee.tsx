@@ -15,6 +15,10 @@ const useAttendanceEmployee = () => {
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
   
+
+  const employeeModal = (value:boolean) => {
+    dispatch({type:AttendanceRegister.ACTIVE_EMPLOYEE_MODAL, payload:!value})
+  }
   const registerEmployee = async (data:Employee) => {
     const employee = {
       name: data.name?.toLowerCase(),
@@ -200,7 +204,7 @@ const useAttendanceEmployee = () => {
   }
 
   
-  return { registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee }
+  return { employeeModal, registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee }
 }
 
 export default useAttendanceEmployee

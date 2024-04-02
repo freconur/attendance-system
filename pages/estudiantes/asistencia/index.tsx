@@ -8,12 +8,16 @@ import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { RiLoader4Line } from 'react-icons/ri'
 import { FaUserAlt } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa";
+import AttendanceEmployeeModal from '@/Modals/attendanceEmployeeModal'
+import useAttendanceEmployee from '@/features/hooks/useAttendanceEmployee'
 const Asistencia = () => {
   const initialState = { studentCode: "" }
   const { getUserData } = useAuthentication()
   const [studenCode, setStudenCode] = useState(initialState)
   const { getStudentData, studentArrivalTime } = useAttendance()
-  const { studentsData, userData, loadingGetStudents } = useGlobalContext()
+  const { employeeModal } = useAttendanceEmployee()
+  const { studentsData, userData, loadingGetStudents, activeEmployeeModal } = useGlobalContext()
   const focusRef = useRef<HTMLInputElement>(null)
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
@@ -37,8 +41,19 @@ const Asistencia = () => {
     getUserData()
 
   }, [])
+console.log('activeEmployeeModal', activeEmployeeModal)
   return (
     <div className='p-2'>
+      <div className='flex justify-end'>
+        <div onClick={() => employeeModal(activeEmployeeModal)} className='bg-blue-400 text-white p-1 rounded-sm cursor-pointer'>
+          <FaUserTie className='text-lg' />
+        </div>
+      </div>
+      {
+        activeEmployeeModal ?
+          <AttendanceEmployeeModal />
+          : null
+      }
       <div>
         <h1 className='text-slate-600 uppercase font-semibold text-2xl my-5 text-center'>tomar asistencia</h1>
 
@@ -84,7 +99,7 @@ const Asistencia = () => {
                   </div>
                   :
                   <div className='bg-blue-100 p-3 rounded-sm  flex items-center justify-center'>
-                    <FaUserAlt  className='w-[50%] h-[50%] text-blue-200'/>
+                    <FaUserAlt className='w-[50%] h-[50%] text-blue-200' />
                   </div>
                 }
                 {/* </div> */}

@@ -72,7 +72,8 @@ export type Student = {
   employeeData:Employee,
   loaderGetEmployee:boolean,
   loadingGetStudents:boolean,
-  studentsByGrade:StudentData[]
+  studentsByGrade:StudentData[],
+  activeEmployeeModal:boolean,
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -173,6 +174,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee}
   | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}
   | { type: AttendanceRegister.LOADING_GET_STUDENTS; payload: boolean}
+  | { type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL; payload: boolean}
 
   
 
