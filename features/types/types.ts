@@ -75,6 +75,9 @@ export type Student = {
   studentsByGrade:StudentData[],
   activeEmployeeModal:boolean,
   updateStudentConfirmationModal:boolean,
+  showDepartureManualModal:boolean,
+  studentforDeparture:StudentData,
+  confirmationDepartureStudentModal:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -176,6 +179,9 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}
   | { type: AttendanceRegister.LOADING_GET_STUDENTS; payload: boolean}
   | { type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL; payload: boolean}
+  | { type: AttendanceRegister.STUDENT_FOR_DEPARTURE; payload: StudentData}
+  | { type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL; payload: boolean}
+  | { type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL; payload: boolean}
   | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean}
 
   

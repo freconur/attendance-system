@@ -15,6 +15,53 @@ export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
   const { userData } = useGlobalContext()
 
+
+  const studentDepartureTime = async(studentCode:string, motivoSalida:string) => {
+    const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
+    const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
+    const studentData = await getDoc(refData)
+    const currentlyHour = new Date()
+
+    await setDoc(arrivalTimeRef, { departure: currentlyHour, manualAttendance: true }, { merge: true })
+    if (studentData.exists()) {//primero verifico si la data existe
+      studentArrivalTime(studentCode)
+      // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
+      if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
+        try {
+          axios
+            // .post(`/api/whatsapp`,
+            .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                // phoneNumber: `51982752688@c.us`,
+                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
+                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
+
+      if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
+        console.log('entramos al segundo contacto')
+
+        try {
+          axios
+            .post(`${URL_API}/message`,
+              {
+                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                // phoneNumber: `51982752688@c.us`,
+                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
+    }
+
+  }
+
   const studentArrivalTime = async (studentCode: string) => {
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
 
@@ -32,25 +79,33 @@ export const useAttendance = () => {
     }
   }
 
+  const getStudentDepartureManual = async (studentCode: string) => {
+    const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
+    const studentData = await getDoc(refData)
+    const currentlyHour = new Date()
+    if (studentData.exists()) {
+      dispatch({ type: AttendanceRegister.STUDENT_FOR_DEPARTURE, payload: studentData.data() })
+    }
+    // if (studentData.exists()) {
+    //   const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
+    // }
+
+  }
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
     dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: true })
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
-    const currentlyHour = new Date() 
+    const currentlyHour = new Date()
 
     const rta = () => {
-      if(currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15 ){
+      if (currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15) {
         return true
-      }else return false
+      } else return false
     }
     console.log('rta', rta())
     if (studentData.exists()) {//primero verifico si la data existe
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
-      // const testspice = Data.slice(0,5)
-      // console.log('resultado de memoria',Data.slice(0,5))
-      // console.log('ver como resultado de una constante',testspice)
-      // console.log('ver si se modifica la data o solo lo hace en memoria',Data)
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
       if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
         try {
@@ -84,11 +139,16 @@ export const useAttendance = () => {
           console.log('error', error)
         }
       }
-      dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0,5) })
+      dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0, 5) })
       dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
     }
-
   }
-  return { getStudentData, studentArrivalTime }
+  const activeDepartureManualModal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL, payload: !value })
+  }
+  const confirmationDepartureModal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL, payload: !value })
+  }
+  return { getStudentData, studentArrivalTime, activeDepartureManualModal, getStudentDepartureManual, confirmationDepartureModal, studentDepartureTime }
 }
 

@@ -11,13 +11,14 @@ import { FaUserAlt } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
 import AttendanceEmployeeModal from '@/Modals/attendanceEmployeeModal'
 import useAttendanceEmployee from '@/features/hooks/useAttendanceEmployee'
+import DepartureStudentModal from '@/Modals/departureStudentModal'
 const Asistencia = () => {
   const initialState = { studentCode: "" }
   const { getUserData } = useAuthentication()
   const [studenCode, setStudenCode] = useState(initialState)
-  const { getStudentData, studentArrivalTime } = useAttendance()
+  const { getStudentData, studentArrivalTime, activeDepartureManualModal } = useAttendance()
   const { employeeModal } = useAttendanceEmployee()
-  const { studentsData, userData, loadingGetStudents, activeEmployeeModal } = useGlobalContext()
+  const { studentsData, userData, loadingGetStudents, activeEmployeeModal, showDepartureManualModal } = useGlobalContext()
   const focusRef = useRef<HTMLInputElement>(null)
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
@@ -41,10 +42,15 @@ const Asistencia = () => {
     getUserData()
 
   }, [])
-console.log('activeEmployeeModal', activeEmployeeModal)
+  console.log('activeEmployeeModal', activeEmployeeModal)
   return (
     <div className='p-2'>
-      <div className='flex xs:hidden justify-end'>
+      {/* <div className='flex xs:hidden justify-start'>
+      </div> */}
+      <div className='flex xs:hidden justify-between'>
+        <div onClick={() => activeDepartureManualModal(showDepartureManualModal)} className='bg-red-400 text-white p-1 rounded-sm cursor-pointer'>
+          <p className='text-white font-semibold uppercase'>sm</p>
+        </div>
         <div onClick={() => employeeModal(activeEmployeeModal)} className='bg-blue-400 text-white p-1 rounded-sm cursor-pointer'>
           <FaUserTie className='text-lg' />
         </div>
@@ -52,6 +58,11 @@ console.log('activeEmployeeModal', activeEmployeeModal)
       {
         activeEmployeeModal ?
           <AttendanceEmployeeModal />
+          : null
+      }
+      {
+        showDepartureManualModal ?
+          <DepartureStudentModal />
           : null
       }
       <div>
