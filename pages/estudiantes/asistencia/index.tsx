@@ -44,7 +44,7 @@ const Asistencia = () => {
 console.log('activeEmployeeModal', activeEmployeeModal)
   return (
     <div className='p-2'>
-      <div className='flex justify-end'>
+      <div className='flex xs:hidden justify-end'>
         <div onClick={() => employeeModal(activeEmployeeModal)} className='bg-blue-400 text-white p-1 rounded-sm cursor-pointer'>
           <FaUserTie className='text-lg' />
         </div>

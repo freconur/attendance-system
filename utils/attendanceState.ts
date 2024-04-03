@@ -15,15 +15,25 @@ export const attendanceState = (attendance?: string) => {
 export const attendanceDepartureTime = (attendance?: string) => {
   if (attendance) {
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
+      console.log('ingreso')
       return { attendance: true, departure: false } as AttendanceDepartureTime
     } else if (attendance[0].toString() === "0" && attendance[1].toString() === "6") {
+      console.log('ingreso')
+      return { attendance: true, departure: false } as AttendanceDepartureTime
+    } else if (attendance[0].toString() === "0" && attendance[1].toString() === "8") {
+      console.log('ingreso')
       return { attendance: true, departure: false } as AttendanceDepartureTime
     } else if (attendance === "14") {
+      console.log('salida')
       return { attendance: false, departure: true } as AttendanceDepartureTime
     }else if (attendance === "13") {
-      return { departure: false, attendance: true } as AttendanceDepartureTime
+      console.log('salida')
+
+      return { departure: true, attendance: false } as AttendanceDepartureTime
     }else if (attendance === "15") {
-      return { departure: false, attendance: true } as AttendanceDepartureTime
+      console.log('salida')
+
+      return { departure: true, attendance: false } as AttendanceDepartureTime
     }else {
       return
     }

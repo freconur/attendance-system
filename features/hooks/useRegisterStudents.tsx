@@ -1,6 +1,6 @@
 import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext'
 import { app } from '@/firebase/firebaseConfig'
-import { collection, doc, getDocs, getFirestore, orderBy, query, setDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, getFirestore, orderBy, query, setDoc, updateDoc } from 'firebase/firestore'
 import { Grades, Section, StudentData, UserData } from '../types/types'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -74,7 +74,30 @@ const UseRegisterStudents = () => {
       if (pictureProfileUrl) dispatch({ type: AttendanceRegister.PICTURE_PROFILE_URL, payload: pictureProfileUrl })
     }
   }
-  return { registerNewStudent, getSections, getGrades, sendPictureProfile }
+
+  const updateStudentData = (value:boolean) => {
+    dispatch({type:AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL, payload:!value})
+  }
+
+const updateStudent = async (data:StudentData) => {
+  const studentRef = doc(db, `/intituciones/${userData?.idInstitution}/students`, data.dni as string);
+
+// Set the "capital" field of the city 'DC'
+const dataStudent = {
+  dni:data.dni,
+  name:data.name,
+  lastname:data.lastname,
+  firstname:data.firstname,
+  firstContact:data.firstContact,
+  secondContact:data.secondContact,
+  firstNumberContact:data.firstNumberContact,
+  secondNumberContact:data.secondNumberContact,
+  grade:data.grade,
+}
+await updateDoc(studentRef, dataStudent);
+}
+
+  return { registerNewStudent, getSections, getGrades, sendPictureProfile,updateStudentData, updateStudent }
 }
 
 export default UseRegisterStudents
