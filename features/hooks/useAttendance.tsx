@@ -36,6 +36,14 @@ export const useAttendance = () => {
     dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: true })
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
+    const currentlyHour = new Date() 
+
+    const rta = () => {
+      if(currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15 ){
+        return true
+      }else return false
+    }
+    console.log('rta', rta())
     if (studentData.exists()) {//primero verifico si la data existe
       studentArrivalTime(studentCode)
       Data?.unshift(studentData.data())
@@ -50,9 +58,10 @@ export const useAttendance = () => {
             // .post(`/api/whatsapp`,
             .post(`${URL_API}/message`,
               {
-                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-                phoneNumber: `51982752688@c.us`,
-                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                // phoneNumber: `51982752688@c.us`,
+                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
               })
         } catch (error) {
           console.log('error', error)
@@ -66,9 +75,10 @@ export const useAttendance = () => {
           axios
             .post(`${URL_API}/message`,
               {
-                // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                phoneNumber: `51982752688@c.us`,
-                message: `Sr.(a). ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, acaba de ingresar al colegio a las ${dateConvertObjectStudent(new Date())}.`
+                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                // phoneNumber: `51982752688@c.us`,
+                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
               })
         } catch (error) {
           console.log('error', error)
