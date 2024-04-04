@@ -58,7 +58,7 @@ const AttendanceEmployeeModal = () => {
           <div className='w-full p-1 mt-2'>
             <input
               onChange={onChangeCodeEmployee}
-              type="text"
+              type="number"
               value={codeEmployee.employee}
               name="employee"
               className='w-full rounded-md border-[1px] p-3 shadow-md focus:border-sky-500 focus:ring-[0.5] focus:ring-sky-500 focus:outline-none'

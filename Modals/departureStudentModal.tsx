@@ -67,7 +67,7 @@ const DepartureStudentModal = () => {
                 value={studenCode.studentCode}
                 onChange={onChangeStudentCode}
                 name="studentCode"
-                type="text"
+                type="number"
                 className='w-full p-3 outline-none shadow-md rounded-md'
                 placeholder='escanea o digita el codigo' />
             </div>
