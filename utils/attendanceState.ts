@@ -2,8 +2,13 @@ import { AttendanceDepartureTime } from "@/features/types/types"
 
 export const attendanceState = (attendance?: string) => {
   if (attendance) {
+    const minutes = Number(`${attendance[3].concat(attendance[4])}`)
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
-      return true
+      if(minutes <= 30){
+        return true
+      }else {
+        return false
+      }
     } else if (attendance[0].toString() === "0" && attendance[1].toString() === "6") {
       return true
     } else {

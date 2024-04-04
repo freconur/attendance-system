@@ -96,9 +96,6 @@ const AttendanceRegister = () => {
     }
   }
 
-  // console.log('startDate.date()', startDate.date())
-  // console.log('startDate.month()', monthToString(startDate.month()))
-  // console.log('studentsByGrade', studentsByGrade)
   return (
     <div className='relative p-2'>
       {justificacionMotivoModal ?
