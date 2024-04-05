@@ -86,7 +86,8 @@ const ResumenAsistencia = () => {
 
       </div>
 
-      <div className='w-full m-auto hidden md:block' ref={pdfRef}>
+      {/* <div className='w-full m-auto hidden md:block' ref={pdfRef}> */}
+      <div className='w-full m-auto ' ref={pdfRef}>
         <div className='max-w-[1002px] m-auto flex justify-between'>
           <h3 className='text-xl text-slate-500 uppercase text-center mb-5'>asistencia de <span className='font-semibold'>{studentData.name} {studentData.lastname} {studentData.firstname}</span></h3>
           <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>

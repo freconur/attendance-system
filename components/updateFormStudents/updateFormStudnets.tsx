@@ -119,7 +119,7 @@ const UpdateFormStudnets = ({ grades, student, onChangeItem }: Props) => {
             {
               grades?.map((grade, index) => {
                 return (
-                  <option value={grade.grade}>{grade.traditionalGrade}</option>
+                  <option key={index} value={grade.grade}>{grade.traditionalGrade}</option>
                 )
               })
             }
