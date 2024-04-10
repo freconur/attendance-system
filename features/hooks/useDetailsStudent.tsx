@@ -2,7 +2,7 @@ import { collection, getDocs, getFirestore } from 'firebase/firestore'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { app } from '../../firebase/firebaseConfig';
 import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext';
-import { currentMonth, currentYear, getDayFromDate, getDayFromDateFalta, hoursUnixDateForDetailStudent, transformMonthToEnglish } from '@/dates/date';
+import { currentMonth, currentYear, getDayFromDate, getDayFromDateFalta, hoursUnixDateForDetailStudent, hoursUnixDateForDetailStudentWithoutArrivalTime, transformMonthToEnglish } from '@/dates/date';
 
 
 const useDetailsStudents = () => {
@@ -21,8 +21,10 @@ const useDetailsStudents = () => {
         arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
       } else if (doc.data().falta) {
         arrivalTimeFromStudent.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+      } else if (!doc.data().arrivalTime && doc.data().departure) {
+        //entra a esta condicional cuando soloregsitro la salida y no su ingreso
+        arrivalTimeFromStudent.push(hoursUnixDateForDetailStudentWithoutArrivalTime(doc.data().departure))
       } else {
-        console.log('estamos en la tercera')
         arrivalTimeFromStudent.push(hoursUnixDateForDetailStudent(doc.data().arrivalTime, doc.data().departure))
 
       }

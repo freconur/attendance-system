@@ -110,18 +110,18 @@ export const hoursUnixDate = (date: Date) => {
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
-export const hoursUnixDateForDetailStudent = (date: Date, dateDepure?: Date) => {
+export const hoursUnixDateForDetailStudent = (date: Date, dateDeparture?: Date) => {
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
-  const hourSecondsDeparture = new Date(Number(dateDepure?.toString().slice(18, 28)) * 1000)
+  const hourSecondsDeparture = new Date(Number(dateDeparture?.toString().slice(18, 28)) * 1000)
 
   // console.log('hourSecondsksk', hourSeconds)
   if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
     const detailsPerDayOfStudent = {
       day: days[hourSeconds.getDay()],
       date: `${hourSeconds.getDate()}`,
-      attendance: `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`,
+      attendance: hourSeconds.getHours() ? `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}` : "sin registro",
       departure: hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
     }
     return detailsPerDayOfStudent
@@ -132,6 +132,34 @@ export const hoursUnixDateForDetailStudent = (date: Date, dateDepure?: Date) => 
       day: days[fecha.getDay()],
       date: `${fecha.getDate()}`,
       attendance: `${fecha.getHours().toString().padStart(2, "0")}:${fecha.getMinutes().toString().padStart(2, "0")}:${fecha.getSeconds().toString().padStart(2, "0")}${fecha.getHours() < 12 ? "am" : "pm"}`,
+      departure: hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
+    }
+    return detailsPerDayOfStudent
+  }
+}
+
+export const hoursUnixDateForDetailStudentWithoutArrivalTime = (dateDeparture: Date) => {
+  const seconds = dateDeparture?.toString().slice(18, 28)
+  const nanoseconds = dateDeparture?.toString().slice(42, 49)
+  const hourSeconds = new Date(Number(dateDeparture?.toString().slice(18, 28)) * 1000)
+  const hourSecondsDeparture = new Date(Number(dateDeparture?.toString().slice(18, 28)) * 1000)
+
+  // console.log('hourSecondsksk', hourSeconds)
+  if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
+    const detailsPerDayOfStudent = {
+      day: days[hourSeconds.getDay()],
+      date: `${hourSeconds.getDate()}`,
+      attendance: `sin registro`,
+      departure: hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
+    }
+    return detailsPerDayOfStudent
+  } else {
+    const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
+    const fecha = new Date(rta)
+    const detailsPerDayOfStudent = {
+      day: days[fecha.getDay()],
+      date: `${fecha.getDate()}`,
+      attendance: `sin registro`,
       departure: hourSecondsDeparture.getHours() ? `${hourSecondsDeparture.getHours().toString().padStart(2, "0")}:${hourSecondsDeparture.getMinutes().toString().padStart(2, "0")}:${hourSecondsDeparture.getSeconds().toString().padStart(2, "0")}${hourSecondsDeparture.getHours() < 12 ? "am" : "pm"}` : "sin registro",
     }
     return detailsPerDayOfStudent
