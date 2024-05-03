@@ -42,6 +42,8 @@ const initialState: Student = {
   showDepartureManualModal:false,
   studentforDeparture:{},
   confirmationDepartureStudentModal:false,
+  studentTaller:{},
+  studentTallerLoader:false
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

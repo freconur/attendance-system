@@ -17,7 +17,6 @@ const MisProductos = () => {
       valideteMyProducts()
     }
   }, [userData.name])
-  console.log('validateMyProducts', validateMyProducts)
   return (
     <div className='w-full flex justify-center items-center'>
       <div className='my-10'>
@@ -48,10 +47,17 @@ const MisProductos = () => {
             <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>notas</h2>
           </div>
           <div>
-            <Link href="/mis-productos" className='bg-gray-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
-              <MdOutlineFastfood className='text-white text-[90px]' />
-            </Link>
-            <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>comedor</h2>
+            {validateMyProducts.comedor ?
+              <Link href="/talleres/asistencia" className='bg-yellow-400 hover:bg-yellow-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
+                <MdOutlineFastfood className='text-white text-[90px]' />
+              </Link>
+
+              :
+              <Link href="/mis-productos" className='bg-gray-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
+                <MdOutlineFastfood className='text-white text-[90px]' />
+              </Link>
+            }
+            <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>talleres</h2>
           </div>
           <div>
             {

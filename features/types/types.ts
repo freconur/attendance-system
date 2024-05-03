@@ -77,7 +77,9 @@ export type Student = {
   updateStudentConfirmationModal:boolean,
   showDepartureManualModal:boolean,
   studentforDeparture:StudentData,
-  confirmationDepartureStudentModal:boolean
+  confirmationDepartureStudentModal:boolean,
+  studentTaller: StudentData,
+  studentTallerLoader:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -183,6 +185,8 @@ export type AttendanceAction =
   | { type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL; payload: boolean}
   | { type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL; payload: boolean}
   | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean}
+  | { type: AttendanceRegister.GET_STUDENT_TALLER; payload: StudentData}
+  | { type: AttendanceRegister.STUDENT_TALLER_LOADER; payload: boolean}
 
   
 

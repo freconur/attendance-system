@@ -117,7 +117,6 @@ const useAttendanceEmployee = () => {
     const employeeAttendanceData = await getDoc(arrivalTimeRef)
     if (employeeData.exists()) {//verificando si el usuario existe en la base de datos
       // employeeArrivalTime(employee)
-      console.log('si existe el empleado, trabajor o auxiliar')
       if (employeeAttendanceData.exists()) {//verificando si el usuario ya registro su ingreso para luego condicionar si registrara el ingreso o salida
         if (employeeAttendanceData.data().arrivalTime && employeeAttendanceData.data().departureTime === undefined) {
           //aqui deberia de verificar mediante una funcion para validar que no se haya marcado por error la hora de salida en caso haga una doble registro de ingreso.

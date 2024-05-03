@@ -3,6 +3,7 @@ import useSidebarState from "@/features/hooks/useSidebarState";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RiBarChart2Fill, RiArrowLeftSLine } from "react-icons/ri";
+import SidebarTalleres from "./sidebarTalleres";
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -94,6 +95,7 @@ const SidebarList = () => {
           : null
       }
 
+      <SidebarTalleres pathname={route.pathname} />
       {/* <h3 claselsName="uppercase text-slate-500 font-semibold text-left pl-10 my-3">Mis productos</h3> */}
       <ul className='capitalize p-1 font-comfortaa px-2 border-t-[1px]'>
         <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-go-3 hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">

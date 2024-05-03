@@ -16,7 +16,7 @@ export const useAttendance = () => {
   const { userData } = useGlobalContext()
 
 
-  const studentDepartureTime = async(studentCode:string, motivoSalida:string) => {
+  const studentDepartureTime = async (studentCode: string, motivoSalida: string) => {
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student/${studentCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
@@ -149,6 +149,40 @@ export const useAttendance = () => {
   const confirmationDepartureModal = (value: boolean) => {
     dispatch({ type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL, payload: !value })
   }
-  return { getStudentData, studentArrivalTime, activeDepartureManualModal, getStudentDepartureManual, confirmationDepartureModal, studentDepartureTime }
+
+  //////////////////////////////////////////////////ASISTENCIA DE TALLERES///////////////////////////////////////////////
+  const attendanceArrivalStudentsTalleres = async (dni: string) => {
+    dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: true })
+    const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-student-talleres/${dni}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
+
+    const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, `${dni}`)
+    const currentHour = new Date()
+
+    const studentData = await getDoc(refData)
+    const studentAttendanceData = await getDoc(arrivalTimeRef)
+
+    if (studentData.exists()) {
+      console.log('existe el estudiante')
+      if (studentAttendanceData.exists()) {
+        if (studentAttendanceData.data().arrivalTime && studentAttendanceData.data().departureTime === undefined) {
+          await setDoc(arrivalTimeRef, { departureTime: currentHour, manualAttendance: true }, { merge: true })
+        } else if (studentAttendanceData.data().arrivalTime === undefined) {
+          await setDoc(arrivalTimeRef, { arrivalTime: currentHour, manualAttendance: true })
+          dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: false })
+        } else { console.log('no se hace nada') }
+      } else {
+        await setDoc(arrivalTimeRef, { arrivalTime: currentHour, manualAttendance: true })
+      }
+      dispatch({ type: AttendanceRegister.GET_STUDENT_TALLER, payload: studentData.data() })
+      dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: false })
+    }else {
+      dispatch({ type: AttendanceRegister.GET_STUDENT_TALLER, payload: {} })
+      dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: false })
+      
+    }
+  }
+  //////////////////////////////////////////////////ASISTENCIA DE TALLERES///////////////////////////////////////////////
+
+  return { attendanceArrivalStudentsTalleres, getStudentData, studentArrivalTime, activeDepartureManualModal, getStudentDepartureManual, confirmationDepartureModal, studentDepartureTime }
 }
 
