@@ -52,7 +52,7 @@ export const useAttendance = () => {
             .post(`${URL_API}/v1/messages`,
               {
                 // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                number: `51${studentData.data().firstNumberContact}`,
+                number: `51${studentData.data().secondNumberContact}`,
                 // phoneNumber: `51982752688@c.us`,
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
                 message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
@@ -101,7 +101,7 @@ export const useAttendance = () => {
     const currentlyHour = new Date()
 
     const rta = () => {
-      if (currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15) {
+      if (currentlyHour.getHours() === 12 || currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15) {
         return true
       } else return false
     }
@@ -135,9 +135,9 @@ export const useAttendance = () => {
             .post(`${URL_API}/v1/messages`,
               {
                 // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                number: `51${studentData.data().firstNumberContact}`,
+                number: `51${studentData.data().secondNumberContact}`,
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
               })
         } catch (error) {
           console.log('error', error)

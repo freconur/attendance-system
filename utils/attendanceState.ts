@@ -39,6 +39,10 @@ export const attendanceDepartureTime = (attendance?: string) => {
       console.log('salida')
 
       return { departure: true, attendance: false } as AttendanceDepartureTime
+    }else if (attendance === "12") {
+      console.log('salida')
+
+      return { departure: true, attendance: false } as AttendanceDepartureTime
     }else {
       return
     }
