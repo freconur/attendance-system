@@ -9,7 +9,8 @@ import axios from 'axios'
 import { attendanceDepartureTime, attendanceState } from "@/utils/attendanceState";
 const db = getFirestore(app)
 // const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
-const URL_API = "https://whatsapp-api-production-2059.up.railway.app"
+// const URL_API = "https://whatsapp-api-production-2059.up.railway.app"
+const URL_API = "https://chatbot-typescript-miguel-production.up.railway.app"
 
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
@@ -30,9 +31,10 @@ export const useAttendance = () => {
         try {
           axios
             // .post(`/api/whatsapp`,
-            .post(`${URL_API}/message`,
+            .post(`${URL_API}/v1/messages`,
               {
-                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                number: `51${studentData.data().firstNumberContact}`,
                 // phoneNumber: `51982752688@c.us`,
                 message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
@@ -47,12 +49,13 @@ export const useAttendance = () => {
 
         try {
           axios
-            .post(`${URL_API}/message`,
+            .post(`${URL_API}/v1/messages`,
               {
-                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                number: `51${studentData.data().firstNumberContact}`,
                 // phoneNumber: `51982752688@c.us`,
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
+                message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname} ${studentData.data().firstname}, 'acaba de retirar del colegio a las' ${dateConvertObjectStudent(currentlyHour)}. Motivo: ${motivoSalida}`
               })
         } catch (error) {
           console.log('error', error)
@@ -111,9 +114,10 @@ export const useAttendance = () => {
         try {
           axios
             // .post(`/api/whatsapp`,
-            .post(`${URL_API}/message`,
+            .post(`${URL_API}/v1/messages`,
               {
-                phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                number: `51${studentData.data().firstNumberContact}`,
                 // phoneNumber: `51982752688@c.us`,
                 message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
@@ -128,10 +132,10 @@ export const useAttendance = () => {
 
         try {
           axios
-            .post(`${URL_API}/message`,
+            .post(`${URL_API}/v1/messages`,
               {
-                phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                // phoneNumber: `51982752688@c.us`,
+                // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                number: `51${studentData.data().firstNumberContact}`,
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
                 message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
               })

@@ -13,6 +13,7 @@ const EstudentsRegister = () => {
   const { getUserData } = useAuthentication()
   const [gradeValue, setGradeValue] = useState(0)
   const [seccionActive, setSeccionActive] = useState<boolean>()
+  
   const handleSubmitform = handleSubmit(data => {
     registerNewStudent(data, pictureProfileUrl)
     reset()

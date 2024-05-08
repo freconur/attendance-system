@@ -4,6 +4,25 @@ export type AuthProviderProps = {
   children: React.ReactNode
 }
 
+export interface PicturesTareasArray {
+  url:string
+}
+export interface Cursos {
+  name?:string,
+  id?:string,
+  identificador?:string
+}
+export interface DateTarea {
+  year:number,
+  month:number,
+  date:number
+}
+export interface TareasPrev {
+  curso?:string,
+  grade?:string,
+  observaciones?:string,
+
+}
 export interface TypesEmployee {
   code?:number,
   name?:string
@@ -79,7 +98,9 @@ export type Student = {
   studentforDeparture:StudentData,
   confirmationDepartureStudentModal:boolean,
   studentTaller: StudentData,
-  studentTallerLoader:boolean
+  studentTallerLoader:boolean,
+  cursos:Cursos[],
+  pictureTareas:PicturesTareasArray[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -187,6 +208,8 @@ export type AttendanceAction =
   | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean}
   | { type: AttendanceRegister.GET_STUDENT_TALLER; payload: StudentData}
   | { type: AttendanceRegister.STUDENT_TALLER_LOADER; payload: boolean}
+  | { type: AttendanceRegister.GET_CURSOS; payload: Cursos[]}
+  | { type: AttendanceRegister.PICTURE_TAREAS; payload: PicturesTareasArray[]}
 
   
 
