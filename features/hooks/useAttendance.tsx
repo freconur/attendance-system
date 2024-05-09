@@ -122,27 +122,43 @@ export const useAttendance = () => {
                 message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
               })
-        } catch (error) {
-          console.log('error', error)
-        }
-      }
-
-      if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
-        console.log('entramos al segundo contacto')
-
-        try {
-          axios
-            .post(`${URL_API}/v1/messages`,
-              {
-                // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                number: `51${studentData.data().secondNumberContact}`,
-                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-                message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+              .then( r => {
+                if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9){
+                  try {
+                    axios
+                    .post(`${URL_API}/v1/messages`,
+                      {
+                        // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+                        number: `51${studentData.data().secondNumberContact}`,
+                        // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                        message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                      })
+                  }catch (error){
+                    console.log('error', error)
+                  }
+                }
               })
         } catch (error) {
           console.log('error', error)
         }
       }
+
+      // if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
+      //   console.log('entramos al segundo contacto')
+
+      //   try {
+      //     axios
+      //       .post(`${URL_API}/v1/messages`,
+      //         {
+      //           // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
+      //           number: `51${studentData.data().secondNumberContact}`,
+      //           // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+      //           message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+      //         })
+      //   } catch (error) {
+      //     console.log('error', error)
+      //   }
+      // }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0, 5) })
       dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
     }
