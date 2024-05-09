@@ -10,7 +10,8 @@ import { attendanceDepartureTime, attendanceState } from "@/utils/attendanceStat
 const db = getFirestore(app)
 // const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 // const URL_API = "https://whatsapp-api-production-2059.up.railway.app"
-const URL_API = "https://chatbot-typescript-miguel-production.up.railway.app"
+const URL_API = "https://whatsapp-asistencia-production.up.railway.app"
+// const URL_API = "https://chatbot-typescript-miguel-production.up.railway.app"
 
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
