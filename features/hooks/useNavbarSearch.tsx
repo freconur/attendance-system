@@ -9,7 +9,7 @@ const useNavbarSearch = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
-  
+
   const searchStudent = async (dni: string) => {
     const studentRef = doc(db, `/intituciones/${userData.idInstitution}/students`, dni);
     const studentSnap = await getDoc(studentRef);
@@ -37,7 +37,21 @@ const useNavbarSearch = () => {
       dispatch({ type: AttendanceRegister.DATA_EMPLOYEE, payload: employeeSnap.data() })
     }
   }
-  return { searchStudent, closeSearchStudent, cleanSearchStudent,dataStudent,dataEmployee }
+  const dataEmployeeConsulta = async (dni: string, idInstitution: string) => {
+    const employeeRef = doc(db, `/intituciones/${idInstitution}/employee`, dni);
+    const employeeSnap = await getDoc(employeeRef);
+    if (employeeSnap.exists()) {
+      dispatch({ type: AttendanceRegister.DATA_EMPLOYEE, payload: employeeSnap.data() })
+    }
+  }
+  const dataEstudianteConsulta = async (dni: string, idInstitution: string) => {
+    const studentsRef = doc(db, `/intituciones/${idInstitution}/students`, dni);
+    const studentsSnap = await getDoc(studentsRef);
+    if (studentsSnap.exists()) {
+      dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentsSnap.data() })
+    }
+  }
+  return { searchStudent, dataEstudianteConsulta, dataEmployeeConsulta, closeSearchStudent, cleanSearchStudent, dataStudent, dataEmployee }
 }
 
 export default useNavbarSearch

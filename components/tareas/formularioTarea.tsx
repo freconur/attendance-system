@@ -17,7 +17,7 @@ const FormularioTarea = () => {
   const { sections, grades, pictureTareas, userData, cursos } = useGlobalContext()
   const { getUserData } = useAuthentication()
   const [gradeValue, setGradeValue] = useState(0)
-  const { getCursos, sendPictureTareas, addNuevaTarea } = useTareas()
+  const { getCursosDocente, sendPictureTareas, addNuevaTarea } = useTareas()
   const [startDate, setStartDate] = useState(dayjs());
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023)));
   const handleSubmitForm = handleSubmit(data => {
@@ -36,7 +36,7 @@ const FormularioTarea = () => {
     getUserData()
     if (userData) {
       getGrades()
-      getCursos()
+      getCursosDocente()
     }
   }, [userData.name])
   // console.log('startDate', startDate.date().toString().padStart(2,"0"), startDate.month(), startDate.year())
@@ -85,7 +85,8 @@ const FormularioTarea = () => {
             {
               cursos?.map((curso, index) => {
                 return (
-                  <option className='uppercase text-slate-500' key={index} value={curso.id}>{curso.identificador}-{curso.id} {curso.name}</option>
+                  // <option className='uppercase text-slate-500' key={index} value={curso.id}>{curso.identificador}-{curso.id} {curso.name}</option>
+                  <option className='uppercase text-slate-500' key={index} value={curso}>{curso}</option>
                 )
               })
             }

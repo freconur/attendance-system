@@ -14,7 +14,7 @@ const useAuthentication = () => {
     const refUser = doc(db, 'users', id as string)
     const user = await getDoc(refUser)
 
-    // console.log('users', user.)
+    console.log('users', user.data())
     if (user.exists()) {
       dispatch({
         type: AttendanceRegister.USER_DATA, payload: {

@@ -5,7 +5,7 @@ import useAuthentication from '@/features/hooks/useAuthentication'
 import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
 import React, { useEffect } from 'react'
 
-const Tareas = () => {
+const ProfesoresTareas = () => {
   // const { registerNewStudent, getSections, getGrades, sendPictureProfile } = UseRegisterStudents()
   // const { sections, grades, pictureProfileUrl, userData } = useGlobalContext()
   // const { getUserData } = useAuthentication()
@@ -27,5 +27,5 @@ const Tareas = () => {
   )
 }
 
-export default Tareas
-Tareas.Auth = PrivateRoutes
+export default ProfesoresTareas
+ProfesoresTareas.Auth = PrivateRoutes

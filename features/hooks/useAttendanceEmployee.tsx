@@ -149,7 +149,6 @@ const useAttendanceEmployee = () => {
 
   }
 
-
   const attendanceEmployee = async (dni: string) => {
     const docRef = doc(db, `/intituciones/${userData.idInstitution}/employee/`, `${dni}`);
     console.log('dni', dni)
@@ -202,8 +201,41 @@ const useAttendanceEmployee = () => {
     }
   }
 
+  const getDetailAttendanceEmployeeConsultas = async (dni: string, month: string, id:string) => {
+    const querySnapshot = await getDocs(collection(db, `/intituciones/${id}/attendance-employee/${dni}/${currentYear()}/${month}/${month}`));
+    const arrivalTimeFromEmployee: any = []
+
+    querySnapshot.forEach((doc) => {
+      if (doc.data().justification) {
+        arrivalTimeFromEmployee.push(getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+      } else if (doc.data().falta) {
+        arrivalTimeFromEmployee.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+      } else {
+        console.log('estamos en la tercera')
+        arrivalTimeFromEmployee.push(hoursUnixDateForDetailStudent(doc.data().arrivalTime, doc.data().departureTime))
+
+      }
+    })
+    if (arrivalTimeFromEmployee) {
+      arrivalTimeFromEmployee.sort((a: any, b: any) => {
+        const fe = Number(a?.date)
+        const se = Number(b?.date)
+        if (fe > se) {
+          return 1;
+        }
+        if (fe < se) {
+          return -1;
+        }
+        return 0;
+      })
+      // console.log('arrivalTimeFromEmployee', arrivalTimeFromEmployee)
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE, payload: arrivalTimeFromEmployee })
+
+    }
+  }
+
   
-  return { employeeModal, registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee }
+  return { employeeModal, registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee, getDetailAttendanceEmployeeConsultas }
 }
 
 export default useAttendanceEmployee

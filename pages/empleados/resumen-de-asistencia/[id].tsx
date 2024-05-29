@@ -109,35 +109,35 @@ const ResumenDeAsistencia = () => {
         </div>
         <h3 className='text-xl block md:hidden text-slate-500 uppercase text-left mb-5'>asistencia de <span className='font-semibold'>{employeeData?.name} {employeeData?.lastname}</span></h3>
         <table className='w-[100%] md:w-[90%] shadow-md mt-5 m-auto'>
-        <thead className='bg-blue-100 border-b-2 border-gray-200 '>
-          <tr className="text-slate-600 capitalize font-nunito ">
-            <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">dia</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
-            <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100 bg-white">
-          {
-            resumenAttendanceEmployee?.map((item) => {
-              return (
-                <tr key={item?.date} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer w-full'>
-                  <td className='text-sm text-center'>{item?.date}</td>
-                  <td className='uppercase text-sm text-center'>{item?.day}</td>
-                  <td className='text-center text-sm'>{item?.attendance}</td>
-                  <td className='text-center'>{item?.departure}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
-      {
-        resumenAttendanceEmployee.length > 0 ?
-          null
-          :
-          <><p className='text-center p-5 text-slate-400'>no existe registros de este mes</p></>
-      }
+          <thead className='bg-blue-100 border-b-2 border-gray-200 '>
+            <tr className="text-slate-600 capitalize font-nunito ">
+              <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">dia</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
+              <th className="py-3 md:p-2 text-sm text-center uppercase">salida</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 bg-white">
+            {
+              resumenAttendanceEmployee?.map((item) => {
+                return (
+                  <tr key={item?.date} className='text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer w-full'>
+                    <td className='text-sm text-center'>{item?.date}</td>
+                    <td className='uppercase text-sm text-center'>{item?.day}</td>
+                    <td className='text-center text-sm'>{item?.attendance}</td>
+                    <td className='text-center'>{item?.departure}</td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+        {
+          resumenAttendanceEmployee.length > 0 ?
+            null
+            :
+            <><p className='text-center p-5 text-slate-400'>no existe registros de este mes</p></>
+        }
       </div>
     </div>
   )

@@ -7,6 +7,12 @@ export type AuthProviderProps = {
 export interface PicturesTareasArray {
   url:string
 }
+export interface tareasPorDia {
+  fechaDeEntrega?:Date,
+  observaciones?:string,
+  pictures?:PicturesTareasArray[],
+  id?:string
+} 
 export interface Cursos {
   name?:string,
   id?:string,
@@ -99,8 +105,9 @@ export type Student = {
   confirmationDepartureStudentModal:boolean,
   studentTaller: StudentData,
   studentTallerLoader:boolean,
-  cursos:Cursos[],
-  pictureTareas:PicturesTareasArray[]
+  cursos:string[],
+  pictureTareas:PicturesTareasArray[],
+  getAllTareas:tareasPorDia[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -208,8 +215,9 @@ export type AttendanceAction =
   | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean}
   | { type: AttendanceRegister.GET_STUDENT_TALLER; payload: StudentData}
   | { type: AttendanceRegister.STUDENT_TALLER_LOADER; payload: boolean}
-  | { type: AttendanceRegister.GET_CURSOS; payload: Cursos[]}
+  | { type: AttendanceRegister.GET_CURSOS; payload: string[]}
   | { type: AttendanceRegister.PICTURE_TAREAS; payload: PicturesTareasArray[]}
+  | { type: AttendanceRegister.GET_ALL_TAREAS; payload: tareasPorDia[]}
 
   
 

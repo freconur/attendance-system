@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import useAuthentication from '@/features/hooks/useAuthentication'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { app } from '@/firebase/firebaseConfig'
