@@ -38,10 +38,7 @@ export interface StudentData {
   secondContact?:string,
   firstNumberContact?:string,
   secondNumberContact?:string,
-  // nameFather?: string,
-  // nameMother?: string,
-  // numberFather?: string,
-  // numberMother?: string,
+  rol?:string,
   dni?: string,
   pictureProfile?: string,
   grade?: string,
@@ -107,7 +104,9 @@ export type Student = {
   studentTallerLoader:boolean,
   cursos:string[],
   pictureTareas:PicturesTareasArray[],
-  getAllTareas:tareasPorDia[]
+  getAllTareas:tareasPorDia[],
+  employeeDataSearch:{},
+  updateEmployeeConfirmationModal:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -160,9 +159,27 @@ export interface Employee {
   departureByDate?:string,
   manualAttendance?:boolean,
   phone?:string,
+  numberPhone?:string,
   currentlyHour?:string
 }
 
+export interface UpdateDataUser {
+  firstContact?:string,
+  secondContact?:string,
+  firstNumberContact?:string,
+  secondNumberContact?:string,
+  rol?:string,
+  dni?: string,
+  pictureProfile?: string,
+  grade?: string,
+  name?: string,
+  firstname?:string,
+  lastname?: string,
+  qr?: string,
+  section?: string,
+  numberPhone?:string,
+  cellPhone?: string,
+}
 export interface EmployeeAttendanceDeparture {
   arrivalTime?:string,
   departureTime?:string,
@@ -187,7 +204,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.SHOW_SIDEBAR; payload: boolean }
   | { type: AttendanceRegister.DATA_STUDENT_BY_SEARCH; payload: StudentData }
   | { type: AttendanceRegister.RESUME_ATTENDANCE_STUDENT; payload: DetailsPerDayOfStudent[] }
-  | { type: AttendanceRegister.DATA_STUDENT; payload: StudentData }
+  | { type: AttendanceRegister.DATA_STUDENT; payload: UpdateDataUser }
   | { type: AttendanceRegister.USER_DATA; payload: UserData }
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_MODAL; payload: boolean }
   | { type: AttendanceRegister.SHOW_JUSTIFICACION_FALTA_CONFIRMATION_MODAL; payload: boolean }
@@ -218,6 +235,8 @@ export type AttendanceAction =
   | { type: AttendanceRegister.GET_CURSOS; payload: string[]}
   | { type: AttendanceRegister.PICTURE_TAREAS; payload: PicturesTareasArray[]}
   | { type: AttendanceRegister.GET_ALL_TAREAS; payload: tareasPorDia[]}
+  | { type: AttendanceRegister.GET_EMPLOYEE_BY_SEARCH; payload: Employee}
+  | { type: AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL; payload: boolean}
 
   
 

@@ -15,8 +15,22 @@ const useNavbarSearch = () => {
     const studentSnap = await getDoc(studentRef);
     if (studentSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: studentSnap.data() })
+    } else {
+      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+      const employeeSnap = await getDoc(employeeRef);
+      if (employeeSnap.exists()) {
+        dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: employeeSnap.data() })
+      }
     }
   }
+  const searchEmployee = async (dni: string) => {
+    const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+    const employeeSnap = await getDoc(employeeRef);
+    if (employeeSnap.exists()) {
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE_BY_SEARCH, payload: employeeSnap.data() })
+    }
+  }
+
   const cleanSearchStudent = () => {
     dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: {} })
   }
@@ -28,6 +42,12 @@ const useNavbarSearch = () => {
     const studentSnap = await getDoc(studentRef);
     if (studentSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentSnap.data() })
+    } else {
+      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+      const employeeSnap = await getDoc(employeeRef);
+      if (employeeSnap.exists()) {
+        dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: employeeSnap.data() })
+      }
     }
   }
   const dataEmployee = async (dni: string) => {
@@ -51,7 +71,7 @@ const useNavbarSearch = () => {
       dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentsSnap.data() })
     }
   }
-  return { searchStudent, dataEstudianteConsulta, dataEmployeeConsulta, closeSearchStudent, cleanSearchStudent, dataStudent, dataEmployee }
+  return { searchStudent, dataEstudianteConsulta, dataEmployeeConsulta, searchEmployee, closeSearchStudent, cleanSearchStudent, dataStudent, dataEmployee }
 }
 
 export default useNavbarSearch

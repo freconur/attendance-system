@@ -1,25 +1,26 @@
 import { app } from "@/firebase/firebaseConfig"
-import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc, where } from "firebase/firestore"
 import { useGlobalContext, useGlobalContextDispatch } from "../context/GlobalContext"
-import { Employee, TypesEmployee } from "../types/types"
+import { Employee, TypesEmployee, UpdateDataUser } from "../types/types"
 import { AttendanceRegister } from "../actions/actionAttendance"
-import { currentDate, currentMonth, currentYear, currentlyHour, functionDateConvert, getDayFromDate, getDayFromDateFalta, hoursUnixDate, hoursUnixDateForDetailStudent, transformMonthToEnglish } from "@/dates/date"
+import { currentDate, currentMonth, currentYear, currentlyHour, dateConvertObjectStudent, functionDateConvert, getDayFromDate, getDayFromDateFalta, hoursUnixDate, hoursUnixDateForDetailStudent, transformMonthToEnglish } from "@/dates/date"
 import { attendanceDepartureTime } from "@/utils/attendanceState"
 import { validateDepartureTime } from "@/utils/validateRolEmployee"
+import axios from "axios"
 
 
 
 const useAttendanceEmployee = () => {
-
+  const URL_API = "https://whatsapp-asistencia-production.up.railway.app"
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
-  
 
-  const employeeModal = (value:boolean) => {
-    dispatch({type:AttendanceRegister.ACTIVE_EMPLOYEE_MODAL, payload:!value})
+
+  const employeeModal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL, payload: !value })
   }
-  const registerEmployee = async (data:Employee) => {
+  const registerEmployee = async (data: Employee) => {
     const employee = {
       name: data.name?.toLowerCase(),
       firstname: data.firstname?.toLowerCase(),
@@ -27,7 +28,7 @@ const useAttendanceEmployee = () => {
       rol: Number(data.rol),
       dni: data.dni,
       // phone: data.phone
-      }
+    }
     await setDoc(doc(db, `/intituciones/${userData.idInstitution}/employee`, `${data.dni}`), employee);
   }
   const getTypeEmployee = async () => {
@@ -121,6 +122,7 @@ const useAttendanceEmployee = () => {
         if (employeeAttendanceData.data().arrivalTime && employeeAttendanceData.data().departureTime === undefined) {
           //aqui deberia de verificar mediante una funcion para validar que no se haya marcado por error la hora de salida en caso haga una doble registro de ingreso.
           //1- primero me traigo el valor de arrivalTime
+          console.log('sin registro de entrada')
           const validateDataEmployee = { hour: hourAttendanDeparture.getHours(), min: hourAttendanDeparture.getMinutes() }
           const rta = validateDepartureTime(employeeAttendanceData.data()?.arrivalTime, validateDataEmployee)
 
@@ -131,19 +133,48 @@ const useAttendanceEmployee = () => {
 
           // await setDoc(arrivalTimeRef, { departureTime: hourAttendanDeparture, manualAttendance: true }, { merge: true })
         } else if (employeeAttendanceData.data().arrivalTime === undefined) {
+          //AQUI DEBERIA DE CREAR LA FUNCION QUE ENVIARA EL MENSAJE DE WHATSAPPP A LOS NUMEROS TELEFONICOS DE LOS PROFESORES.
+          console.log('sin registro de entrada')
+          try {
+            axios
+              .post(`${URL_API}/v1/messages`,
+                {
+                  // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                  number: `51${employeeData.data().numberPhone}`,
+                  // phoneNumber: `51982752688@c.us`,
+                  message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
+                  // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                })
+          } catch (error) {
+            console.log('error', error)
+          }
           await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
           dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
 
         } else console.log('ya no se hace nada')
       } else {
+        console.log('sin registro de entrada basico')
+        try {
+          axios
+            .post(`${URL_API}/v1/messages`,
+              {
+                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                number: `51${employeeData.data().numberPhone}`,
+                // phoneNumber: `51982752688@c.us`,
+                message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
+                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+              })
+        } catch (error) {
+          console.log('error', error)
+        }
         await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
       }
 
-      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: {...employeeData.data(), currentlyHour:currentlyHour(hourAttendanDeparture)} })
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: { ...employeeData.data(), currentlyHour: currentlyHour(hourAttendanDeparture) } })
       dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
 
     } else {
-      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: {...employeeData.data(), currentlyHour:currentlyHour(hourAttendanDeparture)} })
+      dispatch({ type: AttendanceRegister.GET_EMPLOYEE, payload: { ...employeeData.data(), currentlyHour: currentlyHour(hourAttendanDeparture) } })
       dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
     }
 
@@ -201,7 +232,7 @@ const useAttendanceEmployee = () => {
     }
   }
 
-  const getDetailAttendanceEmployeeConsultas = async (dni: string, month: string, id:string) => {
+  const getDetailAttendanceEmployeeConsultas = async (dni: string, month: string, id: string) => {
     const querySnapshot = await getDocs(collection(db, `/intituciones/${id}/attendance-employee/${dni}/${currentYear()}/${month}/${month}`));
     const arrivalTimeFromEmployee: any = []
 
@@ -234,8 +265,24 @@ const useAttendanceEmployee = () => {
     }
   }
 
-  
-  return { employeeModal, registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee, getDetailAttendanceEmployeeConsultas }
+  const confirmationUpdateEmployee = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL, payload: value })
+  }
+  const updateEmployee = async (data: UpdateDataUser) => {
+    const employeeRef = doc(db, `/intituciones/${userData?.idInstitution}/employee`, data.dni as string);
+    console.log('data', data)
+    // Set the "capital" field of the city 'DC'
+    const dataEmployee = {
+      dni: data.dni,
+      name: data.name,
+      lastname: data.lastname,
+      firstname: data.firstname,
+      rol: data.rol,
+      numberPhone: data.numberPhone ? data.numberPhone : ""
+    }
+    await updateDoc(employeeRef, dataEmployee);
+  }
+  return { confirmationUpdateEmployee, updateEmployee, employeeModal, registerEmployee, getTypeEmployee, getEmployees, attendanceEmployee, getEmployeeAndAttendance, getDetailAttendanceEmployee, getDetailAttendanceEmployeeConsultas }
 }
 
 export default useAttendanceEmployee
