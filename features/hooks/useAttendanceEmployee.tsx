@@ -135,6 +135,28 @@ const useAttendanceEmployee = () => {
         } else if (employeeAttendanceData.data().arrivalTime === undefined) {
           //AQUI DEBERIA DE CREAR LA FUNCION QUE ENVIARA EL MENSAJE DE WHATSAPPP A LOS NUMEROS TELEFONICOS DE LOS PROFESORES.
           console.log('sin registro de entrada')
+          if (employeeData.data().numberPhone) {
+            try {
+              axios
+                .post(`${URL_API}/v1/messages`,
+                  {
+                    // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
+                    number: `51${employeeData.data().numberPhone}`,
+                    // phoneNumber: `51982752688@c.us`,
+                    message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
+                    // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                  })
+            } catch (error) {
+              console.log('error', error)
+            }
+          }
+          await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
+          dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
+
+        } else console.log('ya no se hace nada')
+      } else {
+        console.log('sin registro de entrada basico')
+        if (employeeData.data().numberPhone) {
           try {
             axios
               .post(`${URL_API}/v1/messages`,
@@ -148,24 +170,6 @@ const useAttendanceEmployee = () => {
           } catch (error) {
             console.log('error', error)
           }
-          await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
-          dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: false })
-
-        } else console.log('ya no se hace nada')
-      } else {
-        console.log('sin registro de entrada basico')
-        try {
-          axios
-            .post(`${URL_API}/v1/messages`,
-              {
-                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-                number: `51${employeeData.data().numberPhone}`,
-                // phoneNumber: `51982752688@c.us`,
-                message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
-                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-              })
-        } catch (error) {
-          console.log('error', error)
         }
         await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
       }
