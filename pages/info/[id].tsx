@@ -40,7 +40,7 @@ const Info = () => {
           null
         }
 
-        <div>
+        {/* <div>
           <Link href={`/estudiantes/resumen-de-asistencia/${router.query.id}`} className='cursor-pointer rounded-full bg-gb-2  w-[150px] h-[150px] flex justify-center items-center'>
             <TbCalendarUser className='text-white text-[90px]' />
           </Link>
@@ -48,7 +48,7 @@ const Info = () => {
           <div className='my-5'>
             <p className='text-center text-slate-400 uppercase font-semibold'>asistencia</p>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>
