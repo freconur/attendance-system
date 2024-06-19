@@ -52,7 +52,7 @@ const Tareas = () => {
                         // fill={true}
                         // style={{objectFit: "contain"}}
                         quality={100}
-                        // sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 768px) 100vw, 33vw"
                       // style={{maxWidth:'100%', height:'auto'}}
                       />
                     )
