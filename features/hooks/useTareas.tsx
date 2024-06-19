@@ -19,7 +19,7 @@ const useTareas = () => {
   const { userData } = useGlobalContext()
 
   const verTareas = async (grado:string, fecha:string, mes:string, ano:string) => {
-    const docRef = collection(db, `/intituciones/l2MjRJSZU2K6Qdyc3lUz/tareas/9/9/${monthToString(Number(mes))}-${ano}/${fecha}`)
+    const docRef = collection(db, `/intituciones/l2MjRJSZU2K6Qdyc3lUz/tareas/${grado}/${grado}/${monthToString(Number(mes))}-${ano}/${fecha}`)
     const data: tareasPorDia[] = []
     const getAllDocRef = await getDocs(docRef)
     getAllDocRef.forEach(doc => {
