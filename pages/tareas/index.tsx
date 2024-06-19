@@ -31,8 +31,8 @@ const Tareas = () => {
   }, [paramYear, paramMonth, paramDate, paramGrade])
   return (
     <div className='m-auto flex justify-center'>
-      <div className='w-[1280px] pt-10' >
-      {/* <div className='w-[1280px] bg-blue-50 pt-10' > */}
+      {/* <div className='w-[1280px] pt-10' > */}
+      <div className='w-[1280px] bg-blue-50 pt-10' >
         {getAllTareas ?
           getAllTareas.map((tarea) => {
             return (
@@ -52,7 +52,7 @@ const Tareas = () => {
                         // fill={true}
                         // style={{objectFit: "contain"}}
                         quality={100}
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        // sizes="(max-width: 768px) 100vw, 33vw"
                       // style={{maxWidth:'100%', height:'auto'}}
                       />
                     )
