@@ -31,8 +31,8 @@ const Tareas = () => {
   }, [paramYear, paramMonth, paramDate, paramGrade])
   return (
     <div className='m-auto flex justify-center'>
-      <div className='w-[1280px] pt-10' >
-      {/* <div className='w-[1280px] bg-blue-50 pt-10' > */}
+      <div className='w-[1100px] pt-10' >
+      {/* <div className='w-[1100px] bg-blue-50 pt-10' > */}
         {getAllTareas ?
           getAllTareas.map((tarea) => {
             return (
@@ -53,7 +53,9 @@ const Tareas = () => {
                         // style={{objectFit: "contain"}}
                         quality={100}
                         // sizes="(max-width: 768px) 100vw, 33vw"
-                        sizes="(max-width: 1000px) 100vw, 33vw"
+                        // sizes="(max-width: 1000px) 100vw, 33vw"
+                        sizes="(max-width: 1000px) 50vw, 33vw"
+                        //con 50vwsale a 1 MB es lo que mas conviene.
                       // style={{maxWidth:'100%', height:'auto'}}
                       />
                     )
