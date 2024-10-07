@@ -111,10 +111,10 @@ const FormularioTarea = () => {
         </div>
       </div>
       <div className='w-full mt-5'>
-        <p className='capitalize text-slate-400'>observaciones</p>
+        <p className='capitalize text-slate-400'>Mensaje</p>
         <textarea
           className='w-full rounded-md text-slate-500 mt-2 p-2'
-          placeholder="aqui puedes escribir algunas observaciones"
+          placeholder="aqui puedes escribir la descripcion de la tarea"
           {
           ...register("observaciones",
             {
@@ -125,6 +125,9 @@ const FormularioTarea = () => {
           }
         />
         {errors.observaciones && <span className='text-red-400'>{errors.observaciones.message as string}</span>}
+      </div>
+      <div className='mt-3'>
+        <h3 className=' text-slate-400'>Carga una foto o imagen para anexar a la tarea</h3>
       </div>
       <input
         type="file"
@@ -155,6 +158,7 @@ const FormularioTarea = () => {
 
       {errors.pictureProfile && <span className='text-red-400'>* foto de perfil es requerido</span>}
 
+      
       {loaderPictureTask ?
         <LoaderImageTareaModal />
         :
@@ -179,7 +183,7 @@ const FormularioTarea = () => {
         }
 
       </ul>
-      <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar tarea</button>
+      <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>enviar tarea</button>
     </form>
   )
 }

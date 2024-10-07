@@ -61,7 +61,7 @@ export const useNewUser = () => {
       console.log('dataUser.extensionForUsers', dataUser?.extensionForUsers)
     }
     console.log('dataUser de creacion de usuario', dataUser)
-    const email: string = `${dataUser.name}${dataUser.lastname}${dataUser.dni}@${dataUser.extensionForUsers}.com`
+    const email: string = `${dataUser.dni}@${dataUser.extensionForUsers}.com`
     const password: string = "contrasena"
     const auth = getAuth(app);
     createUserWithEmailAndPassword(auth, email, password)
@@ -71,7 +71,7 @@ export const useNewUser = () => {
 
         // await setDoc(doc(db, "cities", "new-city-id"), data);
         await setDoc(doc(db, 'users', `${user.uid}`), {
-          acc: `${dataUser.name}${dataUser.lastname}${dataUser.dni}@${dataUser.extensionForUsers}.com`,
+          acc: `${dataUser.dni}@${dataUser.extensionForUsers}.com`,
           dni: `${dataUser.dni}`,
           name: `${dataUser.name}`,
           lastname: `${dataUser.lastname}`,
@@ -83,7 +83,7 @@ export const useNewUser = () => {
           celular: `${dataUser.celular}`
         })
         await setDoc(doc(db, `intituciones/${dataUser.idInstitution}/usuarios`, `${user.uid}`), {
-          acc: `${dataUser.name}${dataUser.lastname}${dataUser.dni}@${dataUser.extensionForUsers}.com`,
+          acc: `${dataUser.dni}@${dataUser.extensionForUsers}.com`,
           dni: `${dataUser.dni}`,
           name: `${dataUser.name}`,
           lastname: `${dataUser.lastname}`,
@@ -129,7 +129,7 @@ export const useNewUser = () => {
             .post(`${URL_API}/v1/messages`,
               {
                 number: `51${dataUser.celular}`,
-                message: `Hola ${dataUser.name} ${dataUser.lastname} ${dataUser.firstname},tu cuenta se creo correctamente. usuario: ${dataUser.name}${dataUser.lastname}${dataUser.dni}@${dataUser.extensionForUsers}.com, contraseña:contrasena`
+                message: `Hola ${dataUser.name} ${dataUser.lastname} ${dataUser.firstname},tu cuenta se creo correctamente. usuario: ${dataUser.dni}@${dataUser.extensionForUsers}.com, contraseña:contrasena`
               })
         } catch (error) {
           console.log('error', error)
