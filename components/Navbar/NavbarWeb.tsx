@@ -37,10 +37,11 @@ const NavbarWeb = () => {
         <HiOutlineMenu className='text-principal text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
       </div>
 
-      {pathname === "/registros-de-asistencias" 
-      || pathname === "/estudiantes/registros-de-asistencias"
-      || pathname === "/empleados/asistencia-empleados" 
-      || pathname === "/asistencia-empleados" 
+      {pathname.includes('administracion') 
+      // {pathname === "/registros-de-asistencias" 
+      // || pathname === "/estudiantes/registros-de-asistencias"
+      // || pathname === "/empleados/asistencia-empleados" 
+      // || pathname === "/asistencia-empleados" 
       ?
         <div className='relative w-full flex justify-center items-center px-5'>
 

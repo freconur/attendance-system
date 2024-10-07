@@ -1,4 +1,5 @@
 import { useGlobalContext } from '@/features/context/GlobalContext'
+import { validateRol } from '@/utils/validateRolEmployee'
 import Image from 'next/image'
 import React from 'react'
 
@@ -27,7 +28,7 @@ const SidebarInfoUser = () => {
         }
       </div>
       <div className='mt-1'><p className='capitalize text-center text-slate-500'>{userData.name} {userData.lastname} {userData.firstname}</p></div>
-      <div className='mt-1'><p className='capitalize text-center text-slate-400'>{userData.rol}</p></div>
+      <div className='mt-1'><p className='capitalize text-center text-slate-400'>{validateRol(Number(userData.rol))}</p></div>
     </div>
   )
 }

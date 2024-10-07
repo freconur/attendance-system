@@ -38,14 +38,16 @@ const useTareas = () => {
     // const docSnap = await getDocs(q)
     // const cursos: Cursos[] = []
     const cursosArray: string[] = []
-    docDocente.data()?.cursos.forEach((doc: any) => {
-      cursosArray.push(doc)
+    console.log('docDocente.data()', docDocente.data()?.misCursos)
+    docDocente.data()?.misCursos?.forEach((doc: any) => {
+      cursosArray.push(doc.name)
     })
     dispatch({ type: AttendanceRegister.GET_CURSOS, payload: cursosArray })
   }
   const sendPictureTareas = async (archivoLocal: any, pictureTareasArray: PicturesTareasArray[]) => {
     console.log('pictureTareasArray', pictureTareasArray)
     if (archivoLocal?.name) {
+      dispatch({type:AttendanceRegister.LOADER_PICTURE_TASK, payload:true})
       const filesRef = ref(storage, `${currentYear()}/${archivoLocal.name}`);
       await uploadBytes(filesRef, archivoLocal);
       //obtener url de descarga
@@ -56,6 +58,7 @@ const useTareas = () => {
         pictureTareasArray.push({ url: pictureProfileUrl })
         console.log('pictureTareasArray', pictureTareasArray)
         dispatch({ type: AttendanceRegister.PICTURE_TAREAS, payload: pictureTareasArray })
+        dispatch({type:AttendanceRegister.LOADER_PICTURE_TASK, payload:false})
       }
     }
   }
@@ -68,6 +71,7 @@ const useTareas = () => {
       pictures: pictureTareas,
       fechaDeEntrega: `${startDate.date}/${startDate.month + 1}/${startDate.year}`
     });
+    dispatch({ type: AttendanceRegister.PICTURE_TAREAS, payload: [] })
   }
   return {
     getCursosDocente, sendPictureTareas, addNuevaTarea, verTareas

@@ -1,3 +1,5 @@
+import PrivateRouteAdmin from '@/components/layouts/PrivateRouteAdmin'
+import PrivateRouteProfesores from '@/components/layouts/PrivateRouteProfesores'
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import FormularioTarea from '@/components/tareas/formularioTarea'
 import { useGlobalContext } from '@/features/context/GlobalContext'
@@ -18,14 +20,14 @@ const ProfesoresTareas = () => {
   // console.log('userData1',userData)
   // console.log('grades1',grades)
   return (
-    <div className='p-2 m-auto'>
-      <div className='max-w-[1280px] m-auto '>
-        <h1 className='text-xl font-semibold uppercase text-slate-500 text-center'>tareas</h1>
-        <FormularioTarea />
+      <div className='p-2 m-auto'>
+        <div className='max-w-[1280px] m-auto '>
+          <h1 className='text-xl font-semibold uppercase text-slate-500 text-center'>tareas</h1>
+          <FormularioTarea />
+        </div>
       </div>
-    </div>
   )
 }
 
 export default ProfesoresTareas
-ProfesoresTareas.Auth = PrivateRoutes
+ProfesoresTareas.Auth = PrivateRouteProfesores

@@ -4,30 +4,55 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+    case AttendanceRegister.INSTITUCIONES:
+      return {
+        ...state,
+        instituciones:action.payload
+      }
+    case AttendanceRegister.LOADER_PICTURE_TASK:
+      return {
+        ...state,
+        loaderPictureTask:action.payload
+      }
+    case AttendanceRegister.GET_ALL_CURSOS:
+      return {
+        ...state,
+        allCursos: action.payload
+      }
+    case AttendanceRegister.GET_ROLES:
+      return {
+        ...state,
+        roles: action.payload
+      }
+    case AttendanceRegister.SHOW_CREATE_NEW_USER:
+      return {
+        ...state,
+        showNewUserModal: action.payload
+      }
     case AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL:
       return {
         ...state,
-        updateEmployeeConfirmationModal:action.payload
+        updateEmployeeConfirmationModal: action.payload
       }
     case AttendanceRegister.GET_EMPLOYEE_BY_SEARCH:
       return {
         ...state,
-        employeeDataSearch:action.payload
+        employeeDataSearch: action.payload
       }
     case AttendanceRegister.GET_ALL_TAREAS:
       return {
         ...state,
-        getAllTareas:action.payload
+        getAllTareas: action.payload
       }
     case AttendanceRegister.PICTURE_TAREAS:
       return {
         ...state,
-        pictureTareas:action.payload
+        pictureTareas: action.payload
       }
     case AttendanceRegister.GET_CURSOS:
       return {
         ...state,
-        cursos:action.payload
+        cursos: action.payload
       }
     case AttendanceRegister.STUDENT_TALLER_LOADER:
       return {

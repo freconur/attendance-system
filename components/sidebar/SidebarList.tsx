@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { RiBarChart2Fill, RiArrowLeftSLine } from "react-icons/ri";
 import SidebarTalleres from "./sidebarTalleres";
+import SidebarListProfesores from "./sidebarListProfesores";
+import { useGlobalContext } from "@/features/context/GlobalContext";
+import { validateRol } from "@/utils/validateRolEmployee";
+import SidebarAdmin from "./sidebarAdmin";
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -12,6 +16,7 @@ interface Props {
 const SidebarList = () => {
   const route = useRouter()
   const { showSidebarContext } = useSidebarState()
+  const { userData } = useGlobalContext()
   const { logout } = useAuthentication()
   // const validatePathnameSidebarList = () => {
   //   if (route.pathname === "/asistencia-empleados" || route.pathname === "/registro-de-asistencia-empleados") {
@@ -24,86 +29,27 @@ const SidebarList = () => {
   //     return true
   //   }
   // }
+  // console.log('testing', route.pathname.split("/"))
+  // console.log('test-2', route.pathname.split("/").find((profesores) => profesores === 'profesores'))
+  const validateRoute = () => {
+    const value = route.pathname.split("/").find((profesores) => profesores === "profesores")
+    if (value) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  const sidebarListfrom = () => {
+    if (validateRol(Number(userData.rol)) === "administracion") {
+      return <SidebarAdmin />
+    } else if (validateRol(Number(userData.rol)) === "profesor") {
+      return <SidebarListProfesores />
+    }
+  }
   return (
     <div className='overflow-y-scroll'>
-      {/* {
-        route.pathname === ""
-      } */}
-      {
-        route.pathname.includes('estudiantes') ?
-          <>
-            <h3 className="uppercase  text-slate-500 font-semibold text-left pl-10 my-3">Estudiantes</h3>
-            <ul className=' capitalize p-1 font-comfortaa  px-2'>
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/estudiantes/asistencia" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>Tomar asistencia</span>
-                </Link>
-              </li>
-              {/* <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/estudiantes/asistencia-por-grado-seccion" className="my-1 w-56 p-2">
-                  <span className='text-base flex-1 ml-2 text-md'>Asistencia por grado</span>
-                </Link>
-              </li> */}
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/estudiantes/registro-de-estudiante" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>registrar estudiante</span>
-                </Link>
-              </li>
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/estudiantes/registros-de-asistencias" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>registros de asistencia</span>
-                </Link>
-              </li>
-            </ul>
-          </>
-          : null
-      }
-
-      {
-        route.pathname.includes('empleados') ?
-          <>
-            <h3 className="uppercase  text-slate-500 font-semibold text-left pl-10 my-3">Empleados</h3>
-            <ul className=' capitalize p-1 font-comfortaa  px-2'>
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/empleados/ingreso-salida-empleados" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>Asistencia</span>
-                </Link>
-              </li>
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/empleados/asistencia-empleados" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>Registros de asistencia</span>
-                </Link>
-              </li>
-              <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/empleados/registro-empleados" className="my-1 w-56 p-2">
-                  {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
-                  <span className='text-base flex-1 ml-2 text-md'>agregar empleado</span>
-                </Link>
-              </li>
-              {/* <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-                <Link onClick={() => showSidebarContext(false)} href="/estudiantes/registros-de-asistencias" className="my-1 w-56 p-2">
-                  <span className='text-base flex-1 ml-2 text-md'>registros de asistencia</span>
-                </Link>
-              </li> */}
-            </ul>
-          </>
-          : null
-      }
-
-      <SidebarTalleres pathname={route.pathname} />
-      {/* <h3 claselsName="uppercase text-slate-500 font-semibold text-left pl-10 my-3">Mis productos</h3> */}
-      <ul className='capitalize p-1 font-comfortaa px-2 border-t-[1px]'>
-        <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-go-3 hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
-          <Link onClick={() => showSidebarContext(false)} href="/mis-productos" className="my-1 w-56 p-2">
-            <span className='text-base flex-1 ml-2 text-md'>mis productos</span>
-          </Link>
-        </li>
-      </ul>
+      {sidebarListfrom()}
     </div>
 
 

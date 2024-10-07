@@ -4,6 +4,8 @@ export const validateRol = (rol: number | undefined) => {
   if (rol === 1) return "profesor"
   if (rol === 2) return "auxiliar"
   if (rol === 3) return "empleados"
+  if (rol === 4) return "administracion"
+  // if (rol === 5) return "director"
 }
 
 export const validateDepartureTime = (arrivalTime: Date, validateArrivalTime: { hour: number, min: number }) => {
@@ -16,3 +18,4 @@ export const validateDepartureTime = (arrivalTime: Date, validateArrivalTime: { 
     return true
   }
 }
+

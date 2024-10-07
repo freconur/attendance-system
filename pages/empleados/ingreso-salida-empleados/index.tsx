@@ -17,9 +17,9 @@ const IngresoSalidaEmployee = () => {
   const { userData, employee, loaderGetEmployee } = useGlobalContext()
 
 
-  useEffect(() => {
-    getUserData()
-  }, [userData.name])
+  // useEffect(() => {
+  //   getUserData()
+  // }, [userData.name])
   const onChangeCodeEmployee = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCodeEmployee({
       ...codeEmployee,

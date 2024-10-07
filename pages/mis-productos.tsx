@@ -12,11 +12,11 @@ const MisProductos = () => {
   const { userData, validateMyProducts } = useGlobalContext()
   const { valideteMyProducts } = useMyProducts()
   useEffect(() => {
-    getUserData()
     if (userData) {
       valideteMyProducts()
     }
-  }, [userData.name])
+  }, [userData.dni])
+  console.log('validateMyProducts', validateMyProducts)
   return (
     <div className='w-full flex justify-center items-center'>
       <div className='my-10'>
@@ -26,7 +26,7 @@ const MisProductos = () => {
             {
               validateMyProducts.attendance ?
                 <div>
-                  <Link href="/estudiantes/registros-de-asistencias" className='bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center m-auto'>
+                  <Link href="/administracion/estudiantes/registros-de-asistencias" className='bg-cyan-400 hover:bg-cyan-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center m-auto'>
                     <TbCalendarUser className='text-white text-[90px]' />
                   </Link>
                   <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>estudiantes</h2>
@@ -63,7 +63,7 @@ const MisProductos = () => {
             {
               validateMyProducts.employeeAttendance ?
                 <>
-                  <Link href="/empleados/asistencia-empleados" className='bg-green-400 hover:bg-green-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
+                  <Link href="/administracion/empleados/asistencia-empleados" className='bg-green-400 hover:bg-green-500 duration-300 rounded-full shadow-md w-[150px] h-[150px] flex justify-center items-center'>
                     <FaUserTie className='text-white text-[90px]' />
                   </Link>
                   <h2 className='uppercase text-slate-400 font-semibold text-center my-3'>empleados</h2>

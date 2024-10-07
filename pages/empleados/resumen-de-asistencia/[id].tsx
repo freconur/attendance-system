@@ -1,3 +1,4 @@
+import PrivateRouteProfesores from '@/components/layouts/PrivateRouteProfesores'
 import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { EnableMonths, currentMonth } from '@/dates/date'
 import { useGlobalContext } from '@/features/context/GlobalContext'
@@ -144,4 +145,4 @@ const ResumenDeAsistencia = () => {
 }
 
 export default ResumenDeAsistencia
-ResumenDeAsistencia.Auth = PrivateRoutes
+ResumenDeAsistencia.Auth = PrivateRouteProfesores

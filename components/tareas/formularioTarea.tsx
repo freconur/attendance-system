@@ -9,12 +9,14 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import Image from 'next/image'
+import { RiLoader4Line } from 'react-icons/ri'
+import LoaderImageTareaModal from '@/Modals/loaderImages'
 
 const FormularioTarea = () => {
 
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
   const { registerNewStudent, getSections, getGrades } = UseRegisterStudents()
-  const { sections, grades, pictureTareas, userData, cursos } = useGlobalContext()
+  const { sections, grades, pictureTareas, userData, cursos, loaderPictureTask } = useGlobalContext()
   const { getUserData } = useAuthentication()
   const [gradeValue, setGradeValue] = useState(0)
   const { getCursosDocente, sendPictureTareas, addNuevaTarea } = useTareas()
@@ -23,7 +25,8 @@ const FormularioTarea = () => {
   const handleSubmitForm = handleSubmit(data => {
     console.log('data', data)
     //aqui tiene que ir la funcion que va agregar esta tarea
-    addNuevaTarea(data, pictureTareas,{date:startDate.date(),month:startDate.month(), year:startDate.year()})
+    addNuevaTarea(data, pictureTareas, { date: startDate.date(), month: startDate.month(), year: startDate.year() })
+    reset()
   })
   useEffect(() => {
     if (watch('pictureProfile') !== undefined) {
@@ -39,6 +42,7 @@ const FormularioTarea = () => {
       getCursosDocente()
     }
   }, [userData.name])
+  console.log('loaderPictureTask', loaderPictureTask)
   // console.log('startDate', startDate.date().toString().padStart(2,"0"), startDate.month(), startDate.year())
   return (
     <form onSubmit={handleSubmitForm} className='mt-5'>
@@ -150,6 +154,12 @@ const FormularioTarea = () => {
           ) : (<strong>{watch('pictureProfile')[0].name}</strong>)} */}
 
       {errors.pictureProfile && <span className='text-red-400'>* foto de perfil es requerido</span>}
+
+      {loaderPictureTask ?
+        <LoaderImageTareaModal />
+        :
+        null
+      }
       <ul className='flex gap-2 justify-center items-center'>
         {
           pictureTareas?.map((pic, index) => {

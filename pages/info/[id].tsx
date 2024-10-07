@@ -15,7 +15,7 @@ const Info = () => {
   const { studentData, userData } = useGlobalContext()
   const router = useRouter()
   useEffect(() => {
-    getUserData()
+    // getUserData()
     if (userData) {
       dataStudent(`${router.query.id}`)
     }
@@ -28,7 +28,7 @@ const Info = () => {
       <div className='flex flex-wrap justify-center items-center gap-10'>
         {studentData ?
           <div>
-            <Link href={studentData.rol ? `/empleados/info/${router.query.id}` : `/estudiantes/info/${router.query.id}`} className='cursor-pointer rounded-full bg-tere  w-[150px] h-[150px] flex justify-center items-center'>
+            <Link href={studentData.rol ? `/administracion/empleados/info/${router.query.id}` : `/administracion/estudiantes/info/${router.query.id}`} className='cursor-pointer rounded-full bg-tere  w-[150px] h-[150px] flex justify-center items-center'>
               <ImProfile className='text-white text-[90px]' />
             </Link>
 

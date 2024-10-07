@@ -1,5 +1,6 @@
 import UpdateEmployeeConfirmationModal from "@/Modals/UpdateEmployeeConfirmationModal"
 import UpdateStudentConfirmationModal from "@/Modals/updateStudentConfirmationModal"
+import PrivateRouteAdmin from "@/components/layouts/PrivateRouteAdmin"
 import PrivateRoutes from "@/components/layouts/PrivateRoutes"
 import UpdateFormEmployee from "@/components/updateFormEmployee/UpdateFormEmployee"
 import UpdateFormStudnets from "@/components/updateFormStudents/updateFormStudnets"
@@ -37,12 +38,13 @@ const [employee, setEmployee] = useState<UpdateDataUser>(initialValue)
   }
 
   useEffect(() => {
-    getUserData()
+    // getUserData()
     getGrades()
     if (userData) {
       dataStudent(`${router.query.id}`)
     }
-  }, [router.query.id, userData.name])
+  }, [router.query.id, userData.dni])
+// }, [router.query.id, userData.name])
 
   useEffect(() => {
     setEmployee(studentData)
@@ -76,7 +78,7 @@ const [employee, setEmployee] = useState<UpdateDataUser>(initialValue)
             </div>
         }
           {/* esto tengo que cambiarlo por un form dise;ado para employee*/}
-        <UpdateFormEmployee  employee={employee} onChangeItem={onChangeItem}/>
+        <UpdateFormEmployee setEmployee={setEmployee} employee={employee} onChangeItem={onChangeItem}/>
         {/* // <UpdateFormEmployee grades={grades} student={student} onChangeItem={onChangeItem}/> */}
       </div>
     </div>
@@ -85,4 +87,4 @@ const [employee, setEmployee] = useState<UpdateDataUser>(initialValue)
 
 export default InfoStudent
 
-InfoStudent.Auth = PrivateRoutes
+InfoStudent.Auth = PrivateRouteAdmin

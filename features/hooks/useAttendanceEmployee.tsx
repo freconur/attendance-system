@@ -275,8 +275,10 @@ const useAttendanceEmployee = () => {
   const updateEmployee = async (data: UpdateDataUser) => {
     const employeeRef = doc(db, `/intituciones/${userData?.idInstitution}/employee`, data.dni as string);
     console.log('data', data)
+    console.log('userData',userData) 
     // Set the "capital" field of the city 'DC'
     const dataEmployee = {
+      misCursos:data.misCursos,
       dni: data.dni,
       name: data.name,
       lastname: data.lastname,

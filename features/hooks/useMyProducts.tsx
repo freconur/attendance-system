@@ -11,14 +11,17 @@ export const useMyProducts = () => {
   const { userData } = useGlobalContext()
 
   const valideteMyProducts = async () => {
-    console.log('userData', userData)
-    const docRef = doc(db, `/intituciones/${userData.idInstitution}`);
-    const docSnap = await getDoc(docRef);
-    const rta = docSnap.data()
-    if (docSnap.exists()) {
-      dispatch({type:AttendanceRegister.VALIDATE_MY_PRODUCTS, payload: rta as ValidateMyProducts})
-    } else {
-      console.log("No such document!");
+    if(userData) {
+      console.log('userData',userData)
+      const docRef = doc(db, `/intituciones/${userData?.idInstitution}`);
+      const docSnap = await getDoc(docRef);
+      const rta = docSnap.data()
+      if (docSnap.exists()) {
+        dispatch({type:AttendanceRegister.VALIDATE_MY_PRODUCTS, payload: rta as ValidateMyProducts})
+      } else {
+        console.log("No such document!");
+      }
+
     }
 
   }

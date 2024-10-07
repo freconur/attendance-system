@@ -26,6 +26,8 @@ const UpdateEmployeeConfirmationModal = ({employee}:Props) => {
   // const handleUpdateStudent = (employee:StudentData) => {
   //   updateStudent(employee)
   // }
+
+  console.log('employee modal',employee)
   return container
     ? createPortal(
       <div className={styles.containerModal}>

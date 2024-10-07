@@ -1,20 +1,23 @@
 import { app } from '@/firebase/firebaseConfig';
-import { browserSessionPersistence, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { AuthenticationFormSignIn } from '../types/types';
+import { browserSessionPersistence, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth'
+import { AuthenticationFormSignIn, UserData } from '../types/types';
 import 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useGlobalContextDispatch } from '../context/GlobalContext';
 import { AttendanceRegister } from '../actions/actionAttendance';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 const useAuthentication = () => {
 
   const dispatch = useGlobalContextDispatch()
   const auth = getAuth(app)
   const db = getFirestore(app)
+  const URL_API = "https://whatsapp-asistencia-production.up.railway.app"
+  const URL_API1 = "https://whatsapp-asistencia-production.up.railway.appaa"
   const getUser = async (id: string) => {
     const refUser = doc(db, 'users', id as string)
     const user = await getDoc(refUser)
 
-    console.log('users', user.data())
     if (user.exists()) {
       dispatch({
         type: AttendanceRegister.USER_DATA, payload: {
@@ -29,6 +32,8 @@ const useAuthentication = () => {
           acc: user.data().acc,
           born: user.data().fechaNacimiento,
           dni: user.data().dni,
+          extensionForUsers: user.data().extensionForUsers,
+          celular: user.data().celular
         }
       })
     } else {
@@ -36,8 +41,8 @@ const useAuthentication = () => {
     }
   }
   const signIn = async (loginData: AuthenticationFormSignIn) => {
-    dispatch({type:AttendanceRegister.WARNING_ACCOUNT, payload:""})
-    dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:true})
+    dispatch({ type: AttendanceRegister.WARNING_ACCOUNT, payload: "" })
+    dispatch({ type: AttendanceRegister.LOADING_ACCOUNT, payload: true })
     let rta: any = {}
     try {
       await setPersistence(auth, browserSessionPersistence)
@@ -48,13 +53,13 @@ const useAuthentication = () => {
           //   console.log('rta', rta)
           // }
         })
-        dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:false})
+      dispatch({ type: AttendanceRegister.LOADING_ACCOUNT, payload: false })
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      if(error) {
-        dispatch({type:AttendanceRegister.LOADING_ACCOUNT, payload:false})
-        dispatch({type:AttendanceRegister.WARNING_ACCOUNT, payload:"nombre de usuario o contraseña incorrecto"})
+      if (error) {
+        dispatch({ type: AttendanceRegister.LOADING_ACCOUNT, payload: false })
+        dispatch({ type: AttendanceRegister.WARNING_ACCOUNT, payload: "nombre de usuario o contraseña incorrecto" })
       }
     }
   }
@@ -65,13 +70,60 @@ const useAuthentication = () => {
     // dispatch({ type: AttendanceRegister.USER_TOKEN, payload: { token: "", isAuthenticated: false } })
   }
 
+  const changePassword = (newPassword: string, userData: UserData) => {
+    const user = auth.currentUser
+    if (user) {
+      updatePassword(auth.currentUser, newPassword)
+      .then((response) => {
+        const promesa = new Promise((resolve, reject) => {
+          try {
+            axios
+              .post(`${URL_API}/v1/messages`,
+                {
+                  number: `51${userData.celular}`,
+                  message: `Hola ${userData.name} ${userData.lastname} ${userData.firstname}, 'tu contraseña ha sido cambiado con exito a ' *${newPassword}*.`
+                })
+              .then(response => {
+                console.log('response', response)
+                if (response.status === 200) {
+                  resolve(true)
+                } else {
+                  reject(true)
+                }
+              })
+            // .catch(response => {
+            //   console.log('catch', response)
+            // })
+          } catch (error) {
+            console.log('ocurrio un error:', error)
+            reject(error)
+          }
+        })
+  
+        toast.promise(promesa,
+          {
+            pending: 'Actualizando contraseña',
+            success: 'Se actualizo contrasena con exito 👌',
+            error: 'Parece que algo fallo, intentalo despues 🤯'
+          })
+  
+        //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
+        //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
+      })
+      
+     
+        // .catch((error) => {
+        //   console.log('error contrasena', error)
+        // });
+    }
+  }
   const getUserData = () => {
     onAuthStateChanged(auth, currentUser => {
-      if(currentUser) {
+      if (currentUser) {
         getUser(currentUser.uid)
       }
     })
   }
-  return { signIn, logout,getUserData }
+  return { signIn, logout, getUserData, changePassword }
 }
 export default useAuthentication

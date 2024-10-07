@@ -1,18 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useAuthentication from '@/features/hooks/useAuthentication'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { app } from '@/firebase/firebaseConfig'
 import { useRouter } from 'next/router'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import { RiLoader4Line } from 'react-icons/ri'
+import { validateRol } from '@/utils/validateRolEmployee'
+import { useNewUser } from '@/features/hooks/useNewUser'
+import NewUserModal from '@/Modals/newUserModal'
 const Login = () => {
   const router = useRouter()
   const auth = getAuth(app)
-  const { loadingAccount, warningAccount } = useGlobalContext()
+  const { loadingAccount, warningAccount, userData, showNewUserModal } = useGlobalContext()
   const { signIn } = useAuthentication()
   const initialValue = { email: "", password: "" }
   const [formValue, setFormValue] = useState(initialValue)
+  const { showNewUserModalValue } = useNewUser()
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        if (validateRol(Number(userData.rol)) === "profesor") {
+          router.push('/profesores/tareas')
+        }
+        if (validateRol(Number(userData.rol)) === "administracion") {
+          router.push('/mis-productos');
+        }
+      }
+    })
+  }, [userData.rol])
   const handleValueUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValue({
       ...formValue,
@@ -23,18 +39,13 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     signIn(formValue)
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        router.push('/mis-productos');
-      }
-    });
-    // const response = await axios.post('/api/auth/login', formValue)
-    // console.log('response', response)
   }
   return (
     <div className='grid h-login w-full p-1 place-content-center'>
       <div className='min-w-[320px]'>
+        {
+          showNewUserModal && <NewUserModal userData={userData}/>
+        }
         <h1 className='text-slate-500 text-xl uppercase font-semibold text-center'>inicio de sesión</h1>
         <form onSubmit={handleSubmit}>
           <div>
@@ -63,6 +74,10 @@ const Login = () => {
               : null
           }
         </form>
+      </div>
+      <div className='p-3'>
+        <h4 className='capitalize text-center text-blue-500 mb-2'>crear nuevo usuario</h4>
+        <button onClick={() => showNewUserModalValue(showNewUserModal)} className='capitalize p-3 w-full border-[1px] border-emerald-400 hover:border-emerald-600 text-emerald-400 hover:text-white hover:bg-emerald-600 duration-300'>nuevo usuario</button>
       </div>
     </div>
   )

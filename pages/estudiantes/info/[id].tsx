@@ -39,7 +39,7 @@ const [student, setStudent] = useState<StudentData>(initialValue)
   }
 
   useEffect(() => {
-    getUserData()
+    // getUserData()
     getGrades()
     if (userData) {
       dataStudent(`${router.query.id}`)

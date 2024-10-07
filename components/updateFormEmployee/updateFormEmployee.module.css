@@ -1,0 +1,301 @@
+.containerModal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.23);
+  z-index: 2000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-content: center;
+}
+.closeModalContainer {
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+}
+.closeModal {
+  border-radius: 100%;
+  background-color: red;
+  font-weight: 600;
+  color: white;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.containerSale {
+  width: 100%;
+  /* width: 400px; */
+  background-color: #f6fdff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  /* cursor: pointer; */
+  padding: 20px;
+  margin: 0px;
+}
+@media (min-width: 400px) {
+  .containerSale {
+    width: 390px;
+  }
+}
+@media (min-width: 500px) {
+  .containerSale {
+    width: 490px;
+  }
+}
+@media (min-width: 600px) {
+  .containerSale {
+    width: 590px;
+  }
+}
+@media (min-width: 768px) {
+  .containerSale {
+    width: 590px;
+  }
+}
+.title {
+  font-family: "Montserrat";
+  font-size: medium;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  /* color: #182c18; */
+  text-transform: capitalize;
+  color: rgba(129, 140, 248);
+}
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+.optionButtonAgree {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  /* background: linear-gradient(90deg, rgba(103,226,207,1) 0%, rgba(62,188,191,1) 48%, rgba(49,154,138,1) 100%); */
+  background-color: #7777dd;
+  color: white;
+  font-family: "DM Mono";
+  cursor: pointer;
+}
+.optionButtonCancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  height: 40px;
+  border-radius: 5px;
+  color: rgb(97, 105, 172);
+  cursor: pointer;
+  width: 100px;
+  font-family: "Nunito";
+  font-weight: 700;
+}
+.list {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.group {
+  display: grid;
+  line-height: 30px;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.ttt {
+  width: 100%;
+  height: 45px;
+  line-height: 30px;
+  padding: 0 5rem;
+  padding-left: 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  background-color: #f8fafc;
+  color: #72717e;
+  transition: 0.5s ease;
+
+  border-color: rgba(129, 140, 248);
+}
+
+.selectOption {
+  width: 100%;
+  height: 45px;
+  line-height: 30px;
+  padding: 0 5rem;
+  padding-left: 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  background-color: #f8fafc;
+  color: #72717e;
+  transition: 0.5s ease;
+  border-color: rgba(129, 140, 248);
+}
+.ttt::placeholder {
+  color: #94a3b8;
+}
+.ttt:focus {
+  outline: none;
+  border-color: rgba(129, 140, 248);
+  background-color: #fff;
+  box-shadow: 0 0 0 5px rgb(129 140 248 / 30%);
+}
+.ttt:hover {
+  outline: none;
+  border-color: rgba(129, 140, 248);
+  background-color: #fff;
+  box-shadow: 0 0 0 5px rgb(129 140 248 / 30%);
+}
+.selectCursos {
+  cursor:pointer;
+  margin-top: 10px;
+  margin-bottom:10px;
+  color: #acacac !important;
+  width: 100%;
+  text-transform: uppercase;
+  background: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #20bf6b !important;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  outline-color: #20bf6b
+}
+.buttonSubmit {
+  cursor:pointer;
+  margin-top: 10px;
+  margin-bottom:10px;
+  color: rgba(129, 140, 248) !important;
+  width: 100%;
+  text-transform: uppercase;
+  background: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid rgba(129, 140, 248) !important;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+}
+.buttonSubmitDisabled {
+  margin-top: 10px;
+  margin-bottom:10px;
+  color: rgb(214, 214, 214) !important;
+  width: 100%;
+  text-transform: uppercase;
+  background: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid rgb(214, 214, 214) !important;
+  border-radius: 6px;
+  display: inline-block;
+}
+.buttonSubmit:hover {
+  /* color: #20bf6b !important; */
+  border-radius: 50px;
+  /* border-color: #20bf6b !important; */
+  transition: all 0.3s ease 0s;
+}
+
+.cursosList {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  color: #72717e;
+  flex-wrap: wrap;
+  text-transform: capitalize;
+}
+.titleCursos {
+  text-transform: capitalize;
+  font-weight: 600;
+  color: #75cff8;
+}
+.labelLista:hover {
+  position: relative;
+  /* top: -50px; */
+  /* left: 50%; */
+}
+.lista {
+  display: flex;
+  gap: 5px;
+  border-width: 1px;
+  border-radius: 40px;
+  border-color: #1f38f5;
+  justify-content: center;
+  align-items: center;
+  padding-right: 5px;
+  padding-left: 5px;
+  height: 30px;
+  transform: translate();
+  transition: all 0.3s ease 0s;
+}
+.listaNuevosCursos {
+  display: flex;
+  gap: 5px;
+  border-width: 1px;
+  border-radius: 40px;
+  justify-content: center;
+  align-items: center;
+  padding-right: 5px;
+  padding-left: 5px;
+  height: 30px;
+  transform: translate();
+  transition: all 0.3s ease 0s;
+  border-color: #09c946;
+}
+.listaNuevosCursos:hover {
+  /* background-color:#c1ffff; */
+  border-color: rgb(3, 218, 42);
+  color:rgb(3, 218, 42);
+  /* color:white; */
+  /* font-weight: 600; */
+  transition: all 0.3s ease 0s;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+  /* box-shadow: 11px 11px 39px -13px rgba(0,0,0,0.71); */
+  cursor: pointer;
+}
+.lista:hover {
+  /* background-color:#c1ffff; */
+  border-color: rgb(3, 78, 218);
+  color:rgb(3, 78, 218);
+  /* color:white; */
+  /* font-weight: 600; */
+  transition: all 0.3s ease 0s;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+  /* box-shadow: 11px 11px 39px -13px rgba(0,0,0,0.71); */
+  cursor: pointer;
+}
+
+.deleteCurso {
+  border-radius: 50%;
+  background-color: #ee7c78;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  color:white;
+  font-weight: 600;
+  font-family: 'Montserrat';
+  text-transform: lowercase;
+}

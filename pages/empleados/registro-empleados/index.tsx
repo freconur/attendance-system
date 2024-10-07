@@ -17,12 +17,12 @@ const RegistroEmpleados = () => {
   })
 
   useEffect(() => {
-    getUserData()
+    // getUserData()
     if (userData) {
       getTypeEmployee()
     }
-  }, [userData.name])
-  console.log('typesEmployee', typesEmployee)
+  }, [])
+  // console.log('typesEmployee', typesEmployee)
   return (
     <div className='p-3'>
       <h3 className='text-xl text-center text-slate-400 uppercase font-semibold'>agregar nuevo empleado</h3>

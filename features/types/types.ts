@@ -5,56 +5,88 @@ export type AuthProviderProps = {
 }
 
 export interface PicturesTareasArray {
-  url:string
+  url: string
+}
+export interface UserData {
+  firstname?: string,
+  pictureProfile?: string,
+  institutionName?: string,
+  idInstitution?: string,
+  lastname?: string,
+  name?: string,
+  rol?: string,
+  id?: string,
+  acc?: string,
+  born?: string,
+  dni?: string,
+  celular?: string,
+  cursos?: string[],
+  numberPhone?:string
+  extensionForUsers?: string
+}
+export interface CreateUserData {
+  id?: string,
+  attendance?: boolean,
+  comedor?: boolean,
+  employeeAttendance?: boolean,
+  name?: string,
+  notas?: boolean,
+  roles?: number[],
+  extensionForUsers?: string,
+  // lastname?:string
+  // firstname?:string,
+  // dni?:number,
+  // institucion?: string,
+  rol?: number
 }
 export interface tareasPorDia {
-  fechaDeEntrega?:Date,
-  observaciones?:string,
-  pictures?:PicturesTareasArray[],
-  id?:string
-} 
+  fechaDeEntrega?: Date,
+  observaciones?: string,
+  pictures?: PicturesTareasArray[],
+  id?: string
+}
 export interface Cursos {
-  name?:string,
-  id?:string,
-  identificador?:string
+  name?: string,
+  id?: string,
+  identificador?: string
 }
 export interface DateTarea {
-  year:number,
-  month:number,
-  date:number
+  year: number,
+  month: number,
+  date: number
 }
 export interface TareasPrev {
-  curso?:string,
-  grade?:string,
-  observaciones?:string,
+  curso?: string,
+  grade?: string,
+  observaciones?: string,
 
 }
 export interface TypesEmployee {
-  code?:number,
-  name?:string
+  code?: number,
+  name?: string
 }
 export interface StudentData {
-  firstContact?:string,
-  secondContact?:string,
-  firstNumberContact?:string,
-  secondNumberContact?:string,
-  rol?:string,
+  firstContact?: string,
+  secondContact?: string,
+  firstNumberContact?: string,
+  secondNumberContact?: string,
+  rol?: string,
   dni?: string,
   pictureProfile?: string,
   grade?: string,
   name?: string,
-  firstname?:string,
+  firstname?: string,
   lastname?: string,
   qr?: string,
   section?: string,
   cellPhone?: string,
   currentAttendance?: Date,
   attendanceByDate?: string,
-  falta?:boolean,
-  presente?:boolean,
-  tardanza?:boolean,
-  manualAttendance?:boolean,
-  departureByDate?:string
+  falta?: boolean,
+  presente?: boolean,
+  tardanza?: boolean,
+  manualAttendance?: boolean,
+  departureByDate?: string
 }
 export interface Section {
   section?: string
@@ -62,7 +94,7 @@ export interface Section {
 export interface Grades {
   grade?: string,
   traditionalGrade?: string,
-  gotSection?:boolean
+  gotSection?: boolean
 }
 export type Student = {
   studentsData: StudentData[],
@@ -80,33 +112,38 @@ export type Student = {
   justificacionFaltaConfirmationModal: boolean,
   justificacionMotivoModal: boolean,
   justificacionStudent: JustificacionStudent,
-  validateMyProducts:ValidateMyProducts,
-  warningAccount:string,
-  loadingAccount:boolean,
-  loadingSearchStudents:boolean,
-  studentsForAttendance:StudentData[],
+  validateMyProducts: ValidateMyProducts,
+  warningAccount: string,
+  loadingAccount: boolean,
+  loadingSearchStudents: boolean,
+  studentsForAttendance: StudentData[],
   confirmationSaveAttendanceByGradeSectionModal: boolean,
   loadingSaveAttendanceByGradeSectionModal: boolean,
   typesEmployee: TypesEmployee[],
-  employees:Employee[],
-  employee:Employee | undefined,
-  resumenAttendanceEmployee:ResumenEmployeeAttendanceDeparture[],
-  employeeData:Employee,
-  loaderGetEmployee:boolean,
-  loadingGetStudents:boolean,
-  studentsByGrade:StudentData[],
-  activeEmployeeModal:boolean,
-  updateStudentConfirmationModal:boolean,
-  showDepartureManualModal:boolean,
-  studentforDeparture:StudentData,
-  confirmationDepartureStudentModal:boolean,
+  employees: Employee[],
+  employee: Employee | undefined,
+  resumenAttendanceEmployee: ResumenEmployeeAttendanceDeparture[],
+  employeeData: Employee,
+  loaderGetEmployee: boolean,
+  loadingGetStudents: boolean,
+  studentsByGrade: StudentData[],
+  activeEmployeeModal: boolean,
+  updateStudentConfirmationModal: boolean,
+  showDepartureManualModal: boolean,
+  studentforDeparture: StudentData,
+  confirmationDepartureStudentModal: boolean,
   studentTaller: StudentData,
-  studentTallerLoader:boolean,
-  cursos:string[],
-  pictureTareas:PicturesTareasArray[],
-  getAllTareas:tareasPorDia[],
-  employeeDataSearch:{},
-  updateEmployeeConfirmationModal:boolean
+  studentTallerLoader: boolean,
+  cursos: string[],
+  pictureTareas: PicturesTareasArray[],
+  getAllTareas: tareasPorDia[],
+  employeeDataSearch: {},
+  updateEmployeeConfirmationModal: boolean,
+  showNewUserModal: boolean,
+  roles: Rol[],
+  allCursos: Curso[],
+  loaderPictureTask: boolean,
+  instituciones: CreateUserData[],
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -115,19 +152,7 @@ export interface DetailsPerDayOfStudent {
   departure: string
 }
 
-export interface UserData {
-  firstname?: string,
-  pictureProfile?: string,
-  institutionName?: string,
-  idInstitution?: string,
-  lastname?: string,
-  name?: string,
-  rol?: string,
-  id?: string,
-  acc?: string,
-  born?: string,
-  dni?: string,
-}
+
 
 export interface JustificationValue {
   justification: string
@@ -149,41 +174,42 @@ export interface ValidateMyProducts {
 }
 
 export interface Employee {
-  name?:string,
-  firstname?:string,
-  lastname?:string,
-  dni?:string,
-  rol?:number,
-  pictureProfile?:string,
-  attendanceByDate?:string,
-  departureByDate?:string,
-  manualAttendance?:boolean,
-  phone?:string,
-  numberPhone?:string,
-  currentlyHour?:string
+  name?: string,
+  firstname?: string,
+  lastname?: string,
+  dni?: string,
+  rol?: number,
+  pictureProfile?: string,
+  attendanceByDate?: string,
+  departureByDate?: string,
+  manualAttendance?: boolean,
+  phone?: string,
+  numberPhone?: string,
+  currentlyHour?: string
 }
 
 export interface UpdateDataUser {
-  firstContact?:string,
-  secondContact?:string,
-  firstNumberContact?:string,
-  secondNumberContact?:string,
-  rol?:string,
+  firstContact?: string,
+  secondContact?: string,
+  firstNumberContact?: string,
+  secondNumberContact?: string,
+  rol?: string,
   dni?: string,
   pictureProfile?: string,
   grade?: string,
   name?: string,
-  firstname?:string,
+  firstname?: string,
   lastname?: string,
   qr?: string,
   section?: string,
-  numberPhone?:string,
+  numberPhone?: string,
   cellPhone?: string,
+  misCursos?:Curso[]
 }
 export interface EmployeeAttendanceDeparture {
-  arrivalTime?:string,
-  departureTime?:string,
-  manualAttendance?:boolean,
+  arrivalTime?: string,
+  departureTime?: string,
+  manualAttendance?: boolean,
 
 }
 
@@ -219,26 +245,31 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION; payload: boolean }
   | { type: AttendanceRegister.GET_TYPES_EMPLOYEE; payload: TypesEmployee[] }
   | { type: AttendanceRegister.GET_EMPLOYEES; payload: Employee[] }
-  | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee | undefined}
+  | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee | undefined }
   // | { type: AttendanceRegister.GET_EMPLOYEE; payload: Employee}
-  | { type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE; payload: ResumenEmployeeAttendanceDeparture[]}
-  | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee}
-  | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean}
-  | { type: AttendanceRegister.LOADING_GET_STUDENTS; payload: boolean}
-  | { type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL; payload: boolean}
-  | { type: AttendanceRegister.STUDENT_FOR_DEPARTURE; payload: StudentData}
-  | { type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL; payload: boolean}
-  | { type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL; payload: boolean}
-  | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean}
-  | { type: AttendanceRegister.GET_STUDENT_TALLER; payload: StudentData}
-  | { type: AttendanceRegister.STUDENT_TALLER_LOADER; payload: boolean}
-  | { type: AttendanceRegister.GET_CURSOS; payload: string[]}
-  | { type: AttendanceRegister.PICTURE_TAREAS; payload: PicturesTareasArray[]}
-  | { type: AttendanceRegister.GET_ALL_TAREAS; payload: tareasPorDia[]}
-  | { type: AttendanceRegister.GET_EMPLOYEE_BY_SEARCH; payload: Employee}
-  | { type: AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL; payload: boolean}
+  | { type: AttendanceRegister.GET_EMPLOYEE_RESUME_ATTENDANCE; payload: ResumenEmployeeAttendanceDeparture[] }
+  | { type: AttendanceRegister.DATA_EMPLOYEE; payload: Employee }
+  | { type: AttendanceRegister.LOADER_GET_EMPLOYEE; payload: boolean }
+  | { type: AttendanceRegister.LOADING_GET_STUDENTS; payload: boolean }
+  | { type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL; payload: boolean }
+  | { type: AttendanceRegister.STUDENT_FOR_DEPARTURE; payload: StudentData }
+  | { type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL; payload: boolean }
+  | { type: AttendanceRegister.CONFIRMATION_DEPARTURE_STUDENT_MODAL; payload: boolean }
+  | { type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL; payload: boolean }
+  | { type: AttendanceRegister.GET_STUDENT_TALLER; payload: StudentData }
+  | { type: AttendanceRegister.STUDENT_TALLER_LOADER; payload: boolean }
+  | { type: AttendanceRegister.GET_CURSOS; payload: string[] }
+  | { type: AttendanceRegister.PICTURE_TAREAS; payload: PicturesTareasArray[] }
+  | { type: AttendanceRegister.GET_ALL_TAREAS; payload: tareasPorDia[] }
+  | { type: AttendanceRegister.GET_EMPLOYEE_BY_SEARCH; payload: Employee }
+  | { type: AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL; payload: boolean }
+  | { type: AttendanceRegister.SHOW_CREATE_NEW_USER; payload: boolean }
+  | { type: AttendanceRegister.GET_ROLES; payload: Rol[] }
+  | { type: AttendanceRegister.GET_ALL_CURSOS; payload: Curso[] }
+  | { type: AttendanceRegister.LOADER_PICTURE_TASK; payload: boolean }
+  | { type: AttendanceRegister.INSTITUCIONES; payload: CreateUserData[] }
 
-  
+
 
 export type AuthenticationFormSignIn = {
   email: string,
@@ -246,6 +277,17 @@ export type AuthenticationFormSignIn = {
 }
 
 export type AttendanceDepartureTime = {
-  attendance?:boolean,
-  departure?:boolean,
+  attendance?: boolean,
+  departure?: boolean,
+}
+
+export type Rol = {
+  id?: string,
+  name?: string
+}
+export type Curso = {
+  name?: string,
+  nivel?: string,
+  id?:string,
+  newCurso?:boolean
 }

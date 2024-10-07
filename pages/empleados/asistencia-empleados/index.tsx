@@ -18,11 +18,10 @@ const AsistenciaEmpleados = () => {
   const { getTypeEmployee, getEmployees } = useAttendanceEmployee()
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
   useEffect(() => {
-    getUserData()
     if (userData) {
       getTypeEmployee()
     }
-  }, [userData.name])
+  }, [])
 
   useEffect(() => {
     if (valueFilter.rol) {
