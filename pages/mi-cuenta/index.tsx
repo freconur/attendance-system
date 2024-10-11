@@ -56,7 +56,7 @@ const MyAccount = () => {
         userData.dni ?
           <div className='p-3'>
             <div className='w-full'>
-              <div className='m-auto w-[80%] bg-white p-3'>
+              <div className='m-auto xs:w-[80%] w-full bg-white p-3'>
                 {
                   showNewUserModal && <NewUserModal userData={userData} />
                 }
