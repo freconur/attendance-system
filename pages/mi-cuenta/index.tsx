@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const initialValuePassword = {
   newPassword: "",
+  currentPassword:"",
   validateNewPassword: "",
   warningPassword: ""
 }
@@ -47,10 +48,10 @@ const MyAccount = () => {
     }
   }, [password.newPassword, password.validateNewPassword])
 
-  console.log('userData', userData)
+  // console.log('password', password)
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       {
         userData.dni ?
           <div className='p-3'>
@@ -88,10 +89,16 @@ const MyAccount = () => {
                 {
                   changePasswordUser &&
                   <div className='p-3'>
-
-                    <div className='flex gap-5'>
+                    <div className='mb-3'>
+                      <h3 className='text-slate-500 mb-2'>Escribe tu contraseña actual</h3>
+                      <input value={password.currentPassword} onChange={handleNewPassword} name="currentPassword" type="text" placeholder="contraseña actual" className='p-3 w-[100%] border-[1px]' />
+                    </div>
+                    <div className='mb-3'>
+                      <h3 className='text-slate-500 mb-2'>Escribe tu nueva contraseña</h3>
+                      <div className='flex gap-5'>
                       <input value={password.newPassword} onChange={handleNewPassword} name="newPassword" className='p-3 w-[100%] border-[1px]' type={showPassword ? 'text' : 'password'} placeholder='nueva contraseña' />
-                      <input value={password.validateNewPassword} onChange={handleNewPassword} name="validateNewPassword" className='p-3 w-[100%] outline-none border-[1px]' type={showPassword ? 'text' : 'password'} placeholder='verificación de nueva contraseña' />
+                      <input value={password.validateNewPassword} onChange={handleNewPassword} name="validateNewPassword" className='p-3 w-[100%] outline-none border-[1px]' type={showPassword ? 'text' : 'password'} placeholder='vuelve a escribir la nueva contraseña' />
+                      </div>
                     </div>
                     {
                       password.warningPassword &&
@@ -101,7 +108,7 @@ const MyAccount = () => {
                     <div onClick={() => setShowPassword(!showPassword)} className='cursor-pointer text-teal-500 capitalize text-sm'>{showPassword ? 'ocultar contraseña' : 'mostrar contraseña'}</div>
                     <div className='mt-3 gap-5 flex '>
                       <button onClick={() => { setChangePasswordUser(!changePasswordUser), cancelPassword() }} className=' text-red-300 font-semibold'>cancelar</button>
-                      <button onClick={() => {changePassword(password.newPassword, userData), setPassword(initialValuePassword)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
+                      <button onClick={() => { changePassword(password.newPassword, userData, password.currentPassword), setPassword(initialValuePassword), setChangePasswordUser(!changePasswordUser)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
                     </div>
                   </div>
                 }
@@ -113,7 +120,7 @@ const MyAccount = () => {
             </div>
           </div>
           :
-                  // colocar loader de carga para el usuario
+          // colocar loader de carga para el usuario
           <p>...cargando</p>
       }
     </>

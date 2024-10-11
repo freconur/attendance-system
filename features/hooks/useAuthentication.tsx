@@ -1,5 +1,5 @@
 import { app } from '@/firebase/firebaseConfig';
-import { browserSessionPersistence, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth'
+import { AuthCredential, browserSessionPersistence, EmailAuthProvider, getAuth, onAuthStateChanged, reauthenticateWithCredential, setPersistence, signInWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth'
 import { AuthenticationFormSignIn, UserData } from '../types/types';
 import 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
@@ -70,52 +70,112 @@ const useAuthentication = () => {
     // dispatch({ type: AttendanceRegister.USER_TOKEN, payload: { token: "", isAuthenticated: false } })
   }
 
-  const changePassword = (newPassword: string, userData: UserData) => {
-    const user = auth.currentUser
-    if (user) {
-      updatePassword(auth.currentUser, newPassword)
-      .then((response) => {
-        const promesa = new Promise((resolve, reject) => {
-          try {
-            axios
-              .post(`${URL_API}/v1/messages`,
-                {
-                  number: `51${userData.celular}`,
-                  message: `Hola ${userData.name} ${userData.lastname} ${userData.firstname}, 'tu contraseña ha sido cambiado con exito a ' *${newPassword}*.`
-                })
-              .then(response => {
-                console.log('response', response)
-                if (response.status === 200) {
-                  resolve(true)
-                } else {
-                  reject(true)
-                }
+  const changePassword = (newPassword: string, userData: UserData, currentPassword: string) => {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    //funcion que ayudata a verificar si el usuario y la contrasena son correctas para poder proceder con el cambio de contrasena
+    if (user?.email) {
+      const credential = EmailAuthProvider.credential(
+        user?.email,
+        currentPassword
+      )
+
+      reauthenticateWithCredential(user, credential).then(() => {
+        // User re-authenticated
+        console.log('se acepto las credenciales')
+
+        updatePassword(user, newPassword)
+          .then((response) => {
+            const promesa = new Promise((resolve, reject) => {
+              try {
+                axios
+                  .post(`${URL_API}/v1/messages`,
+                    {
+                      number: `51${userData.celular}`,
+                      message: `Hola ${userData.name} ${userData.lastname} ${userData.firstname}, tu contraseña ha sido cambiado con exito a *${newPassword}*.`
+                    })
+                  .then(response => {
+                    console.log('response', response)
+                    if (response.status === 200) {
+                      resolve(true)
+                    } else {
+                      reject(true)
+                    }
+                  })
+                // .catch(response => {
+                //   console.log('catch', response)
+                // })
+              } catch (error) {
+                console.log('ocurrio un error:', error)
+                reject(error)
+              }
+            })
+
+            toast.promise(promesa,
+              {
+                pending: 'Actualizando contraseña',
+                success: 'Se actualizo contrasena con exito 👌',
+                error: 'Parece que algo fallo, intentalo despues 🤯'
               })
-            // .catch(response => {
-            //   console.log('catch', response)
-            // })
-          } catch (error) {
-            console.log('ocurrio un error:', error)
-            reject(error)
-          }
-        })
-  
-        toast.promise(promesa,
-          {
-            pending: 'Actualizando contraseña',
-            success: 'Se actualizo contrasena con exito 👌',
-            error: 'Parece que algo fallo, intentalo despues 🤯'
+
+            //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
+            //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
           })
-  
-        //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
-        //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
-      })
-      
-     
-        // .catch((error) => {
-        //   console.log('error contrasena', error)
-        // });
+
+      }).catch((error: any) => {
+        // An error ocurred
+        console.log('errorcito de credenciales', error)
+        // ...
+      });
+
     }
+
+    // if (user) {
+    //   updatePassword(auth.currentUser, newPassword)
+    //     .then((response) => {
+    //       const promesa = new Promise((resolve, reject) => {
+    //         try {
+    //           axios
+    //             .post(`${URL_API}/v1/messages`,
+    //               {
+    //                 number: `51${userData.celular}`,
+    //                 message: `Hola ${userData.name} ${userData.lastname} ${userData.firstname}, 'tu contraseña ha sido cambiado con exito a ' *${newPassword}*.`
+    //               })
+    //             .then(response => {
+    //               console.log('response', response)
+    //               if (response.status === 200) {
+    //                 resolve(true)
+    //               } else {
+    //                 reject(true)
+    //               }
+    //             })
+    //           // .catch(response => {
+    //           //   console.log('catch', response)
+    //           // })
+    //         } catch (error) {
+    //           console.log('ocurrio un error:', error)
+    //           reject(error)
+    //         }
+    //       })
+
+    //       toast.promise(promesa,
+    //         {
+    //           pending: 'Actualizando contraseña',
+    //           success: 'Se actualizo contrasena con exito 👌',
+    //           error: 'Parece que algo fallo, intentalo despues 🤯'
+    //         })
+
+    //       //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
+    //       //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
+    //     })
+
+
+    //   // .catch((error) => {
+    //   //   console.log('error contrasena', error)
+    //   // });
+    // }
   }
   const getUserData = () => {
     onAuthStateChanged(auth, currentUser => {

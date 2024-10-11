@@ -136,6 +136,7 @@ const useAttendanceEmployee = () => {
           //AQUI DEBERIA DE CREAR LA FUNCION QUE ENVIARA EL MENSAJE DE WHATSAPPP A LOS NUMEROS TELEFONICOS DE LOS PROFESORES.
           console.log('sin registro de entrada')
           if (employeeData.data().numberPhone) {
+            
             try {
               axios
                 .post(`${URL_API}/v1/messages`,
@@ -157,6 +158,7 @@ const useAttendanceEmployee = () => {
       } else {
         console.log('sin registro de entrada basico')
         if (employeeData.data().numberPhone) {
+          console.log('employeeData.data()', employeeData.data())
           try {
             axios
               .post(`${URL_API}/v1/messages`,
