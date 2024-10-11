@@ -83,9 +83,7 @@ const useAuthentication = () => {
       )
 
       reauthenticateWithCredential(user, credential).then(() => {
-        // User re-authenticated
         console.log('se acepto las credenciales')
-
         updatePassword(user, newPassword)
           .then((response) => {
             const promesa = new Promise((resolve, reject) => {
@@ -119,7 +117,7 @@ const useAuthentication = () => {
                 success: 'Se actualizo contrasena con exito 👌',
                 error: 'Parece que algo fallo, intentalo despues 🤯'
               })
-
+              dispatch({ type: AttendanceRegister.ERROR_CURRENT_PASSWORD, payload: false })
             //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
             //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
           })
@@ -127,56 +125,14 @@ const useAuthentication = () => {
       }).catch((error: any) => {
         // An error ocurred
         console.log('errorcito de credenciales', error)
+        dispatch({ type: AttendanceRegister.ERROR_CURRENT_PASSWORD, payload: true })
+        // dispatch({ type: AttendanceRegister.LOADING_ACCOUNT, payload: true })
         // ...
       });
-
     }
-
-    // if (user) {
-    //   updatePassword(auth.currentUser, newPassword)
-    //     .then((response) => {
-    //       const promesa = new Promise((resolve, reject) => {
-    //         try {
-    //           axios
-    //             .post(`${URL_API}/v1/messages`,
-    //               {
-    //                 number: `51${userData.celular}`,
-    //                 message: `Hola ${userData.name} ${userData.lastname} ${userData.firstname}, 'tu contraseña ha sido cambiado con exito a ' *${newPassword}*.`
-    //               })
-    //             .then(response => {
-    //               console.log('response', response)
-    //               if (response.status === 200) {
-    //                 resolve(true)
-    //               } else {
-    //                 reject(true)
-    //               }
-    //             })
-    //           // .catch(response => {
-    //           //   console.log('catch', response)
-    //           // })
-    //         } catch (error) {
-    //           console.log('ocurrio un error:', error)
-    //           reject(error)
-    //         }
-    //       })
-
-    //       toast.promise(promesa,
-    //         {
-    //           pending: 'Actualizando contraseña',
-    //           success: 'Se actualizo contrasena con exito 👌',
-    //           error: 'Parece que algo fallo, intentalo despues 🤯'
-    //         })
-
-    //       //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
-    //       //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
-    //     })
-
-
-    //   // .catch((error) => {
-    //   //   console.log('error contrasena', error)
-    //   // });
-    // }
   }
+
+
   const getUserData = () => {
     onAuthStateChanged(auth, currentUser => {
       if (currentUser) {

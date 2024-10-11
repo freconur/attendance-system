@@ -16,7 +16,7 @@ const initialValuePassword = {
 }
 const MyAccount = () => {
   const { userData } = useGlobalContext()
-  const { showNewUserModal } = useGlobalContext()
+  const { showNewUserModal, errorCurrentPassword } = useGlobalContext()
   const { showNewUserModalValue } = useNewUser()
   const [changePasswordUser, setChangePasswordUser] = useState<boolean>(false)
   const [password, setPassword] = useState(initialValuePassword)
@@ -92,6 +92,11 @@ const MyAccount = () => {
                     <div className='mb-3'>
                       <h3 className='text-slate-500 mb-2'>Escribe tu contraseña actual</h3>
                       <input value={password.currentPassword} onChange={handleNewPassword} name="currentPassword" type="text" placeholder="contraseña actual" className='p-3 w-[100%] border-[1px]' />
+                      {
+                        errorCurrentPassword &&
+                        <span className='text-red-500 text-sm'>*tu contraseña no coincide, verifica que hayas escrito correctamente tu contraseña actual</span>
+                      }
+                      
                     </div>
                     <div className='mb-3'>
                       <h3 className='text-slate-500 mb-2'>Escribe tu nueva contraseña</h3>
@@ -108,7 +113,7 @@ const MyAccount = () => {
                     <div onClick={() => setShowPassword(!showPassword)} className='cursor-pointer text-teal-500 capitalize text-sm'>{showPassword ? 'ocultar contraseña' : 'mostrar contraseña'}</div>
                     <div className='mt-3 gap-5 flex '>
                       <button onClick={() => { setChangePasswordUser(!changePasswordUser), cancelPassword() }} className=' text-red-300 font-semibold'>cancelar</button>
-                      <button onClick={() => { changePassword(password.newPassword, userData, password.currentPassword), setPassword(initialValuePassword), setChangePasswordUser(!changePasswordUser)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
+                      <button onClick={() => { changePassword(password.newPassword, userData, password.currentPassword), setPassword(initialValuePassword), setChangePasswordUser(errorCurrentPassword)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
                     </div>
                   </div>
                 }

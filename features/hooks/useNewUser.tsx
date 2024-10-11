@@ -119,6 +119,7 @@ export const useNewUser = () => {
             name: `${dataUser.name}`,
             lastname: `${dataUser.lastname}`,
             firstname: `${dataUser.firstname}`,
+            misCursos:[],
             rol: Number(dataUser.rol),
           });
         }
