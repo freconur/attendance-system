@@ -144,6 +144,7 @@ export type Student = {
   allCursos: Curso[],
   loaderPictureTask: boolean,
   instituciones: CreateUserData[],
+  showChangePassword:boolean,
   errorCurrentPassword:boolean
 }
 export interface DetailsPerDayOfStudent {
@@ -270,6 +271,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADER_PICTURE_TASK; payload: boolean }
   | { type: AttendanceRegister.INSTITUCIONES; payload: CreateUserData[] }
   | { type: AttendanceRegister.ERROR_CURRENT_PASSWORD; payload: boolean }
+  | { type: AttendanceRegister.SHOW_CHANGE_PASSWORD; payload: boolean }
 
 
 

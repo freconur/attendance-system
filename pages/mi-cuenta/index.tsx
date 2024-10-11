@@ -16,13 +16,13 @@ const initialValuePassword = {
 }
 const MyAccount = () => {
   const { userData } = useGlobalContext()
-  const { showNewUserModal, errorCurrentPassword } = useGlobalContext()
+  const { showNewUserModal, errorCurrentPassword, showChangePassword } = useGlobalContext()
   const { showNewUserModalValue } = useNewUser()
   const [changePasswordUser, setChangePasswordUser] = useState<boolean>(false)
   const [password, setPassword] = useState(initialValuePassword)
   const [agreePassword, setAgreePassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const { changePassword } = useAuthentication()
+  const { changePassword, showOptionsChangePassword } = useAuthentication()
   // const [validateNewPassword, setValidateNewPassword] = useState({})
   // console.log('mi cuenta', userData)
 
@@ -48,7 +48,7 @@ const MyAccount = () => {
     }
   }, [password.newPassword, password.validateNewPassword])
 
-  // console.log('password', password)
+  console.log('showChangePassword', showChangePassword)
   return (
     <>
       <ToastContainer />
@@ -84,17 +84,17 @@ const MyAccount = () => {
                     </p>
                   </div>
                 </div>
-                <h4 onClick={() => setChangePasswordUser(!changePasswordUser)} className='p-3 w-auto cursor-pointer capitalize font-semibold text-blue-500 mb-2 duration-300 hover:text-blue-600'>cambiar mi contraseña</h4>
+                <h4 onClick={() => showOptionsChangePassword(showChangePassword)} className='p-3 w-auto cursor-pointer capitalize font-semibold text-blue-500 mb-2 duration-300 hover:text-blue-600'>cambiar mi contraseña</h4>
 
                 {
-                  changePasswordUser &&
+                  showChangePassword &&
                   <div className='p-3'>
                     <div className='mb-3'>
                       <h3 className='text-slate-500 mb-2'>Escribe tu contraseña actual</h3>
                       <input value={password.currentPassword} onChange={handleNewPassword} name="currentPassword" type="text" placeholder="contraseña actual" className='p-3 w-[100%] border-[1px]' />
                       {
                         errorCurrentPassword &&
-                        <span className='text-red-500 text-sm'>*tu contraseña no coincide, verifica que hayas escrito correctamente tu contraseña actual</span>
+                        <span className='text-red-500 text-sm'>*tu contraseña no coincide o has alcanzado el límite de intentos (inténtalo más tarde)</span>
                       }
                       
                     </div>
@@ -113,7 +113,7 @@ const MyAccount = () => {
                     <div onClick={() => setShowPassword(!showPassword)} className='cursor-pointer text-teal-500 capitalize text-sm'>{showPassword ? 'ocultar contraseña' : 'mostrar contraseña'}</div>
                     <div className='mt-3 gap-5 flex '>
                       <button onClick={() => { setChangePasswordUser(!changePasswordUser), cancelPassword() }} className=' text-red-300 font-semibold'>cancelar</button>
-                      <button onClick={() => { changePassword(password.newPassword, userData, password.currentPassword), setPassword(initialValuePassword), setChangePasswordUser(errorCurrentPassword)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
+                      <button onClick={() => { changePassword(password.newPassword, userData, password.currentPassword),  setPassword(initialValuePassword)}} disabled={password.warningPassword.length > 0 ? true : false} className={`p-2  text-white capitalize rounded-sm  ${agreePassword ? 'bg-blue-400' : 'bg-gray-200'} font-semibold`}>aceptar</button>
                     </div>
                   </div>
                 }

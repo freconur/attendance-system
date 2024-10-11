@@ -70,6 +70,10 @@ const useAuthentication = () => {
     // dispatch({ type: AttendanceRegister.USER_TOKEN, payload: { token: "", isAuthenticated: false } })
   }
 
+  const showOptionsChangePassword = (value:boolean) => {
+
+    dispatch({ type: AttendanceRegister.SHOW_CHANGE_PASSWORD, payload: !value })
+  }
   const changePassword = (newPassword: string, userData: UserData, currentPassword: string) => {
 
     const auth = getAuth();
@@ -83,7 +87,9 @@ const useAuthentication = () => {
       )
 
       reauthenticateWithCredential(user, credential).then(() => {
+
         console.log('se acepto las credenciales')
+        showOptionsChangePassword(true)
         updatePassword(user, newPassword)
           .then((response) => {
             const promesa = new Promise((resolve, reject) => {
@@ -117,10 +123,10 @@ const useAuthentication = () => {
                 success: 'Se actualizo contrasena con exito 👌',
                 error: 'Parece que algo fallo, intentalo despues 🤯'
               })
-              dispatch({ type: AttendanceRegister.ERROR_CURRENT_PASSWORD, payload: false })
             //mostrare un alerta tipo notificacion en la misma pagina de usuario https:localhost/mi-cuenta m m
             //api para enviar notificvacion de whatsapp de cambio de nueva contrasena
           })
+        dispatch({ type: AttendanceRegister.ERROR_CURRENT_PASSWORD, payload: false })
 
       }).catch((error: any) => {
         // An error ocurred
@@ -140,6 +146,6 @@ const useAuthentication = () => {
       }
     })
   }
-  return { signIn, logout, getUserData, changePassword }
+  return { signIn, logout, getUserData, changePassword, showOptionsChangePassword }
 }
 export default useAuthentication

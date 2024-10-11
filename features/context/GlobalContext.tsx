@@ -54,6 +54,7 @@ const initialState: Student = {
   allCursos: [],
   loaderPictureTask: false,
   instituciones: [],
+  showChangePassword:false,
   errorCurrentPassword:false
 }
 
