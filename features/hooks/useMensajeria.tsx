@@ -32,7 +32,7 @@ export const useMensajeria = () => {
       const newPromise = new Promise((resolve, reject) => {
         try {
           employeeArray.forEach(emplooye => {
-            if (emplooye.numberPhone === "982752688") {
+            if (emplooye.numberPhone) {
               try {
                 axios
                   .post(`${URL_API}/v1/messages`,
