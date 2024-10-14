@@ -145,7 +145,10 @@ export type Student = {
   loaderPictureTask: boolean,
   instituciones: CreateUserData[],
   showChangePassword:boolean,
-  errorCurrentPassword:boolean
+  errorCurrentPassword:boolean,
+  showModalConfirmationSendMessageWhatsapp:boolean,
+  sendMessageWhatsappLoader:boolean,
+  allStudents:StudentData[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -187,7 +190,8 @@ export interface Employee {
   manualAttendance?: boolean,
   phone?: string,
   numberPhone?: string,
-  currentlyHour?: string
+  currentlyHour?: string,
+  misCursos?: Curso[]
 }
 
 export interface UpdateDataUser {
@@ -272,6 +276,9 @@ export type AttendanceAction =
   | { type: AttendanceRegister.INSTITUCIONES; payload: CreateUserData[] }
   | { type: AttendanceRegister.ERROR_CURRENT_PASSWORD; payload: boolean }
   | { type: AttendanceRegister.SHOW_CHANGE_PASSWORD; payload: boolean }
+  | { type: AttendanceRegister.LOADER_SENDMESSAGEWHATSAPP; payload: boolean }
+  | { type: AttendanceRegister.SHOW_MODAL_CONFIRMATION_SENDMESSAGEWHATSAPP; payload: boolean }
+  | { type: AttendanceRegister.ALL_STUDENTS; payload: StudentData[] }
 
 
 

@@ -17,9 +17,9 @@ const Asistencia = () => {
   const initialState = { studentCode: "" }
   const { getUserData } = useAuthentication()
   const [studenCode, setStudenCode] = useState(initialState)
-  const { getStudentData, studentArrivalTime, activeDepartureManualModal } = useAttendance()
+  const { getStudentData, studentArrivalTime, activeDepartureManualModal, getAllStudents } = useAttendance()
   const { employeeModal } = useAttendanceEmployee()
-  const { studentsData, userData, loadingGetStudents, activeEmployeeModal, showDepartureManualModal } = useGlobalContext()
+  const { studentsData, userData, loadingGetStudents, activeEmployeeModal, showDepartureManualModal, allStudents } = useGlobalContext()
   const focusRef = useRef<HTMLInputElement>(null)
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStudenCode({
@@ -41,9 +41,13 @@ const Asistencia = () => {
 
   useEffect(() => {
     getUserData()
-
+    getAllStudents()
   }, [userData.dni])
-  console.log('userData', userData)
+
+  console.log('cargando')
+  // console.log('userData', userData)
+  // console.log('studentsData', studentsData)
+  // console.log('allStudents', allStudents)
   return (
     <div className='p-2'>
       {/* <div className='flex xs:hidden justify-start'>

@@ -42,7 +42,7 @@ const Asistencia = () => {
     getUserData()
 
   }, [])
-  console.log('activeEmployeeModal', activeEmployeeModal)
+  console.log('studentsData', studentsData)
   return (
     <div className='p-2'>
       {/* <div className='flex xs:hidden justify-start'>
@@ -71,7 +71,7 @@ const Asistencia = () => {
 
         <div className='w-full'>
           <div className='w-full'>
-            <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div>
+            <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiantes:</div>
             <input
               ref={focusRef}
               value={studenCode.studentCode}

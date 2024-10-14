@@ -14,10 +14,9 @@ interface Props {
 }
 const NewUserModal = ({ userData }: Props) => {
 
-  const { getRoles, getCursos, createNewUser, getInstitution } = useNewUser()
+  const { getRoles, getCursos, createNewUser, getInstitution, showNewUserModalValue } = useNewUser()
   const { roles, allCursos, instituciones, showNewUserModal } = useGlobalContext()
   const [typeRol, setTypeRol] = useState("")
-  const { showNewUserModalValue } = useNewUser()
   const [institucionData, setInstitucionData] = useState("")
   const [rolesData, setRolesData] = useState<number[]>([])
   const [cursosProfesor, setCursosProfesor] = useState<string[]>([])

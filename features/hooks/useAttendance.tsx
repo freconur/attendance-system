@@ -15,7 +15,7 @@ const URL_API = "https://whatsapp-asistencia-production.up.railway.app"
 
 export const useAttendance = () => {
   const dispatch = useGlobalContextDispatch()
-  const { userData } = useGlobalContext()
+  const { userData, allStudents } = useGlobalContext()
 
 
   const studentDepartureTime = async (studentCode: string, motivoSalida: string) => {
@@ -95,74 +95,96 @@ export const useAttendance = () => {
     // }
 
   }
+  const getAllStudents = async () => {
+    const querySnapshot = await getDocs(collection(db, `/intituciones/${userData.idInstitution}/students`));
+    const allStudents: StudentData[] = []
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      allStudents.push(doc.data())
+      dispatch({ type: AttendanceRegister.ALL_STUDENTS, payload: allStudents })
+    });
+  }
+
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
     dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: true })
     const refData = doc(db, `/intituciones/${userData.idInstitution}/students`, studentCode as string)
     const studentData = await getDoc(refData)
     const currentlyHour = new Date()
-
+    //funcion rta permite saber el alumno se retira o ingresa al colegio
     const rta = () => {
       if (currentlyHour.getHours() === 12 || currentlyHour.getHours() === 13 || currentlyHour.getHours() === 14 || currentlyHour.getHours() === 15) {
         return true
       } else return false
     }
-    console.log('rta', rta())
-    if (studentData.exists()) {//primero verifico si la data existe
+    const findStudent = allStudents.find(student => student.dni === studentCode)
+    if (findStudent) {
       studentArrivalTime(studentCode)
-      Data?.unshift(studentData.data())
+      Data?.unshift(findStudent)
       // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
+      if (findStudent.firstContact && findStudent.firstNumberContact?.length === 9) {
         try {
           axios
-            // .post(`/api/whatsapp`,
             .post(`${URL_API}/v1/messages`,
               {
-                // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-                number: `51${studentData.data().firstNumberContact}`,
-                // phoneNumber: `51982752688@c.us`,
-                message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
-                // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
+                number: `51${findStudent.firstNumberContact}`,
+                message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
               })
-              .then( r => {
-                if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9){
-                  try {
-                    axios
+            .then(r => {
+              if (findStudent.secondContact && findStudent?.secondNumberContact?.length === 9) {
+                try {
+                  axios
                     .post(`${URL_API}/v1/messages`,
                       {
-                        // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-                        number: `51${studentData.data().secondNumberContact}`,
-                        // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-                        message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                        number: `51${findStudent.secondNumberContact}`,
+                        message: `Sr.(a) ${findStudent.secondContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
                       })
-                  }catch (error){
-                    console.log('error', error)
-                  }
+                } catch (error) {
+                  console.log('error', error)
                 }
-              })
+              }
+            })
         } catch (error) {
           console.log('error', error)
         }
       }
-
-      // if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
-      //   console.log('entramos al segundo contacto')
-
-      //   try {
-      //     axios
-      //       .post(`${URL_API}/v1/messages`,
-      //         {
-      //           // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-      //           number: `51${studentData.data().secondNumberContact}`,
-      //           // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
-      //           message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
-      //         })
-      //   } catch (error) {
-      //     console.log('error', error)
-      //   }
-      // }
       dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0, 5) })
       dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
     }
+
+    // console.log('rta', rta())
+    // if (studentData.exists()) {//primero verifico si la data existe
+    //   studentArrivalTime(studentCode)
+    //   Data?.unshift(studentData.data())
+    //   // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
+    //   if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
+    //     try {
+    //       axios
+    //         .post(`${URL_API}/v1/messages`,
+    //           {
+    //             number: `51${studentData.data().firstNumberContact}`,
+    //             message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+    //           })
+    //         .then(r => {
+    //           if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
+    //             try {
+    //               axios
+    //                 .post(`${URL_API}/v1/messages`,
+    //                   {
+    //                     number: `51${studentData.data().secondNumberContact}`,
+    //                     message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+    //                   })
+    //             } catch (error) {
+    //               console.log('error', error)
+    //             }
+    //           }
+    //         })
+    //     } catch (error) {
+    //       console.log('error', error)
+    //     }
+    //   }
+    //   dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0, 5) })
+    //   dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
+    // }
   }
   const activeDepartureManualModal = (value: boolean) => {
     dispatch({ type: AttendanceRegister.SHOW_DEPARTURE_MANUAL_MODAL, payload: !value })
@@ -196,14 +218,23 @@ export const useAttendance = () => {
       }
       dispatch({ type: AttendanceRegister.GET_STUDENT_TALLER, payload: studentData.data() })
       dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: false })
-    }else {
+    } else {
       dispatch({ type: AttendanceRegister.GET_STUDENT_TALLER, payload: {} })
       dispatch({ type: AttendanceRegister.STUDENT_TALLER_LOADER, payload: false })
-      
+
     }
   }
   //////////////////////////////////////////////////ASISTENCIA DE TALLERES///////////////////////////////////////////////
 
-  return { attendanceArrivalStudentsTalleres, getStudentData, studentArrivalTime, activeDepartureManualModal, getStudentDepartureManual, confirmationDepartureModal, studentDepartureTime }
+  return {
+    attendanceArrivalStudentsTalleres,
+    getStudentData,
+    studentArrivalTime,
+    activeDepartureManualModal,
+    getStudentDepartureManual,
+    confirmationDepartureModal,
+    studentDepartureTime,
+    getAllStudents
+  }
 }
 

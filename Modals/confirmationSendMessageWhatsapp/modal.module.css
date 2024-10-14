@@ -1,0 +1,158 @@
+.containerModal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.23);
+  z-index: 2000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-content: center;
+}
+
+.containerSale {
+  /* display: grid; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* place-content: center; */
+  /* width:500vw ; */
+  width: 310px;
+  /* height: 250px; */
+  /* background: linear-gradient(90deg, rgba(246,246,246,1) 0%, rgba(210,210,210,1) 51%, rgba(196,196,196,1) 100%); */
+  /* text-transform: capitalize; */
+  background-color: white;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.receptor {
+  color: #7777dd;
+  margin-left: 10px;
+  font-weight: 400;
+}
+.texto {
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: #f6faea;
+  color: #424242;
+  /* box-shadow: inset; */
+  box-shadow: 5px 10px 13px -9px rgba(0, 0, 0, 0.30);
+  -webkit-box-shadow: 5px 10px 13px -9px rgba(0, 0, 0, 0.77);
+  -moz-box-shadow: 5px 10px 13px -9px rgba(0, 0, 0, 0.77);
+}
+.containerTexto {
+  margin-bottom: 10px;
+}
+.titleTexto {
+  margin-bottom:10px;
+  color:#424242;
+}
+.buttonSubmit {
+  color: #20bf6b;
+  width: 100px;
+  text-transform: uppercase;
+  background: #ffffff;
+  padding: 10px;
+  border: 2px solid #20bf6b;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+}
+.buttonSubmit:hover {
+  color: white;
+  font-weight: 700;
+  border-radius: 20px;
+  background-color: #20bf6b;
+  border-color: #20bf6b;
+  transition: all 0.3s ease 0s;
+}
+.groupEmisorReceptor {
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #20bf6b;
+}
+@media (min-width: 400px) {
+  .containerSale {
+    width: 390px;
+  }
+}
+@media (min-width: 500px) {
+  .containerSale {
+    width: 490px;
+  }
+}
+@media (min-width: 600px) {
+  .containerSale {
+    width: 590px;
+  }
+}
+@media (min-width: 768px) {
+  .containerSale {
+    width: 590px;
+    
+  }
+}
+.buttonsContainer{
+  margin-top:30px;
+  gap: 20px;
+  display: flex;
+  width:100%;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  font-family: "DM Mono";
+  font-size: medium;
+  text-align: center;
+  margin-bottom: 20px;
+  /* color: #182c18; */
+  color: white;
+}
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+.optionButtonAgree {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  /* background: linear-gradient(90deg, rgba(103,226,207,1) 0%, rgba(62,188,191,1) 48%, rgba(49,154,138,1) 100%); */
+  background-color: #7777dd;
+  color: white;
+  font-family: "DM Mono";
+  cursor: pointer;
+}
+.optionButtonCancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Nunito";
+  padding: 5px;
+  height: 40px;
+  border-radius: 5px;
+  color: rgb(97, 105, 172);
+  cursor: pointer;
+  width: 100px;
+  font-family: "Nunito";
+  font-weight: 700;
+}
+.list {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}

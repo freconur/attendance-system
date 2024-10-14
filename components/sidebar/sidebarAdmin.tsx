@@ -14,6 +14,11 @@ const SidebarAdmin = () => {
               <span className='text-base flex-1 ml-2 text-md'>mi cuenta</span>
             </Link>
           </li>
+          <li className="rounded-md text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:border-[1px] hover:border-green-300 hover:text-green-300 duration-300 mx-2 whitespace-nowrap drop-shadow-lg">
+            <Link onClick={() => showSidebarContext(false)} href="/mensajeria" className="my-1 w-56 p-2">
+              <span className='text-base flex-1 ml-2 text-md'>mensajeria</span>
+            </Link>
+          </li>
         </ul>
       </>
       {

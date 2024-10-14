@@ -7,7 +7,13 @@ export const validateRol = (rol: number | undefined) => {
   if (rol === 4) return "administracion"
   // if (rol === 5) return "director"
 }
-
+export const validateRolMessageWhatsapp = (rol: number | undefined) => {
+  if (rol === 1) return "profesores"
+  if (rol === 2) return "auxiliares"
+  if (rol === 3) return "empleados"
+  if (rol === 4) return "administracion"
+  // if (rol === 5) return "director"
+}
 export const validateDepartureTime = (arrivalTime: Date, validateArrivalTime: { hour: number, min: number }) => {
   // console.log('arrivalTime', arrivalTime)
   const currentlyData = hoursUnixDateEmployeeValidate(arrivalTime)
