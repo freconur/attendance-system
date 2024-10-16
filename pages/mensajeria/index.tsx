@@ -32,6 +32,8 @@ const Mensajeria = () => {
       [e.target.name]: e.target.value
     })
   }
+
+  // console.log('selectedItems', selectedItems)
   return (
     <div className='p-3'>
       {
@@ -62,7 +64,18 @@ const Mensajeria = () => {
                 <span className='capitalize text-slate-600'>profesores</span>
 
               </div>
+              <div className='flex  items-center mr-2'>
+                {/* los valores de cada input estan hardcodeados, asi que necesito traer estos valores de la base de datos segun cada colegio */}
+                <input
+                  className='w-[20px] h-[20px] rounded-full mr-2'
+                  type="checkbox"
+                  name="padres"
+                  value="5"
+                  onChange={selectedValueCheckbox}
+                />
+                <span className='capitalize text-slate-600'>padres de familia</span>
 
+              </div>
               <div className='flex  items-center mr-2'>
                 <input
                   className='w-[20px] h-[20px] rounded-full mr-2'
