@@ -4,6 +4,26 @@ import { AttendanceAction, Student } from "../types/types";
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+    case AttendanceRegister.GET_ALL_CUADERNOCONTROL:
+      return {
+        ...state,
+        getAllCuadernoControl:action.payload
+      }
+    case AttendanceRegister.SHOW_CONFIRMATION_CUADERNOCONTROL:
+      return {
+        ...state,
+        showModalConfirmationCuadernoControl: action.payload
+      }
+    case AttendanceRegister.GRADES_PRIMARIA:
+      return {
+        ...state,
+        gradesPrimaria:action.payload
+      }
+    case AttendanceRegister.GRADES_SECUNDARIA:
+      return {
+        ...state,
+        gradesSecundaria:action.payload
+      }
     case AttendanceRegister.ALL_STUDENTS:
       return{
         ...state,

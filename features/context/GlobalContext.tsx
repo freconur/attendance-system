@@ -58,7 +58,11 @@ const initialState: Student = {
   errorCurrentPassword:false,
   showModalConfirmationSendMessageWhatsapp: false,
   sendMessageWhatsappLoader:false,
-  allStudents:[]
+  allStudents:[],
+  gradesSecundaria:[],
+  gradesPrimaria:[],
+  showModalConfirmationCuadernoControl:false,
+  getAllCuadernoControl:[]
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

@@ -1,0 +1,54 @@
+.textarea {
+  resize: none;
+  min-height: 36px;
+  width:100%;
+  /* min-width:560px; */
+  field-sizing: content;
+  max-height: 200px;
+  /* border: ; */
+  /* background-color: #cccafd; */
+  transition: all 0.2s;
+  outline:none;
+  border-radius: 10px;
+  padding: 5px;
+  color:#746171;
+}
+.textareaMessage {
+  resize: none;
+  min-height: 100px;
+  width:100%;
+  /* min-width:560px; */
+  field-sizing: content;
+  max-height: 200px;
+  /* border: ; */
+  /* background-color: #cccafd; */
+  transition: all 0.2s;
+  outline:none;
+  border-radius: 10px;
+  padding: 5px;
+  color:#746171;
+}
+.asuntoContainer {
+  display:flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color:rgb(74 222 128 );
+  /* gap: px; */
+  justify-content: center;
+  align-items: center;
+}
+.continerCheckbox {
+  display: flex;
+  margin-bottom:2;
+  gap:10px
+}
+@media (max-width: 550px) {
+  .continerCheckbox {
+    /* display: block; */
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    /* margin-bottom:2 */
+  }
+}

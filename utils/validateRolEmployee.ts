@@ -26,3 +26,5 @@ export const validateDepartureTime = (arrivalTime: Date, validateArrivalTime: { 
   }
 }
 
+// export const roles = [1, 2, 3, 4, 5]
+

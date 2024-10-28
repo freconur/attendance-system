@@ -7,6 +7,11 @@ export type AuthProviderProps = {
 export interface PicturesTareasArray {
   url: string
 }
+
+export interface GradesCheckbox {
+  nivel: string[],
+  grades: string[]
+}
 export interface UserData {
   firstname?: string,
   pictureProfile?: string,
@@ -21,7 +26,7 @@ export interface UserData {
   dni?: string,
   celular?: string,
   cursos?: string[],
-  numberPhone?:string
+  numberPhone?: string
   extensionForUsers?: string
 }
 export interface CreateUserData {
@@ -94,8 +99,11 @@ export interface Section {
 export interface Grades {
   grade?: string,
   traditionalGrade?: string,
-  gotSection?: boolean
+  gotSection?: boolean,
+  nivel?: number,
+  checked?: boolean
 }
+
 export type Student = {
   studentsData: StudentData[],
   testing: number,
@@ -144,11 +152,15 @@ export type Student = {
   allCursos: Curso[],
   loaderPictureTask: boolean,
   instituciones: CreateUserData[],
-  showChangePassword:boolean,
-  errorCurrentPassword:boolean,
-  showModalConfirmationSendMessageWhatsapp:boolean,
-  sendMessageWhatsappLoader:boolean,
-  allStudents:StudentData[]
+  showChangePassword: boolean,
+  errorCurrentPassword: boolean,
+  showModalConfirmationSendMessageWhatsapp: boolean,
+  sendMessageWhatsappLoader: boolean,
+  allStudents: StudentData[],
+  gradesSecundaria: Grades[]
+  gradesPrimaria: Grades[],
+  showModalConfirmationCuadernoControl: boolean,
+  getAllCuadernoControl:CuadernoControl[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -210,7 +222,7 @@ export interface UpdateDataUser {
   section?: string,
   numberPhone?: string,
   cellPhone?: string,
-  misCursos?:Curso[]
+  misCursos?: Curso[]
 }
 export interface EmployeeAttendanceDeparture {
   arrivalTime?: string,
@@ -279,8 +291,15 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADER_SENDMESSAGEWHATSAPP; payload: boolean }
   | { type: AttendanceRegister.SHOW_MODAL_CONFIRMATION_SENDMESSAGEWHATSAPP; payload: boolean }
   | { type: AttendanceRegister.ALL_STUDENTS; payload: StudentData[] }
+  | { type: AttendanceRegister.GRADES_SECUNDARIA; payload: Grades[] }
+  | { type: AttendanceRegister.GRADES_PRIMARIA; payload: Grades[] }
+  | { type: AttendanceRegister.SHOW_CONFIRMATION_CUADERNOCONTROL; payload: boolean }
+  | { type: AttendanceRegister.GET_ALL_CUADERNOCONTROL; payload: CuadernoControl[] }
 
-
+export type CuadernoControl = {
+  message?:string
+  subject?:string
+}
 
 export type AuthenticationFormSignIn = {
   email: string,
@@ -299,6 +318,12 @@ export type Rol = {
 export type Curso = {
   name?: string,
   nivel?: string,
-  id?:string,
-  newCurso?:boolean
+  id?: string,
+  newCurso?: boolean
 }
+
+export type CuadernoControlCheckbox = {
+  nivel: string[]
+  grades: string[]
+}
+

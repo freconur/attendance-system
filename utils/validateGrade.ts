@@ -58,3 +58,8 @@ if(grade === "9") return "3ro sec."
 if(grade === "10") return "4to sec."
 if(grade === "11") return "5to sec."
 }
+
+export const convertionValueToGrade = (value:string) => {
+  if(value === "1") return "primaria"
+  if(value === "2") return "secundaria"
+}

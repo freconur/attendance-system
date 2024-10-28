@@ -39,6 +39,7 @@ const Mensajeria = () => {
       {
         showModalConfirmationSendMessageWhatsapp &&
         <ConfirmationSendMessageWhatsapp
+        setMessagesWhatsapp={setMessagesWhatsapp}
           showModalConfirmationSendMessageWhatsapp={showModalConfirmationSendMessageWhatsapp}
           confirmationSendMessageWhatsapp={confirmationSendMessageWhatsapp}
           selectedItems={selectedItems}
@@ -51,7 +52,7 @@ const Mensajeria = () => {
         <div>
           <div className='mt-3'>
             <h3 className='text-lg text-slate-500 mb-3'>Selecciona a quienes quieres enviar el mensaje</h3>
-            <div className='flex gap-5 mb-3'>
+            <div className='flex flex-wrap gap-5 mb-3'>
               <div className='flex  items-center mr-2'>
                 {/* los valores de cada input estan hardcodeados, asi que necesito traer estos valores de la base de datos segun cada colegio */}
                 <input
@@ -76,7 +77,7 @@ const Mensajeria = () => {
                 <span className='capitalize text-slate-600'>padres de familia</span>
 
               </div>
-              <div className='flex  items-center mr-2'>
+              {/* <div className='flex  items-center mr-2'>
                 <input
                   className='w-[20px] h-[20px] rounded-full mr-2'
                   type="checkbox"
@@ -98,7 +99,7 @@ const Mensajeria = () => {
                   onChange={selectedValueCheckbox}
                 />
                 <span className='capitalize text-slate-600'>administración</span>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -109,7 +110,9 @@ const Mensajeria = () => {
           <button
             disabled={selectedItems?.length > 0 && messagesWhatsapp.message?.length > 0 ? false : true}
             className={`${selectedItems?.length > 0 && messagesWhatsapp.message?.length > 0 ? 'bg-green-400' : "bg-gray-400"} duration-300 transition cursor-pointer w-full p-3 uppercase rounded-md shadow-md text-white font-semibold`}
-            onClick={() => confirmationSendMessageWhatsapp(showModalConfirmationSendMessageWhatsapp)}
+            onClick={() => {
+              confirmationSendMessageWhatsapp(showModalConfirmationSendMessageWhatsapp);
+            }}
           >enviar mensaje</button>
         </div>
       </div>
