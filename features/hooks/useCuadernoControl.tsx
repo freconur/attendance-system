@@ -117,7 +117,7 @@ export const useCuadernoControl = () => {
                   .post(`${URL_API}/v1/messages`,
                     {
                       number: `51${numberPhone}`,
-                      message: `Recuerda que este canal de comunicación es exclusivamente para que usted pueda recibir notificaciones de la institucion educativa, evita responder a los mensajes ya que estos no seran respondidos, gracias.`
+                      message: `tienes nuevas nofiticaciones en cuaderno de control, `
                       // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
                     }
                   )
