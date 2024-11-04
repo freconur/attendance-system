@@ -117,7 +117,7 @@ export const useCuadernoControl = () => {
                   .post(`${URL_API}/v1/messages`,
                     {
                       number: `51${numberPhone}`,
-                      message: `tienes nuevas nofiticaciones en cuaderno de control, `
+                      message: `Tienes nuevas nofiticaciones en cuaderno de control, puedes hacer consultas en nuestro canal de whatsapp con nuestro asistente virtual *DIVI* al número 981580794`
                       // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
                     }
                   )
