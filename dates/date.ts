@@ -110,10 +110,17 @@ export const hoursUnixDate = (date: Date) => {
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
-export const hoursUnixDateForDetailStudent = (date: Date, dateDeparture?: Date) => {
+
+export const  convertTZ = (date:string, tzString:string) => {
+  return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+}
+export const hoursUnixDateForDetailStudent = (date: any, dateDeparture?: Date) => {
+  console.log('date', new Date(date.seconds * 1000))
+  const hourSeconds = convertTZ(`${new Date(date.seconds * 1000)}`, "America/Lima")
+  // console.log('testinghour', testinghour)
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
-  const hourSeconds = new Date(`${Number(date?.toString().slice(18, 28)) * 1000} UTC-5`)
+  // const hourSeconds = new Date(`${Number(date?.toString().slice(18, 28)) * 1000}`)
   const hourSecondsDeparture = new Date(Number(dateDeparture?.toString().slice(18, 28)) * 1000)
 
   // console.log('hourSecondsksk', hourSeconds)
