@@ -37,7 +37,7 @@ const CuadernoControl = () => {
         </div>
         <ul className='mt-3 px-3'>
         {
-          getAllCuadernoControl
+          getAllCuadernoControl.length > 0
             ?
             getAllCuadernoControl.map((notification, index) => {
               return (
@@ -48,7 +48,11 @@ const CuadernoControl = () => {
                 </li>
               )
             })
-            : null
+            : 
+            <div>
+              <p className='text-slate-500'>No hay comunicados para esta fecha  </p>
+            </div>
+
         }
 
         </ul>

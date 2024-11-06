@@ -33,7 +33,7 @@ const Tareas = () => {
     <div className='m-auto flex justify-center'>
       <div className='w-[1100px] pt-10' >
       {/* <div className='w-[1100px] bg-blue-50 pt-10' > */}
-        {getAllTareas ?
+        {getAllTareas.length > 0 ?
           getAllTareas.map((tarea) => {
             return (
               <div className='mb-10 mx-3'>
@@ -65,7 +65,12 @@ const Tareas = () => {
               </div>
             )
           })
-          : null
+          : 
+          <div>
+            <h3 className='uppercase text-blue-500 font-semibold mb-3'>Tareas</h3>
+            <p className='text-slate-600 '>No hay tareas asignadas para esta fecha</p>
+          </div>
+
         }
       </div>
 
