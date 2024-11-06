@@ -55,9 +55,9 @@ const useDetailsStudents = () => {
       //debo de hacer el mes dinamico para esta ocasion
 
       if (doc.data().justification) {
-        arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+        arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()} UTC-5`)))
       } else if (doc.data().falta) {
-        arrivalTimeFromStudent.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+        arrivalTimeFromStudent.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()} UTC-5`)))
       } else if (!doc.data().arrivalTime && doc.data().departure) {
         //entra a esta condicional cuando soloregsitro la salida y no su ingreso
         arrivalTimeFromStudent.push(hoursUnixDateForDetailStudentWithoutArrivalTime(doc.data().departure))

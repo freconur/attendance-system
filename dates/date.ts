@@ -113,7 +113,7 @@ export const hoursUnixDate = (date: Date) => {
 export const hoursUnixDateForDetailStudent = (date: Date, dateDeparture?: Date) => {
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
-  const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  const hourSeconds = new Date(`${Number(date?.toString().slice(18, 28)) * 1000} UTC-5`)
   const hourSecondsDeparture = new Date(Number(dateDeparture?.toString().slice(18, 28)) * 1000)
 
   // console.log('hourSecondsksk', hourSeconds)
