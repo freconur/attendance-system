@@ -8,6 +8,7 @@ import { useGlobalContext } from '@/features/context/GlobalContext'
 import useOnClickOutside from '@/features/hooks/useOnClickOutside'
 import { useRouter } from 'next/router'
 import useAuthentication from '@/features/hooks/useAuthentication'
+import NavbarChatbot from '../Navbar/NavbarChatbot'
 
 
 interface Props {
@@ -18,7 +19,7 @@ const LayoutMenu = ({ children }: Props) => {
   const closeSidebar = useRef<HTMLDivElement>(null)
   const { showSidebarContext } = useSidebarState()
   const { showSidebar } = useGlobalContext()
-  const { getUserData} = useAuthentication()
+  const { getUserData } = useAuthentication()
   const { userData } = useGlobalContext()
 
   useEffect(() => {
@@ -29,15 +30,39 @@ const LayoutMenu = ({ children }: Props) => {
     showSidebarContext(false)
   }
   useOnClickOutside(closeSidebar, handleChangeStateSidebar)
-  return (
-    <div className='relative'>
-      {route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control' ?
-        null :
+
+  const showNavbar = () => {
+    if (route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control') {
+      return (
+        null
+      )
+    } else if (route.pathname === "/chatbot") {
+        return(
+          <>
+          <NavbarChatbot/>
+          </>
+        )
+    } else {
+      return (
         <>
           <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
           <NavbarWeb />
         </>
-      }
+      )
+    }
+  }
+  return (
+    <div className='relative'>
+      {showNavbar()}
+      {/* {route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control' ?
+        null
+
+        :
+        <>
+          <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
+          <NavbarWeb />
+        </>
+      } */}
       {/* <Navbar showBurger={showBurger} handleShowBurger={handleShowBurger} />
       <Menu showBurger={showBurger} handleShowBurger={handleShowBurger}/> */}
       {children}

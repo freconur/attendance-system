@@ -19,6 +19,7 @@ const nextConfig = {
     domains: ['firebasestorage.googleapis.com'],
     // path: `assets/slider/*`,
   },
+  
   async headers() {
     return [
         {

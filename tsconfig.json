@@ -26,6 +26,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "video.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
