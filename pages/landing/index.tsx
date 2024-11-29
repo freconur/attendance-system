@@ -21,8 +21,8 @@ const LandingPageAttendance = () => {
             Nuestro servicio ayudan a las instituciónes educativas que quieran tener un control eficiente de las asistencias, tardanzas y faltas de los estudiantes para notificar y mantener informados a los padres de familia sobre el historial de asistenicia de sus hijos en tiempo real.
           </p>
         </section>
-        <div>
-          <h3 className='text-center font-bold text-sky-500 text-2xl font-montserrat mt-10 uppercase mb-10'>Nuestros Productos</h3>
+        <div className='my-20'>
+          <h3 className='text-center font-bold text-sky-500 text-2xl font-montserrat mt-10 uppercase mb-10'>Nuestros productos digitales</h3>
           <div className='grid justify-around items-center gap-5 md:grid-cols-gridCardStudent xl:grid-cols-gridFeature'>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
               {/* <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> */}
@@ -41,14 +41,7 @@ const LandingPageAttendance = () => {
                   {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Asistencia de estudiantes</h5> */}
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Registro de asistencia de estudiantes con mensajeria de whatsapp en tiempo real a los padres de familia.</p>
-                {/* <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </a> */}
               </div>
-
             </div>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
               {/* <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> */}
@@ -67,14 +60,7 @@ const LandingPageAttendance = () => {
                   {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Asistencia de estudiantes</h5> */}
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Registro de asistencia de estudiantes con mensajeria de whatsapp en tiempo real a los padres de familia.</p>
-                {/* <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </a> */}
               </div>
-
             </div>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
               {/* <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> */}
@@ -93,14 +79,7 @@ const LandingPageAttendance = () => {
                   {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Asistencia de estudiantes</h5> */}
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Registro de asistencia de estudiantes con mensajeria de whatsapp en tiempo real a los padres de familia.</p>
-                {/* <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </a> */}
               </div>
-
             </div>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
               {/* <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> */}
@@ -119,14 +98,7 @@ const LandingPageAttendance = () => {
                   {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Asistencia de estudiantes</h5> */}
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Registro de asistencia de estudiantes con mensajeria de whatsapp en tiempo real a los padres de familia.</p>
-                {/* <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </a> */}
               </div>
-
             </div>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
               {/* <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"> */}
@@ -145,14 +117,7 @@ const LandingPageAttendance = () => {
                   {/* <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Asistencia de estudiantes</h5> */}
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Registro de asistencia de estudiantes con mensajeria de whatsapp en tiempo real a los padres de familia.</p>
-                {/* <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Read more
-                  <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </a> */}
               </div>
-
             </div>
           </div>
 
@@ -160,9 +125,18 @@ const LandingPageAttendance = () => {
 
         </div>
 
-        <section>
-        </section>
       </div>
+      <section className="bg-gradient-to-r from-cyan-500 to-blue-500 pb-10">
+        <h3 className='text-2xl uppercase text-sidebarHover text-center font-bold font-montserrat py-[50px]'>beneficios de usar nuestros productos</h3>
+        <ul className='text-white text-xl grid gap-5 justify-center p-5'>
+          <li>1- Mejora la comunicación académica de tus estudiantes con los padres de familia.</li>
+          <li>2- Envia notificaciones a los padres de familia de manera inmediata.</li>
+          <li>3- Gestiona las asistencias de los estudiantes con mensajeria en whatsapp en tiempo real.</li>
+          <li>4- Gestiona el cuaderno de control de manera digital.</li>
+          <li>5- Gestiona y notifica las tareas de clases.</li>
+          <li>6- Dispondras de un chatbot para las consultas academicas de los estudiantes.</li>
+        </ul>
+      </section>
     </div>
   )
 }
