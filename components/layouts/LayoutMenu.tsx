@@ -37,11 +37,13 @@ const LayoutMenu = ({ children }: Props) => {
         null
       )
     } else if (route.pathname === "/chatbot") {
-        return(
-          <>
-          <NavbarChatbot/>
-          </>
-        )
+      return (
+        <>
+          <NavbarChatbot />
+        </>
+      )
+    } else if (route.pathname === "/landing") {
+      
     } else {
       return (
         <>

@@ -128,6 +128,7 @@ module.exports = {
         'gridPageSlider': '400px 400px',
         'gridMyProducts': '80% 20%',
         'gridCardStat': '70% 30%',
+        'gridFeature': '33% 33% 33%'
       }
     },
     variants: {
