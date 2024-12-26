@@ -8,6 +8,13 @@ export interface PicturesTareasArray {
   url: string
 }
 
+export interface SendFormCotizacion {
+  nombres?:string,
+  cargo?:string,
+  nombreDeColegio?:string,
+  cantidadDeAlumnos?:string,
+  numeroDeCelular?:string,
+}
 export interface GradesCheckbox {
   nivel: string[],
   grades: string[]
@@ -160,7 +167,8 @@ export type Student = {
   gradesSecundaria: Grades[]
   gradesPrimaria: Grades[],
   showModalConfirmationCuadernoControl: boolean,
-  getAllCuadernoControl:CuadernoControl[]
+  getAllCuadernoControl:CuadernoControl[],
+  loaderCotizacion:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -295,6 +303,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.GRADES_PRIMARIA; payload: Grades[] }
   | { type: AttendanceRegister.SHOW_CONFIRMATION_CUADERNOCONTROL; payload: boolean }
   | { type: AttendanceRegister.GET_ALL_CUADERNOCONTROL; payload: CuadernoControl[] }
+  | { type: AttendanceRegister.LOADER_COTIZACION; payload: boolean }
 
 export type CuadernoControl = {
   message?:string

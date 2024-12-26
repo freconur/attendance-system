@@ -103,7 +103,11 @@ module.exports = {
         'pastel15':"#fdfdab",
         'pastel16':"#fefec0",
         'pastel17':"#fefed5",
-        'pastel18':"#9696fd"
+        'pastel18':"#9696fd",
+        'beneficios':"#77f9e2",
+        'beneficios-1':"#9dfecd",
+        'fondo-claro':"#f6fffd",
+        // 'fondo-claro':"#0000"
       },
       gridTemplateRows: {
         'layoutGlobal': 'auto 1fr auto',

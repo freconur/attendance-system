@@ -62,7 +62,8 @@ const initialState: Student = {
   gradesSecundaria:[],
   gradesPrimaria:[],
   showModalConfirmationCuadernoControl:false,
-  getAllCuadernoControl:[]
+  getAllCuadernoControl:[],
+  loaderCotizacion: false
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])
