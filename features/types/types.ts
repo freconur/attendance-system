@@ -8,6 +8,10 @@ export interface PicturesTareasArray {
   url: string
 }
 
+export interface UserAulaVirtual{
+  dni?:string,
+  institucion?:string
+}
 export interface SendFormCotizacion {
   nombres?:string,
   cargo?:string,

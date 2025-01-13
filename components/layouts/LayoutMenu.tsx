@@ -44,7 +44,9 @@ const LayoutMenu = ({ children }: Props) => {
       )
     } else if (route.pathname === "/landing") {
       
-    } else {
+    }else if(route.pathname === "/aula-virtual"){
+
+    }else {
       return (
         <>
           <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
