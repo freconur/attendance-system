@@ -18,10 +18,15 @@ const SidebarListProfesores = () => {
       </ul>
       <h3 className="uppercase  text-slate-500 font-semibold text-left pl-10 my-3">Profesores</h3>
       <ul className=' capitalize p-1 font-comfortaa  px-2'>
-        <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
+        {/* <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
           <Link onClick={() => showSidebarContext(false)} href="/profesores/tareas" className="my-1 w-56 p-2">
-            {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
             <span className='text-base flex-1 ml-2 text-md'>Tareas</span>
+          </Link>
+        </li> */}
+        <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">
+          <Link onClick={() => showSidebarContext(false)} href="/profesores/aula-virtual" className="my-1 w-56 p-2">
+            {/* <RiBarChart2Fill className=" text-xl block float-left mr-3" /> */}
+            <span className='text-base flex-1 ml-2 text-md'>Aula virtual</span>
           </Link>
         </li>
         <li className="rounded-sm text-slate-600 pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-principal hover:text-white duration-300  whitespace-nowrap my-3 drop-shadow-lg">

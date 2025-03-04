@@ -18,6 +18,27 @@ export const useUploadFiles = () => {
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
 
+  const getFilesPorGrado = async (fecha: number, mes: number, grado: number, idInstitucion:string) => {
+    dispatch({ type: AttendanceRegister.LOADER_AULA_VIRTUAL, payload: true })
+    console.log('grado', grado)
+    console.log(`/intituciones/${idInstitucion}/aula-virtual/${currentYear()}/${monthToString(Number(mes))}-${fecha}`)
+    const pathRef = collection(db, `/intituciones/${idInstitucion}/aula-virtual/${currentYear()}/${monthToString(Number(mes))}-${fecha}`)
+
+    const archivosSubidos: AulaVirtual[] = []
+    const q = query(pathRef, where("grado", "==", `${grado}`))
+    await getDocs(q)
+      .then(res => {
+        if (res.size === 0) {
+          console.log('no hay nada')
+          dispatch({ type: AttendanceRegister.LOADER_AULA_VIRTUAL, payload: false })
+          dispatch({ type: AttendanceRegister.ARCHIVOS_AULA_VIRTUAL, payload: [] })
+        } else {
+          res.forEach(doc => archivosSubidos.push({ ...doc.data(), id: doc.id }))
+          dispatch({ type: AttendanceRegister.LOADER_AULA_VIRTUAL, payload: false })
+          return dispatch({ type: AttendanceRegister.ARCHIVOS_AULA_VIRTUAL, payload: archivosSubidos })
+        }
+      })
+  }
 
   const getFilesPorFecha = async (fecha: number, mes: number) => {
     dispatch({ type: AttendanceRegister.LOADER_AULA_VIRTUAL, payload: true })
@@ -67,6 +88,7 @@ export const useUploadFiles = () => {
   }
   return {
     uploadFiles,
-    getFilesPorFecha
+    getFilesPorFecha,
+    getFilesPorGrado
   }
 }

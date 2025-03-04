@@ -20,7 +20,7 @@ export const useAulaVirtual = () => {
     dispatch({type:AttendanceRegister.SHOW_CURSOS_AULAVIRUTAL, payload:!value})
   }
   const validateUserAulaVirutal = async (data: UserAulaVirtual) => {
-    console.log('data', data)
+    console.log('asd', `/intituciones/${data.institucion}/students`, `${data.dni}`)
     // console.log(`/intituciones/${data.institucion}/students`, `${data.dni}`)
     const docRef = doc(db, `/intituciones/${data.institucion}/students`, `${data.dni}`);
     const docSnap = await getDoc(docRef);
@@ -28,33 +28,20 @@ export const useAulaVirtual = () => {
 
     const docRefInstitucion = doc(db, `/intituciones`, `${data.institucion}`);
     const docSnapInstitucion = await getDoc(docRefInstitucion);
-    // const institutionData:CreateUserData = docSnapInstitucion.data()
-    console.log('docSnapInstitucion', docSnapInstitucion.data())
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    }
     if (docSnap.exists()) {
       const dataStudent: DataStudentAulaVirtual = docSnap.data()
-      console.log("dataStudent", dataStudent);
       dispatch({ type: AttendanceRegister.DATA_AULAVIRTUAL, payload: dataStudent })
       dispatch({ type: AttendanceRegister.VALIDATE_USER_AULAVIRTUAL, payload: true })
 
       docSnapInstitucion.exists() &&
         dispatch({ type: AttendanceRegister.INSTITUTION_DATA, payload: docSnapInstitucion.data() })
 
-      data.institucion &&
-        dispatch({ type: AttendanceRegister.ID_INSTITUCION, payload: data.institucion })
+      // data.institucion &&
+      //   dispatch({ type: AttendanceRegister.ID_INSTITUCION, payload: data.institucion })
       //debo ejecutar logica despues de validar el usuario
 
 
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
     }
-
   }
 const getDetailsofAttendanceAulaVirtual = async (id: string, month: string, idInstitucion:string) => {
     // const pathRef = doc(db,`/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}`)

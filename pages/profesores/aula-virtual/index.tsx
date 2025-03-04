@@ -62,7 +62,7 @@ const AulaVirtual = () => {
   return (
     <div className='p-10'>
       <div className='mb-10'>
-        <h1 className='text-3xl text-slate-600 font-semibold font-martianMono uppercase'>aula virtual</h1>
+        <h1 className='text-3xl text-slate-600 font-semibold font-martianMono uppercase text-center'>aula virtual</h1>
       </div>
       <div className='mb-5 flex justify-between items-center'>
         <p className='text-sm text-slate-500 uppercase'>{todayDate()}</p>

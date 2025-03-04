@@ -13,26 +13,24 @@ const AulaVirtual = () => {
 
   // const auth = getAuth(app)
   const { getInstitution } = useNewUser()
-  const { loadingAccount, warningAccount, instituciones, validateUserAulavirtual } = useGlobalContext()
+  const { loadingAccount, warningAccount, instituciones, validateUserAulavirtual, dataAulavirtual } = useGlobalContext()
   const router = useRouter()
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
   const { validateUserAulaVirutal } = useAulaVirtual()
+  const route = useRouter()
   useEffect(() => {
     getInstitution()
   }, [])
   const validateStudent = handleSubmit((data: UserAulaVirtual) => {
     console.log("data", data)
-    validateUserAulaVirutal(data)
+    validateUserAulaVirutal({...data, institucion:`${route.query.idInstitucion}`})
   })
 
   useEffect(() => {
-    testing()
-  },[validateUserAulavirtual])
-  const testing = () => {
-    if (validateUserAulavirtual !== false) {
-      router.push('/aula-virtual?dni=47163636')
+    if(dataAulavirtual.dni){
+      router.push(`/aula-virtual/estudiante/aula-virtual?dni=${dataAulavirtual.dni}&idInstitucion=${route.query.idInstitucion}`)
     }
-  }
+  },[dataAulavirtual.dni])
   console.log('validateUserAulavirtual', validateUserAulavirtual)
   console.log('estoy en ruta de login')
   return (
@@ -60,7 +58,7 @@ const AulaVirtual = () => {
                 }
               />
             </div>
-            <div className='w-full my-5'>
+            {/* <div className='w-full my-5'>
               <select
                 className='p-3 bg-white shadow-md text-slate-400 rounded-md w-full'
                 {...register("institucion",
@@ -76,7 +74,7 @@ const AulaVirtual = () => {
                   )
                 })}
               </select>
-            </div>
+            </div> */}
           </div>
           <button className='p-3 bg-pastel18 uppercase font-semibold cursor-pointer rounded-md shadow-md text-white w-full'>ingresar</button>
           {
