@@ -68,8 +68,8 @@ const AulaVirtual = () => {
         <p className='text-sm text-slate-500 uppercase'>{todayDate()}</p>
 
       </div>
-      <div className='flex gap-3 justify-center mb-10'>
-        <select value={curso} onChange={onChangeCursos} className='text-center py-2 rounded-[50px] bg-white outline-none cursor-pointer text-graduado-blue-3 capitalize drop-shadow-lg'>
+      <div className=' gap-3 justify-center mb-10 xss:grid xss:grid-rows-3 cs:flex'>
+        <select value={curso} onChange={onChangeCursos} className='text-center h-[45px] py-2 rounded-[50px] bg-white outline-none cursor-pointer text-graduado-blue-3 capitalize drop-shadow-lg'>
           <option>--curso--</option>
           {
             cursos?.map((curso, index) => {
@@ -79,7 +79,7 @@ const AulaVirtual = () => {
             })
           }
         </select>
-        <select value={grado} onChange={onChangeGrade} className='p-2 rounded-[50px] text-center bg-white outline-none cursor-pointer text-graduado-blue-3 capitalize drop-shadow-lg'>
+        <select value={grado} onChange={onChangeGrade} className='h-[45px] p-2 rounded-[50px] text-center bg-white outline-none cursor-pointer text-graduado-blue-3 capitalize drop-shadow-lg'>
           <option>--grado--</option>
           {
             grades?.map((grade, index) => {
@@ -89,7 +89,7 @@ const AulaVirtual = () => {
             })
           }
         </select>
-        <form className='flex gap-2' onSubmit={chargeFile}>
+        <form className='tablet:flex xss:grid gap-2' onSubmit={chargeFile}>
           <input
             type="file"
             onChange={onChangeFiles}
@@ -122,7 +122,7 @@ const AulaVirtual = () => {
             <div>
               {
                 archivosAulaVirtual.length > 0 ?
-                  <ul className='grid grid-cols-4 gap-10 items-center mb-10'>
+                  <ul className='grid tablet:grid-cols-4 xss:grid-cols-1 gap-10 items-center mb-10'>
 
                     {archivosAulaVirtual?.map((archivo, index) => {
                       return (
