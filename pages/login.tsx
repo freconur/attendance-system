@@ -75,10 +75,10 @@ const Login = () => {
           }
         </form>
       </div>
-      <div className='p-3'>
+      {/* <div className='p-3'>
         <h4 className='capitalize text-center text-blue-500 mb-2'>crear nuevo usuario</h4>
         <button onClick={() => showNewUserModalValue(showNewUserModal)} className='capitalize p-3 w-full border-[1px] border-emerald-400 hover:border-emerald-600 text-emerald-400 hover:text-white hover:bg-emerald-600 duration-300'>nuevo usuario</button>
-      </div>
+      </div> */}
     </div>
   )
 }
