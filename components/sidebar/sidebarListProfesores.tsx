@@ -7,7 +7,6 @@ const SidebarListProfesores = () => {
   const { showSidebarContext } = useSidebarState()
   const  { userData } = useGlobalContext()
 
-  console.log('datos del usuario', userData)
   return (
     <div>
       <ul className=' capitalize p-1 font-comfortaa  px-2'>

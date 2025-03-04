@@ -63,7 +63,15 @@ const initialState: Student = {
   gradesPrimaria:[],
   showModalConfirmationCuadernoControl:false,
   getAllCuadernoControl:[],
-  loaderCotizacion: false
+  loaderCotizacion: false,
+  validateUserAulavirtual: false,
+  dataAulavirtual: {},
+  idInstitucion:"",
+  institucionData:{},
+  showCursosAulavirtual:false,
+  archivosAulaVirtual: [],
+  loaderAulaVirtual:false,
+  loaderUpload:false,
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

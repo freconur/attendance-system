@@ -1,6 +1,7 @@
 
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"]
 const monthNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+// const monthNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 const days = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
 
 export const todayDateArray = () => {
@@ -35,6 +36,7 @@ export const todayDate = () => {
   return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 export const monthToString = (month:number) => {
+  console.log('months[month]', months[month])
   return months[month]
 }
 export const currentMonth = () => {

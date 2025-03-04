@@ -8,16 +8,33 @@ export interface PicturesTareasArray {
   url: string
 }
 
-export interface UserAulaVirtual{
-  dni?:string,
-  institucion?:string
+
+export interface DataStudentAulaVirtual {
+  firstContact?: string,
+  secondContact?: string,
+  firstNumberContact?: string,
+  secondNumberContact?: string,
+  rol?: string,
+  dni?: string,
+  pictureProfile?: string,
+  grade?: string,
+  name?: string,
+  firstname?: string,
+  lastname?: string,
+  qr?: string,
+  section?: string,
+  cellPhone?: string,
+}
+export interface UserAulaVirtual {
+  dni?: string,
+  institucion?: string
 }
 export interface SendFormCotizacion {
-  nombres?:string,
-  cargo?:string,
-  nombreDeColegio?:string,
-  cantidadDeAlumnos?:string,
-  numeroDeCelular?:string,
+  nombres?: string,
+  cargo?: string,
+  nombreDeColegio?: string,
+  cantidadDeAlumnos?: string,
+  numeroDeCelular?: string,
 }
 export interface GradesCheckbox {
   nivel: string[],
@@ -171,8 +188,16 @@ export type Student = {
   gradesSecundaria: Grades[]
   gradesPrimaria: Grades[],
   showModalConfirmationCuadernoControl: boolean,
-  getAllCuadernoControl:CuadernoControl[],
-  loaderCotizacion:boolean
+  getAllCuadernoControl: CuadernoControl[],
+  loaderCotizacion: boolean,
+  validateUserAulavirtual: boolean,
+  dataAulavirtual: DataStudentAulaVirtual,
+  idInstitucion: string,
+  institucionData: CreateUserData,
+  showCursosAulavirtual: boolean,
+  archivosAulaVirtual: AulaVirtual[],
+  loaderAulaVirtual:boolean,
+  loaderUpload:boolean
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -308,10 +333,18 @@ export type AttendanceAction =
   | { type: AttendanceRegister.SHOW_CONFIRMATION_CUADERNOCONTROL; payload: boolean }
   | { type: AttendanceRegister.GET_ALL_CUADERNOCONTROL; payload: CuadernoControl[] }
   | { type: AttendanceRegister.LOADER_COTIZACION; payload: boolean }
+  | { type: AttendanceRegister.VALIDATE_USER_AULAVIRTUAL; payload: boolean }
+  | { type: AttendanceRegister.DATA_AULAVIRTUAL; payload: DataStudentAulaVirtual }
+  | { type: AttendanceRegister.ID_INSTITUCION; payload: string }
+  | { type: AttendanceRegister.INSTITUTION_DATA; payload: CreateUserData }
+  | { type: AttendanceRegister.SHOW_CURSOS_AULAVIRUTAL; payload: boolean }
+  | { type: AttendanceRegister.ARCHIVOS_AULA_VIRTUAL; payload: AulaVirtual[] }
+  | { type: AttendanceRegister.LOADER_AULA_VIRTUAL; payload: boolean }
+  | { type: AttendanceRegister.LOADER_UPLOAD; payload: boolean }
 
 export type CuadernoControl = {
-  message?:string
-  subject?:string
+  message?: string
+  subject?: string
 }
 
 export type AuthenticationFormSignIn = {
@@ -338,5 +371,14 @@ export type Curso = {
 export type CuadernoControlCheckbox = {
   nivel: string[]
   grades: string[]
+}
+
+export type AulaVirtual = {
+  id?: string,
+  url?: string,
+  nombreCurso?: string,
+  nombreArchivo?: string,
+  idProfesor?: string,
+  grado?:string
 }
 

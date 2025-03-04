@@ -1,18 +1,59 @@
+import { StaticTimePicker } from "@mui/x-date-pickers";
 import { AttendanceRegister } from "../actions/actionAttendance";
 import { AttendanceAction, Student } from "../types/types";
 
 
 export const attendance = (state: Student, action: AttendanceAction) => {
   switch (action.type) {
+    case AttendanceRegister.LOADER_UPLOAD:
+      return {
+        ...state,
+        loaderUpload: action.payload
+      }
+    case AttendanceRegister.LOADER_AULA_VIRTUAL:
+      return {
+        ...state,
+        loaderAulaVirtual: action.payload
+      }
+    case AttendanceRegister.ARCHIVOS_AULA_VIRTUAL:
+      return {
+        ...state,
+        archivosAulaVirtual: action.payload
+      }
+    case AttendanceRegister.SHOW_CURSOS_AULAVIRUTAL:
+      return {
+        ...state,
+        showCursosAulavirtual: action.payload
+      }
+    case AttendanceRegister.INSTITUTION_DATA:
+      return {
+        ...state,
+        institucionData: action.payload
+      }
+    case AttendanceRegister.ID_INSTITUCION:
+      return {
+        ...state,
+        idInstitucion: action.payload
+      }
+    case AttendanceRegister.DATA_AULAVIRTUAL:
+      return {
+        ...state,
+        dataAulavirtual: action.payload
+      }
+    case AttendanceRegister.VALIDATE_USER_AULAVIRTUAL:
+      return {
+        ...state,
+        validateUserAulavirtual: action.payload
+      }
     case AttendanceRegister.LOADER_COTIZACION:
       return {
         ...state,
-        loaderCotizacion:action.payload
+        loaderCotizacion: action.payload
       }
     case AttendanceRegister.GET_ALL_CUADERNOCONTROL:
       return {
         ...state,
-        getAllCuadernoControl:action.payload
+        getAllCuadernoControl: action.payload
       }
     case AttendanceRegister.SHOW_CONFIRMATION_CUADERNOCONTROL:
       return {
@@ -22,48 +63,48 @@ export const attendance = (state: Student, action: AttendanceAction) => {
     case AttendanceRegister.GRADES_PRIMARIA:
       return {
         ...state,
-        gradesPrimaria:action.payload
+        gradesPrimaria: action.payload
       }
     case AttendanceRegister.GRADES_SECUNDARIA:
       return {
         ...state,
-        gradesSecundaria:action.payload
+        gradesSecundaria: action.payload
       }
     case AttendanceRegister.ALL_STUDENTS:
-      return{
+      return {
         ...state,
-        allStudents:action.payload
+        allStudents: action.payload
       }
     case AttendanceRegister.LOADER_SENDMESSAGEWHATSAPP:
       return {
         ...state,
-        sendMessageWhatsappLoader:action.payload
+        sendMessageWhatsappLoader: action.payload
       }
     case AttendanceRegister.SHOW_MODAL_CONFIRMATION_SENDMESSAGEWHATSAPP:
       return {
         ...state,
-        showModalConfirmationSendMessageWhatsapp:action.payload
+        showModalConfirmationSendMessageWhatsapp: action.payload
       }
     case AttendanceRegister.SHOW_CHANGE_PASSWORD:
       return {
         ...state,
-        showChangePassword:action.payload
+        showChangePassword: action.payload
       }
     case AttendanceRegister.ERROR_CURRENT_PASSWORD:
       return {
         ...state,
-        errorCurrentPassword:action.payload
+        errorCurrentPassword: action.payload
       }
     case AttendanceRegister.INSTITUCIONES:
-      
+
       return {
         ...state,
-        instituciones:action.payload
+        instituciones: action.payload
       }
     case AttendanceRegister.LOADER_PICTURE_TASK:
       return {
         ...state,
-        loaderPictureTask:action.payload
+        loaderPictureTask: action.payload
       }
     case AttendanceRegister.GET_ALL_CURSOS:
       return {

@@ -27,9 +27,6 @@ const PrivateRouteAdmin = ({ children }: Props) => {
   }, [])
 
   useEffect(() => {
-
-    
-
     console.log('userData de administrador', userData)
     if (userData.dni) {
       if (userData.rol !== undefined) {

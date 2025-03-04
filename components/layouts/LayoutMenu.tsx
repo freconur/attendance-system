@@ -9,6 +9,7 @@ import useOnClickOutside from '@/features/hooks/useOnClickOutside'
 import { useRouter } from 'next/router'
 import useAuthentication from '@/features/hooks/useAuthentication'
 import NavbarChatbot from '../Navbar/NavbarChatbot'
+import SidebarAulavirtual from '../sidebar/Sidebar-Aulavirutal'
 
 
 interface Props {
@@ -18,7 +19,7 @@ const LayoutMenu = ({ children }: Props) => {
   const route = useRouter()
   const closeSidebar = useRef<HTMLDivElement>(null)
   const { showSidebarContext } = useSidebarState()
-  const { showSidebar } = useGlobalContext()
+  const { showSidebar, validateUserAulavirtual } = useGlobalContext()
   const { getUserData } = useAuthentication()
   const { userData } = useGlobalContext()
 
@@ -26,6 +27,7 @@ const LayoutMenu = ({ children }: Props) => {
     getUserData()
   }, [userData.dni])
   // console.log('layout', userData)
+  console.log(userData)
   const handleChangeStateSidebar = () => {
     showSidebarContext(false)
   }
@@ -43,13 +45,20 @@ const LayoutMenu = ({ children }: Props) => {
         </>
       )
     } else if (route.pathname === "/landing") {
-      
-    }else if(route.pathname === "/aula-virtual"){
 
-    }else {
+    } else if (route.pathname === "/aula-virtual/estudiante/") {
+
+    } else if (route.pathname === "/aula-virtual/login") {
+
+    } else {
       return (
         <>
-          <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
+          {
+            validateUserAulavirtual ?
+              <SidebarAulavirtual showSidebar={showSidebar} />
+              :
+              <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} />
+          }
           <NavbarWeb />
         </>
       )

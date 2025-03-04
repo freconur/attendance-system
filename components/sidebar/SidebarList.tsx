@@ -8,6 +8,7 @@ import SidebarListProfesores from "./sidebarListProfesores";
 import { useGlobalContext } from "@/features/context/GlobalContext";
 import { validateRol } from "@/utils/validateRolEmployee";
 import SidebarAdmin from "./sidebarAdmin";
+import SidebarAulaVirtual from "./SidebarAulaVirtual";
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -16,7 +17,7 @@ interface Props {
 const SidebarList = () => {
   const route = useRouter()
   const { showSidebarContext } = useSidebarState()
-  const { userData } = useGlobalContext()
+  const { userData, validateUserAulavirtual, dataAulavirtual } = useGlobalContext()
   const { logout } = useAuthentication()
   // const validatePathnameSidebarList = () => {
   //   if (route.pathname === "/asistencia-empleados" || route.pathname === "/registro-de-asistencia-empleados") {
@@ -41,12 +42,15 @@ const SidebarList = () => {
   }
 
   const sidebarListfrom = () => {
-    if (validateRol(Number(userData.rol)) === "administracion") {
+    if (validateRol(Number(userData.rol)) === "administracion" && validateUserAulavirtual === false) {
       return <SidebarAdmin />
     } else if (validateRol(Number(userData.rol)) === "profesor") {
       return <SidebarListProfesores />
+    } else if (validateUserAulavirtual === true) {
+      return <SidebarAulaVirtual />
     }
   }
+
   return (
     <div className='overflow-y-scroll'>
       {sidebarListfrom()}

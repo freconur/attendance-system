@@ -13,7 +13,7 @@ const AulaVirtual = () => {
 
   // const auth = getAuth(app)
   const { getInstitution } = useNewUser()
-  const { loadingAccount, warningAccount, instituciones, validateUserAulavirtual } = useGlobalContext()
+  const { loadingAccount, warningAccount, instituciones, validateUserAulavirtual, dataAulavirtual, idInstitucion } = useGlobalContext()
   const router = useRouter()
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
   const { validateUserAulaVirutal } = useAulaVirtual()
@@ -27,14 +27,17 @@ const AulaVirtual = () => {
 
   useEffect(() => {
     testing()
-  },[validateUserAulavirtual])
+  },[validateUserAulavirtual,dataAulavirtual.dni])
   const testing = () => {
     if (validateUserAulavirtual !== false) {
-      router.push('/aula-virtual?dni=47163636')
+      if(dataAulavirtual.dni){
+        router.push(`/aula-virtual/estudiante/asistencia?dni=${dataAulavirtual.dni}&idInstitucion=${idInstitucion}`)
+
+      }
     }
   }
   console.log('validateUserAulavirtual', validateUserAulavirtual)
-  console.log('estoy en ruta de login')
+  console.log('dataAulavirtual', dataAulavirtual)
   return (
     <div className='grid h-login w-full p-1 place-content-center'>
       <h1 className='text-slate-500 text-xl uppercase font-semibold text-center mb-10'>aula virtual</h1>

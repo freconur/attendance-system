@@ -32,7 +32,7 @@ const useTareas = () => {
   }
   const getCursosDocente = async () => {
     const docRef = doc(db, `/intituciones/${userData?.idInstitution}/employee/`, `${userData.dni}`)
-
+    console.log('userData.dni',userData.dni )
     const docDocente = await getDoc(docRef);
     // const q = query(docRef, orderBy("name"))
     // const docSnap = await getDocs(q)
