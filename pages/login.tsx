@@ -21,7 +21,7 @@ const Login = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (validateRol(Number(userData.rol)) === "profesor") {
-          router.push('/profesores/tareas')
+          router.push('/profesores/aula-virtual')
         }
         if (validateRol(Number(userData.rol)) === "administracion") {
           router.push('/mis-productos');
