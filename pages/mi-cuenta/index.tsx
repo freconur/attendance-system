@@ -15,7 +15,7 @@ const initialValuePassword = {
   warningPassword: ""
 }
 const MyAccount = () => {
-  const { userData } = useGlobalContext()
+  const { userData,dataAulavirtual } = useGlobalContext()
   const { showNewUserModal, errorCurrentPassword, showChangePassword } = useGlobalContext()
   const { showNewUserModalValue } = useNewUser()
   const [changePasswordUser, setChangePasswordUser] = useState<boolean>(false)
@@ -65,10 +65,15 @@ const MyAccount = () => {
                   <div className='border-b-[2px] border-t-[2px] p-3 border-emerald-400'>
                     <h4 className='capitalize font-semibold text-blue-500'>mis datos</h4>
                     <p className='text-md text-slate-500 capitalize '><span className='font-bold'>Nombre completo: </span>
-                      {userData.name} {userData.lastname} {userData.firstname}
+                      {userData.name} {userData.lastname} {userData.firstname} 
+                      
                     </p>
+                    <p className='text-md text-slate-500 capitalize '><span className='font-bold'>Nombre completo: </span>
+                      
+                    </p>
+                    
                     <p className='text-md text-slate-500 capitalize '>
-                      <span className='font-bold'>id: </span>{userData.dni}
+                      <span className='font-bold'>id: </span>{userData.dni}{dataAulavirtual.dni}
                     </p>
                     <p className='text-md text-slate-500 capitalize '>
                       <span className='font-bold'>cargo: </span>{validateRol(Number(userData.rol))}
