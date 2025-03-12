@@ -35,7 +35,7 @@ const AulaVirtual = () => {
   // console.log('estoy en ruta de login')
   return (
     <div className='grid h-[100vh] w-full p-1 place-content-center relative'>
-      <div className='top-0 bottom-0 rigth-0 left-0 bg-blue-700 z-[15] absolute w-full opacity-50'></div>
+      <div className='top-0 bottom-0 rigth-0 left-0 bg-cyan-400 z-[15] absolute w-full opacity-20'></div>
       <Image
         className='absolute object-cover h-[100vh] bottom-0 top-[0px] right-0 left-0 z-[10] w-full opacity-80'
         src={background}
@@ -45,8 +45,8 @@ const AulaVirtual = () => {
         // style={{objectFit: "cover"}}
         priority
       />
-      <div className='min-w-[320px] relative z-[20]  bg-white rounded-md'>
-        <h1 className=' relative z-[20] bg-graduado-blue-2 p-5 text-textTitulos text-xl uppercase font-semibold text-center mb-3'>aula virtual</h1>
+      <div className='min-w-[320px] relative z-[20]  bg-white rounded-md drop-shadow-lg'>
+        <h1 className=' relative z-[20] bg-loginForm p-5 text-textTitulos text-xl uppercase font-semibold text-center mb-3'>aula virtual</h1>
 
         <form onSubmit={validateStudent} className='p-2'>
           <div>

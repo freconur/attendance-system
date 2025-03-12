@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --primary: rgb(234, 239, 248);
-  --secondary: rgba(187, 241, 255, 0.4);
-  --tertiary: rgba(233, 251, 255, 0.6);
+  /* --primary: rgb(234, 239, 248); */
+  --primary: #52b0d4;
+  /* --secondary: rgba(187, 241, 255, 0.4); */
+  --secondary:#0c77a0;
+  /* --tertiary: rgba(233, 251, 255, 0.6); */
+  --tertiary: #52b0d4;
 }
 
 #__next {
@@ -21,4 +24,25 @@
 body {
   color: "black";
   background-color: #f1f6ffa3;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  z-index: 40;
+  position: relative;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--primary);
+  border-radius: 0px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 14px;
+  border: 3px solid var(--primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--tertiary);
 }

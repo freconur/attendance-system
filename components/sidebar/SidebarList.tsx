@@ -52,7 +52,7 @@ const SidebarList = () => {
   }
 
   return (
-    <div className='overflow-y-scroll'>
+    <div className='overflow-auto'>
       {sidebarListfrom()}
     </div>
 

@@ -8,6 +8,8 @@ import { RiLoader4Line } from 'react-icons/ri'
 import { validateRol } from '@/utils/validateRolEmployee'
 import { useNewUser } from '@/features/hooks/useNewUser'
 import NewUserModal from '@/Modals/newUserModal'
+import Image from 'next/image'
+import image from '../assets/login-main.jpg'
 const Login = () => {
   const router = useRouter()
   const auth = getAuth(app)
@@ -41,24 +43,36 @@ const Login = () => {
     signIn(formValue)
   }
   return (
-    <div className='grid h-login w-full p-1 place-content-center'>
-      <div className='min-w-[320px]'>
+    <div>
+      <div className='top-0 bottom-0 rigth-0 left-0 bg-cyan-400 z-[15] absolute w-full opacity-20'></div>
+      <Image
+        className='absolute object-cover h-[100vh] bottom-0 top-[0px] right-0 left-0 z-[10] w-full opacity-80'
+        src={image}
+        alt="imagen de cabecera"
+        // objectFit='fill'
+        // sizes="(max-width: 768px) 100vw, 33vw"
+        // style={{objectFit: "cover"}}
+        priority
+      />
+
+    <div className='relative z-[20] grid h-[100vh]  w-full p-1 place-content-center drop-shadow-lg'>
+      <div className='min-w-[320px] bg-white'>
         {
           showNewUserModal && <NewUserModal userData={userData}/>
         }
-        <h1 className='text-slate-500 text-xl uppercase font-semibold text-center'>inicio de sesión</h1>
-        <form onSubmit={handleSubmit}>
+        <h1 className='text-textTitulos p-5 bg-loginForm text-xl uppercase font-semibold text-center'>inicio de sesión</h1>
+        <form onSubmit={handleSubmit} className='p-3 bg-background1'>
           <div>
             <div className='w-full my-5'>
               <p className='text-slate-400 text-sm uppercase'>usuario:</p>
-              <input className='p-3 outline-none rounded-md shadow-md w-full' onChange={handleValueUser} type="email" name="email" placeholder="nombre de usuario" />
+              <input className='p-3 outline-none  shadow-md w-full' onChange={handleValueUser} type="email" name="email" placeholder="nombre de usuario" />
             </div>
             <div className='w-full my-5'>
               <p className='text-slate-400 text-sm uppercase'>contraseña:</p>
-              <input type="password" className='p-3 outline-none rounded-md shadow-md w-full' onChange={handleValueUser} name="password" placeholder="contraseña" />
+              <input type="password" className='p-3 outline-none  shadow-md w-full' onChange={handleValueUser} name="password" placeholder="contraseña" />
             </div>
           </div>
-          <button className='p-3 bg-principal uppercase font-semibold cursor-pointer rounded-md shadow-md text-white w-full'>ingresar</button>
+          <button className='p-3 bg-buttonLogin uppercase font-semibold cursor-pointer  shadow-md text-white w-full'>ingresar</button>
           {
             loadingAccount ?
               <div className="flex w-full mt-5 items-center m-auto justify-center">
@@ -79,6 +93,7 @@ const Login = () => {
         <h4 className='capitalize text-center text-blue-500 mb-2'>crear nuevo usuario</h4>
         <button onClick={() => showNewUserModalValue(showNewUserModal)} className='capitalize p-3 w-full border-[1px] border-emerald-400 hover:border-emerald-600 text-emerald-400 hover:text-white hover:bg-emerald-600 duration-300'>nuevo usuario</button>
       </div> */}
+    </div>
     </div>
   )
 }

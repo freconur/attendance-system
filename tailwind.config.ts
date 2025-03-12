@@ -47,6 +47,10 @@ module.exports = {
         'centrar-contenido': 'auto'
       },
       colors: {
+        'sidebarColor':'#52b0d4',
+        'buttonLogin':'#664768',
+        'background1':'#fafafa', 
+        'loginForm':'#0c77a0',
         'logoNackground':'#fefed8',
         'colorSecundario':'#0a47c4',
         'colorNavbar':'#121f3d',

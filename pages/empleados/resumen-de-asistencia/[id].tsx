@@ -10,7 +10,8 @@ import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
-
+import header from '../../../assets/header-aula-virtual.jpg'
+import Image from 'next/image'
 const ResumenDeAsistencia = () => {
   const pdfRef = useRef(null)
   const { getUserData } = useAuthentication()
@@ -52,7 +53,7 @@ const ResumenDeAsistencia = () => {
   }
   console.log('resumenAttendanceEmployee', resumenAttendanceEmployee)
   return (
-    <div className='p-3'>
+    <div className=''>
       {/* <h1>resumen de asistencia</h1>
       <select className='p-3 bg-white rounded-md w-[200px] mb-5 text-slate-400 shadow-md uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
         <option value={month.month}>--{month.month}--</option>
@@ -65,10 +66,47 @@ const ResumenDeAsistencia = () => {
         }
       </select> */}
 
+<div className='grid relative  h-[350px]  bg-headerPsicolinguistica overflow-hidden drop-shadow-lg'>
+        <div className='top-0 bottom-0 rigth-0 left-0 bg-green-700 z-[15] absolute w-full opacity-30'></div>
+        <Image
+          className='absolute object-cover h-[100%] w-full bottom-0 top-[0px] right-0 left-0 z-[10] opacity-80'
+          src={header}
+          alt="imagen de cabecera"
+          // objectFit='fill
+          priority
+        />
+        <div className='w-[90%] xl:w-[60%] m-auto pt-20'>
+        {/* <div className='w-[60%] lg:w-[80%] xl:w-[80%] m-auto pt-20'> */}
+          <div className='grid items-center justify-start mb-20'>
+            <h1 className="text-textTitulos relative z-[20] text-3xl font-bold font-martianMono capitalize text-left">Asistencia de {employeeData.name} {employeeData.lastname} {employeeData.firstname}</h1>
+          </div>
+          {/* <button className='relative z-[20] p-3   text-textTitulos  rounded-sm drop-shadow-lg '>Agregar preguntas</button> */}
+          <div className='w-full relative z-[20] grid items-center '>
+            <div className='m-auto w-full'>
+              {/* <div className='flex justify-end md:justify-between'> */}
+              <div className='flex justify-between'>
+                {/* <div className='flex justify-end md:justify-between'> */}
+                <div onClick={onDownloadPdf} className=' rounded-md bg-gradient-to-r from-colorTercero to-colorSecundario text-center p-3 h-[50px] font-semibold text-white cursor-pointer capitalize drop-shadow-lg'>descargar pdf</div>
+                {/* <div onClick={onDownloadPdf} className='hidden md:block rounded-md bg-gradient-to-r from-colorTercero to-colorSecundario text-center p-3 h-[50px] font-semibold text-white cursor-pointer capitalize drop-shadow-lg'>descargar pdf</div> */}
+                <select className='p-3 bg-white rounded-md xm:w-[200px] mb-5 text-slate-400 drop-shadow-lg uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
+                  <option value={month.month}>--{month.month}--</option>
+                  {
+                    EnableMonths().map((month, index) => {
+                      return (
+                        <option key={index} value={month}>{month}</option>
+                      )
+                    })
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
 
+        </div>
+      </div>
 
       <div className='w-full'>
-        <div className='m-auto w-[100%] md:w-[90%] '>
+        {/* <div className='m-auto w-[100%] md:w-[90%] '>
           <div className='flex justify-end md:justify-between'>
             <div onClick={onDownloadPdf} className='hidden md:block rounded-md bg-red-300 text-center p-3 h-[50px] font-semibold text-white cursor-pointer capitalize'>descargar pdf</div>
             <select className='p-3 bg-white rounded-md w-[200px] mb-5 text-slate-400 shadow-md uppercase outline-none' onChange={handleChangeValueMonth} name="month" >
@@ -83,10 +121,9 @@ const ResumenDeAsistencia = () => {
             </select>
           </div>
 
-        </div>
-        <div className='w-full m-auto hidden md:block' ref={pdfRef}>
-
-          {/* <div className='max-w-[1002px] m-auto flex justify-between'> */}
+        </div> */}
+        
+        {/* <div className='w-full m-auto hidden md:block' ref={pdfRef}>
           <div className=' m-auto flex justify-between w-[100%] md:w-[90%] '>
             <h3 className='text-xl text-slate-500 uppercase text-left mb-5'>asistencia de <span className='font-semibold'>{employeeData?.name} {employeeData?.lastname}</span></h3>
             <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div>
@@ -107,11 +144,13 @@ const ResumenDeAsistencia = () => {
               )
             })}
           </div>
-        </div>
-        <h3 className='text-xl block md:hidden text-slate-500 uppercase text-left mb-5'>asistencia de <span className='font-semibold'>{employeeData?.name} {employeeData?.lastname}</span></h3>
-        <table className='w-[100%] md:w-[90%] shadow-md mt-5 m-auto'>
-          <thead className='bg-blue-100 border-b-2 border-gray-200 '>
-            <tr className="text-slate-600 capitalize font-nunito ">
+        </div> */}
+
+        {/* <h3 className='text-xl block md:hidden text-slate-500 uppercase text-left mb-5'>asistencia de <span className='font-semibold'>{employeeData?.name} {employeeData?.lastname}</span></h3> */}
+
+        <table className='w-[90%]  shadow-md mt-5 m-auto xl:w-[60%]'>
+          <thead className='bg-gradient-to-r from-colorTercero to-colorSecundario border-b-2 border-gray-200 '>
+            <tr className="text-textTitulos font-martianMono capitalize">
               <th className="py-3 md:p-2 pl-1 md:pl-2 text-sm text-center uppercase">fecha</th>
               <th className="py-3 md:p-2 text-sm text-center uppercase">dia</th>
               <th className="py-3 md:p-2 text-sm text-center uppercase">ingreso</th>
