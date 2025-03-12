@@ -37,10 +37,12 @@ const AulaVirtual = () => {
     <div className='grid h-[100vh] w-full p-1 place-content-center relative'>
       <div className='top-0 bottom-0 rigth-0 left-0 bg-blue-700 z-[15] absolute w-full opacity-50'></div>
       <Image
-        className='absolute h-[100vh] bottom-0 top-[0px] right-0 left-0 z-[10] w-full opacity-80'
+        className='absolute object-cover h-[100vh] bottom-0 top-[0px] right-0 left-0 z-[10] w-full opacity-80'
         src={background}
         alt="imagen de cabecera"
-        objectFit='fill'
+        // objectFit='fill'
+        // sizes="(max-width: 768px) 100vw, 33vw"
+        // style={{objectFit: "cover"}}
         priority
       />
       <div className='min-w-[320px] relative z-[20]  bg-white rounded-md'>

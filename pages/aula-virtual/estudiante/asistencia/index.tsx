@@ -58,10 +58,10 @@ const AsistenciaAulaVirtual = () => {
       <div className='grid relative  h-[350px]  bg-headerPsicolinguistica overflow-hidden drop-shadow-lg'>
         <div className='top-0 bottom-0 rigth-0 left-0 bg-green-700 z-[15] absolute w-full opacity-30'></div>
         <Image
-          className='absolute bottom-0 top-[0px] right-0 left-0 z-[10] opacity-80'
+          className='absolute object-cover h-[100%] w-full bottom-0 top-[0px] right-0 left-0 z-[10] opacity-80'
           src={header}
           alt="imagen de cabecera"
-          objectFit='fill'
+          // objectFit='fill
           priority
         />
         <div className='w-[60%] max-lg:w-[80%] max-xl:w-[80%] m-auto pt-20'>
