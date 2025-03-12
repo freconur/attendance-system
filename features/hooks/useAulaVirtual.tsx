@@ -16,34 +16,35 @@ export const useAulaVirtual = () => {
 
   const dispatch = useGlobalContextDispatch()
 
-  const showListCursosAulavirutal = (value:boolean) => {
-    dispatch({type:AttendanceRegister.SHOW_CURSOS_AULAVIRUTAL, payload:!value})
+  const showListCursosAulavirutal = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.SHOW_CURSOS_AULAVIRUTAL, payload: !value })
   }
   const validateUserAulaVirutal = async (data: UserAulaVirtual) => {
-    console.log('asd', `/intituciones/${data.institucion}/students`, `${data.dni}`)
+    // console.log('asd', `/intituciones/${data.institucion}/students`, `${data.dni}`)
     // console.log(`/intituciones/${data.institucion}/students`, `${data.dni}`)
     const docRef = doc(db, `/intituciones/${data.institucion}/students`, `${data.dni}`);
-    const docSnap = await getDoc(docRef);
-
-
-    const docRefInstitucion = doc(db, `/intituciones`, `${data.institucion}`);
-    const docSnapInstitucion = await getDoc(docRefInstitucion);
-    if (docSnap.exists()) {
-      const dataStudent: DataStudentAulaVirtual = docSnap.data()
-      dispatch({ type: AttendanceRegister.DATA_AULAVIRTUAL, payload: dataStudent })
-      dispatch({ type: AttendanceRegister.VALIDATE_USER_AULAVIRTUAL, payload: true })
-
-      docSnapInstitucion.exists() &&
-        dispatch({ type: AttendanceRegister.INSTITUTION_DATA, payload: docSnapInstitucion.data() })
-
-      // data.institucion &&
-      //   dispatch({ type: AttendanceRegister.ID_INSTITUCION, payload: data.institucion })
-      //debo ejecutar logica despues de validar el usuario
-
-
-    }
+    await getDoc(docRef)
+      .then(async res => {
+        const docRefInstitucion = doc(db, `/intituciones`, `${data.institucion}`);
+        await getDoc(docRefInstitucion)
+          .then(institucion => {
+            institucion.exists() &&
+              dispatch({ type: AttendanceRegister.INSTITUTION_DATA, payload: institucion.data() })
+          })
+        if (res.exists()) {
+          const dataStudent: DataStudentAulaVirtual = res.data()
+          dispatch({ type: AttendanceRegister.DATA_AULAVIRTUAL, payload: dataStudent })
+          dispatch({ type: AttendanceRegister.VALIDATE_USER_AULAVIRTUAL, payload: true })
+          //   dispatch({ type: AttendanceRegister.ID_INSTITUCION, payload: data.institucion })
+          //debo ejecutar logica despues de validar el usuario
+        }
+      })
   }
-const getDetailsofAttendanceAulaVirtual = async (id: string, month: string, idInstitucion:string) => {
+  const salirAulaVirtual = () => {
+    dispatch({ type: AttendanceRegister.DATA_AULAVIRTUAL, payload: {} })
+    dispatch({ type: AttendanceRegister.VALIDATE_USER_AULAVIRTUAL, payload: false })
+  }
+  const getDetailsofAttendanceAulaVirtual = async (id: string, month: string, idInstitucion: string) => {
     // const pathRef = doc(db,`/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}`)
     console.log(`/intituciones/${idInstitucion}/attendance-student/${id}/${currentYear()}/${month}/${month}`)
     const querySnapshot = await getDocs(collection(db, `/intituciones/${idInstitucion}/attendance-student/${id}/${currentYear()}/${month}/${month}`));
@@ -84,6 +85,7 @@ const getDetailsofAttendanceAulaVirtual = async (id: string, month: string, idIn
   return {
     validateUserAulaVirutal,
     getDetailsofAttendanceAulaVirtual,
-    showListCursosAulavirutal
+    showListCursosAulavirutal,
+    salirAulaVirtual
   }
 }

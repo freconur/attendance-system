@@ -47,12 +47,18 @@ module.exports = {
         'centrar-contenido': 'auto'
       },
       colors: {
+        'logoNackground':'#fefed8',
+        'colorSecundario':'#0a47c4',
+        'colorNavbar':'#121f3d',
+        'textTitulos':'#ffff',
+        'colorBrand1':'#d6333b',
         'principal': '#19246f',
         'tere': '#47d07d',
         'modal': 'rgba(0,0,0,.24)',
         'background': '#1b1f44',
         'background-flashcards': '#0f253b',
         'blue-slate': 'bg-slate-800',
+        'colorTercero':'#3ABEF9',
         'graduado-blue-1': 'rgb(5,100,245)',
         'graduado-blue-2': 'rgba(40,62,143,1)',
         'graduado-blue-3': 'rgba(12,49,131,1)',
@@ -114,7 +120,7 @@ module.exports = {
         '8': 'repeat(8, minmax(0, 1fr))',
         'gridSideBar': 'auto calc(100vh - 194px) auto',
         'flashcardWelcome': 'auto auto',
-        'gridRows': 'auto auto 10%',
+        'gridRows': 'auto 10%',
         'gridRowsSales': '10% auto',
         'gridRowsSalesPay': '90% 10%',
         'gridRowsSalesPayModal': '50% 10%',
@@ -123,6 +129,7 @@ module.exports = {
         // 'promtpr':'20% auto 10%'
       },
       gridTemplateColumns: {
+        'gridHeader':'20%, auto 20%',
         'gridCardStudent': '50% 50%',
         'gridSale': '1fr 30%',
         'layoutDecks': '80% minmax(40px, 50px)',

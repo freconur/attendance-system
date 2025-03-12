@@ -34,7 +34,7 @@ const LayoutMenu = ({ children }: Props) => {
   useOnClickOutside(closeSidebar, handleChangeStateSidebar)
 
   const showNavbar = () => {
-    if (route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control') {
+    if (route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control' || route.pathname === '/aula-virtual') {
       return (
         null
       )

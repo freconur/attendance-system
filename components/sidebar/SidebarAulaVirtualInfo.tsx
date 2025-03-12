@@ -1,9 +1,8 @@
 import { useGlobalContext } from '@/features/context/GlobalContext'
-import { useAulaVirtual } from '@/features/hooks/useAulaVirtual'
 import useSidebarState from '@/features/hooks/useSidebarState'
-import { useRouter } from 'next/router'
+import Image from 'next/image'
 import React, { useEffect } from 'react'
-
+import logo from '../../assets/divino-maestro-logo.png'
 const SidebarAulaVirtualInfo = () => {
 
   const { dataAulavirtual, institucionData } = useGlobalContext()
@@ -19,22 +18,24 @@ const SidebarAulaVirtualInfo = () => {
   //   },[route.query.dni, route.query.idInstitucion])
 
   return (
-    <div className='my-2 border-b-[1px] border-slate-200 '>
-      <div className='flex justify-end'>
-        <div
-          onClick={() => showSidebarContext(!showSidebar)}
-          className='p-3 w-[30px] h-[30px] bg-green-500 rounded-full cursor-pointer flex justify-center items-center text-white font-semibold mr-[-10px]'
-        >
-          X
-        </div>
+    <div className=' border-b-[1px] border-slate-200 pt-5 pb-10'>
+      <div className='flex justify-center items-center mb-3'>
+          <Image
+            className=''
+            src={logo}
+            alt="imagen de cabecera"
+            priority
+            width={70}
+            height={70}
+          />
       </div>
       <div>
-        <p className='capitalize text-left ml-8 text-slate-600 text-xl'>{institucionData.name}</p>
+        <p className='capitalize text-left ml-8 text-textTitulos font-semibold text-xl'>{institucionData.name}</p>
       </div>
       <div className='mt-1 w-full flex justify-center items-center'>
       </div>
-      <div className='mt-1'><p className='capitalize text-left ml-8 text-slate-500'>{dataAulavirtual.name} {dataAulavirtual.lastname} {dataAulavirtual.firstname}</p></div>
-      <div className='mt-1'><p className='capitalize text-left ml-8 text-slate-500'>{dataAulavirtual.dni}</p></div>
+      <div className='mt-1'><p className='capitalize text-left ml-8 text-textTitulos'>{dataAulavirtual.name} {dataAulavirtual.lastname} {dataAulavirtual.firstname}</p></div>
+      <div className='mt-1'><p className='capitalize text-left ml-8 text-textTitulos'>{dataAulavirtual.dni}</p></div>
       {/* <div className='mt-1'><p className='capitalize text-center text-slate-400'>{validateRol(Number(userData.rol))}</p></div> */}
     </div>
   )

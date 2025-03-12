@@ -32,9 +32,9 @@ const NavbarWeb = () => {
     }
   }, [search.dni])
   return (
-    <div className='w-full flex justify-between h-[60px] shadow-md bg-white'>
-      <div onClick={() => showSidebarContext(!showSidebar)} className=' bg-ggw-1 w-[60px] flex justify-center items-center '>
-        <HiOutlineMenu className='text-principal text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
+    <div className='w-full flex justify-between h-[60px] shadow-md bg-colorNavbar'>
+      <div onClick={() => showSidebarContext(!showSidebar)} className='  w-[60px] flex justify-center items-center '>
+        <HiOutlineMenu className='text-textTitulos text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
       </div>
 
       {pathname.includes('administracion') 

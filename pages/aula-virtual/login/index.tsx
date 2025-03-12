@@ -22,7 +22,8 @@ const AulaVirtual = () => {
   }, [])
   const validateStudent = handleSubmit((data: UserAulaVirtual) => {
     console.log("data", data)
-    validateUserAulaVirutal(data)
+    console.log("idinstitucion", router.query.idInstitucion)
+    validateUserAulaVirutal({...data, institucion:`${router.query.idInstitucion}`})
   })
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const AulaVirtual = () => {
   const testing = () => {
     if (validateUserAulavirtual !== false) {
       if(dataAulavirtual.dni){
-        router.push(`/aula-virtual/estudiante/asistencia?dni=${dataAulavirtual.dni}&idInstitucion=${idInstitucion}`)
+        router.push(`/aula-virtual/estudiante/asistencia?dni=${dataAulavirtual.dni}&idInstitucion=${router.query.idInstitucion}`)
 
       }
     }
@@ -62,8 +63,9 @@ const AulaVirtual = () => {
                 )
                 }
               />
+              {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
             </div>
-            <div className='w-full my-5'>
+            {/* <div className='w-full my-5'>
               <select
                 className='p-3 bg-white shadow-md text-slate-400 rounded-md w-full'
                 {...register("institucion",
@@ -79,7 +81,7 @@ const AulaVirtual = () => {
                   )
                 })}
               </select>
-            </div>
+            </div> */}
           </div>
           <button className='p-3 bg-pastel18 uppercase font-semibold cursor-pointer rounded-md shadow-md text-white w-full'>ingresar</button>
           {

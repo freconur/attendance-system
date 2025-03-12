@@ -3,12 +3,12 @@ import { useGlobalContext } from '@/features/context/GlobalContext'
 import { useAulaVirtual } from '@/features/hooks/useAulaVirtual'
 import { useNewUser } from '@/features/hooks/useNewUser'
 import { UserAulaVirtual } from '@/features/types/types'
-import { app } from '@/firebase/firebaseConfig'
-import { getAuth } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RiLoader4Line } from 'react-icons/ri'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import background from '../../assets/login-image.jpg'
 const AulaVirtual = () => {
 
   // const auth = getAuth(app)
@@ -23,22 +23,30 @@ const AulaVirtual = () => {
   }, [])
   const validateStudent = handleSubmit((data: UserAulaVirtual) => {
     console.log("data", data)
-    validateUserAulaVirutal({...data, institucion:`${route.query.idInstitucion}`})
+    validateUserAulaVirutal({ ...data, institucion: `${route.query.idInstitucion}` })
   })
 
   useEffect(() => {
-    if(dataAulavirtual.dni){
+    if (dataAulavirtual.dni) {
       router.push(`/aula-virtual/estudiante/aula-virtual?dni=${dataAulavirtual.dni}&idInstitucion=${route.query.idInstitucion}`)
     }
-  },[dataAulavirtual.dni])
-  console.log('validateUserAulavirtual', validateUserAulavirtual)
-  console.log('estoy en ruta de login')
+  }, [dataAulavirtual.dni])
+  // console.log('validateUserAulavirtual', validateUserAulavirtual)
+  // console.log('estoy en ruta de login')
   return (
-    <div className='grid h-login w-full p-1 place-content-center'>
-      <h1 className='text-slate-500 text-xl uppercase font-semibold text-center mb-10'>aula virtual</h1>
-      <div className='min-w-[320px] bg-white p-3 rounded-md'>
+    <div className='grid h-[100vh] w-full p-1 place-content-center relative'>
+      <div className='top-0 bottom-0 rigth-0 left-0 bg-blue-700 z-[15] absolute w-full opacity-50'></div>
+      <Image
+        className='absolute h-[100vh] bottom-0 top-[0px] right-0 left-0 z-[10] w-full opacity-80'
+        src={background}
+        alt="imagen de cabecera"
+        objectFit='fill'
+        priority
+      />
+      <div className='min-w-[320px] relative z-[20]  bg-white rounded-md'>
+        <h1 className=' relative z-[20] bg-graduado-blue-2 p-5 text-textTitulos text-xl uppercase font-semibold text-center mb-3'>aula virtual</h1>
 
-        <form onSubmit={validateStudent}>
+        <form onSubmit={validateStudent} className='p-2'>
           <div>
             <div className='w-full mb-5'>
               {/* <p className='text-slate-400 text-sm uppercase'>usuario:</p> */}
@@ -76,7 +84,7 @@ const AulaVirtual = () => {
               </select>
             </div> */}
           </div>
-          <button className='p-3 bg-pastel18 uppercase font-semibold cursor-pointer rounded-md shadow-md text-white w-full'>ingresar</button>
+          <button className='p-3 bg-gradient-to-r from-colorTercero to-colorSecundario uppercase font-semibold cursor-pointer rounded-md shadow-md text-white w-full'>ingresar</button>
           {
             loadingAccount ?
               <div className="flex w-full mt-5 items-center m-auto justify-center">
