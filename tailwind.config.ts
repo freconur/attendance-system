@@ -32,7 +32,8 @@ module.exports = {
       md: '768px',
       cs: '953px',
       lg: '1024px',
-      xl: '1200px'
+      xl: '1200px',
+      xxl: '1360px',
     },
     extend: {
       height: {
@@ -41,7 +42,8 @@ module.exports = {
         'heightSales': 'calc(100vh - 110px)',
         'heightSalesProducts': 'calc(100vh - 150px)',
         'loader': 'calc(100vh - 75px)',
-        'sales': '100%'
+        'sales': '100%',
+        'sidebar':'calc(100vh-70%)'
       },
       margin: {
         'centrar-contenido': 'auto'

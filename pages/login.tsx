@@ -26,7 +26,7 @@ const Login = () => {
           router.push('/profesores/aula-virtual')
         }
         if (validateRol(Number(userData.rol)) === "administracion") {
-          router.push('/mis-productos');
+          router.push('/mi-cuenta');
         }
       }
     })

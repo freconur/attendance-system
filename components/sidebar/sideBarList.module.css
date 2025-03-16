@@ -1,0 +1,173 @@
+.contenedorGeneralEstudiantes {
+  /* border: solid 1px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out; */
+  /* height: auto; */
+  /* position:relative; */
+  cursor: pointer;
+}
+
+.containerListaEstudiantes {
+  position: relative;
+  z-index: index 2000;
+  /* text-transform: capitalize;
+  color: #ffff;
+  font-weight: 500;
+  text-align: left; */
+}
+
+.listaEstudiantes {
+  min-width: max-content;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1s;
+}
+.containerListaEstudiantes:focus .listaEstudiantes,
+.containerListaEstudiantes:focus-within .listaEstudiantes {
+  max-height: 300px;
+}
+
+.mostrarListaEstudiantes {
+  /* position: none; */
+  /* top:0px; */
+  /* transition: all 0.3s ease-in-out;
+  transform: translatey(0px); */
+}
+.titulo {
+  display: block;
+}
+/* 
+
+body {
+  font-family: sans-serif;
+}
+ejemplos
+/* Set the style for the navigation menus */
+.containerLista {
+  display:grid;
+  gap: 20px;
+  padding: 5px 0 5px 0;
+  position:relative;
+  z-index: 100;
+  border-top: 1px solid #ffff
+}
+.test {
+  position: relative;
+  z-index: index 100;
+}
+.test ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.ancla {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  outline: 0;
+  width: max-content;
+  font-size: 16px;
+  font-family: "Comfortaa";
+  padding: 10px 0 0 0;
+  margin-left:10px
+  
+}
+
+.containerAncla {
+  margin-left: 28px;
+  padding: 5px;
+  /* margin-bottom: 5px; */
+}
+.anclaje {
+  font-size: 16px;
+  text-decoration: none;
+  color: #ffff;
+  display: block;
+  outline: 0;
+  width: max-content;
+  font-family: "Comfortaa";
+  padding: 2px;
+  justify-content: center;
+  text-shadow: rgb(0, 0, 0) 1px 0 3px;
+}
+.anclaje::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #0c77a0;
+  transition: width 0.3s;
+}
+.anclaje:hover::after {
+  width: 100%;
+  transition: width 0.3s;
+}
+.ancla::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: rgb(18, 80, 161);
+  transition: width 0.3s;
+}
+.ancla:hover::after {
+  width: 100%;
+  transition: width 0.3s;
+}
+.dropdown {
+  margin-left: 15px;
+}
+.containerIcon {
+  /* justify-content: center; */
+  align-items: center;
+  margin:auto;
+  display: flex;
+}
+.icons {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  color: #ffff;
+  font-size:25px
+}
+/* .test .ancla:hover,
+.test li:focus-within > .ancla {
+  background: #245975;
+  
+  cursor: pointer;
+} */
+
+/* Make the dropdown animate. */
+.dropdownContent {
+  min-width: max-content;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1s;
+}
+
+/* The max-height should be set to something that will always be a little bit bigger than the height of the content. */
+/* .dropdown:hover .dropdownContent, */
+.dropdown:focus .dropdownContent,
+.dropdown:focus-within .dropdownContent {
+  max-height: 200px;
+}
+
+/* This makes the top-level navigation horizontal on desktop, and vertical on smaller screens. */
+@media screen and (min-width: 768px) {
+  .test > ul > li {
+    float: left;
+  }
+
+  /* .dropdown {
+    position: relative;
+  }
+
+  .dropdownContent {
+    position: absolute;
+    width: max-content;
+  } */
+
+  /* .content {
+    clear: both;
+  } */
+}

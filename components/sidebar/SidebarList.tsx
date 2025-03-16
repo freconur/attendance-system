@@ -52,7 +52,9 @@ const SidebarList = () => {
   }
 
   return (
-    <div className='overflow-auto'>
+    // <div className='overflow-auto'>
+    // <div className='overflow-y-auto h-[400px] xxl:h-auto'>
+    <div className='overflow-y-auto'>
       {sidebarListfrom()}
     </div>
 

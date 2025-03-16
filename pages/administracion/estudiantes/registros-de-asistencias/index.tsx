@@ -21,21 +21,22 @@ import QRCode from 'react-qr-code';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PrivateRouteAdmin from '@/components/layouts/PrivateRouteAdmin';
+import { useActualizarGradosDeEstudiantes } from '@/features/hooks/useActualizarGradosEstudiantes';
 
 const AttendanceRegister = () => {
   const pdfRef = useRef(null)
   const { getUserData } = useAuthentication()
   const initialStateByFilter = { grade: "", section: "" }
   const [valuesByFilter, setValuesByFilter] = useState(initialStateByFilter)
-  const { studentsByGradeAndSection, sections, grades, userData, justificacionFaltaModal, justificacionStudent, justificacionMotivoModal, loadingSearchStudents, studentsByGrade } = useGlobalContext()
+  const {allStudents, studentsByGradeAndSection, sections, grades, userData, justificacionFaltaModal, justificacionStudent, justificacionMotivoModal, loadingSearchStudents, studentsByGrade } = useGlobalContext()
   const { filterRegisterByGradeAndSection, showJustificaconFaltaModal, justificacionInfoByStudent, showJustificacionMotivo, filterRegisterByGrade } = useAttendanceRegister()
   const { getSections, getGrades } = UseRegisterStudents()
   const [gradeValue, setGradeValue] = useState(0)
   const [startDate, setStartDate] = useState(dayjs());
   const [dniStudent, setDniStudent] = useState("");
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023)));
-  // const [minDate, setMinDate] = useState(dayjs(new Date().setDate(0)));
   const [attendance, setAttendance] = useState('registros')
+  const {  getAllEstudiantes,actualizarGradosDeEstudiantes} = useActualizarGradosDeEstudiantes()
 
   const onDownloadPdf = () => {
     const input: any = pdfRef.current
@@ -83,6 +84,15 @@ const AttendanceRegister = () => {
     }
   }, [userData.name])
 
+
+  // const handleUpdateGrado = () => {
+  //   actualizarGradosDeEstudiantes(allStudents)
+  // }
+  // useEffect(() => {
+  //   getAllEstudiantes()
+  // },[])
+
+  console.log('allStudents', allStudents)
   const resultAttendance = (value: string, dni: string) => {
     if (value === "justificado") {
       return <span onClick={() => { justificacionInfoByStudent(dni, `${startDate.date()}`); showJustificacionMotivo(!justificacionMotivoModal) }}>{value}</span>
@@ -110,7 +120,8 @@ const AttendanceRegister = () => {
           <JustificacionFaltaModal date={startDate.date()} dniStudent={dniStudent} />
           :
           null}
-        <h1 className='text-xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistencias</h1>
+        <h1 className='text-xl my-5 font-semibold uppercase text-slate-600 text-center'>Registros de asistenciass</h1>
+        {/* <button onClick={handleUpdateGrado} className='bg-red-600 p-3 text-white rounded-sm drop-shadow-lg'>actualizar grado de estudiantes</button> */}
         <div className='relative z-10 flex justify-end items-center mb-3'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
