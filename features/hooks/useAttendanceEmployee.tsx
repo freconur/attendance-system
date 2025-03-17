@@ -33,7 +33,7 @@ const useAttendanceEmployee = () => {
               dni: data.dni,
               email: `${data.dni}@${userData.extensionForUsers}.com`,
               password: data.dni,
-              t: userData.idInstitution
+              // t: userData.idInstitution
             })
           .then(async (res) => {
             if (res.data.estado) {
