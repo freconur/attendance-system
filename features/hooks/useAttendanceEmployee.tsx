@@ -173,14 +173,14 @@ const useAttendanceEmployee = () => {
         } else if (employeeAttendanceData.data().arrivalTime === undefined) {
           //AQUI DEBERIA DE CREAR LA FUNCION QUE ENVIARA EL MENSAJE DE WHATSAPPP A LOS NUMEROS TELEFONICOS DE LOS PROFESORES.
           console.log('sin registro de entrada')
-          if (employeeData.data().numberPhone) {
+          if (employeeData.data().celular) {
 
             try {
               axios
                 .post(`${URL_API}/v1/messages`,
                   {
                     // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-                    number: `51${employeeData.data().numberPhone}`,
+                    number: `51${employeeData.data().celular}`,
                     // phoneNumber: `51982752688@c.us`,
                     message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
                     // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
@@ -195,14 +195,14 @@ const useAttendanceEmployee = () => {
         } else console.log('ya no se hace nada')
       } else {
         console.log('sin registro de entrada basico')
-        if (employeeData.data().numberPhone) {
+        if (employeeData.data().celular) {
           console.log('employeeData.data()', employeeData.data())
           try {
             axios
               .post(`${URL_API}/v1/messages`,
                 {
                   // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-                  number: `51${employeeData.data().numberPhone}`,
+                  number: `51${employeeData.data().celular}`,
                   // phoneNumber: `51982752688@c.us`,
                   message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname} ${employeeData.data().firstname}*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(hourAttendanDeparture)}.`
                   // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
@@ -225,7 +225,8 @@ const useAttendanceEmployee = () => {
   }
 
   const attendanceEmployee = async (dni: string) => {
-    const docRef = doc(db, `/intituciones/${userData.idInstitution}/employee/`, `${dni}`);
+    const docRef = doc(db, `/intituciones/${userData.idInstitution}/usuarios/`, `${dni}`);
+    // const docRef = doc(db, `/intituciones/${userData.idInstitution}/employee/`, `${dni}`);
     console.log('dni', dni)
     const docSnap = await getDoc(docRef);
 
