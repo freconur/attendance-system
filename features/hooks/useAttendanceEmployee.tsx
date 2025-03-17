@@ -148,7 +148,7 @@ const useAttendanceEmployee = () => {
   const getEmployeeAndAttendance = async (employee: string) => {
     dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: true })
     const arrivalTimeRef = doc(db, `/intituciones/${userData.idInstitution}/attendance-employee/${employee}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`)
-    const refData = doc(db, `/intituciones/${userData.idInstitution}/employee`, `${employee}`)
+    const refData = doc(db, `/intituciones/${userData.idInstitution}/usuarios`, `${employee}`)
     //creo una constante con la hora que esta marcando el ingreso o salida
     const hourAttendanDeparture = new Date()
     //los ingresos de los profesores no se enviaran al whatsapp, siemplemente quedaran registrados en la base de datos, para el libre acceso del los cargos superiores.
