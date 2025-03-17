@@ -259,7 +259,8 @@ export interface UpdateDataUser {
   section?: string,
   numberPhone?: string,
   cellPhone?: string,
-  misCursos?: Curso[]
+  misCursos?: Curso[],
+  celular?:string
 }
 export interface EmployeeAttendanceDeparture {
   arrivalTime?: string,

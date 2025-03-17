@@ -40,7 +40,7 @@ const SidebarAdmin = () => {
               <div className={styles.containerIcon}>
 
                 <FaUserGraduate className={styles.icons} />
-                <Link className={styles.ancla} href="" aria-haspopup="true">
+                <Link className={styles.ancla} href="#" aria-haspopup="true">
                   Estudiantes
                   {/* <label>Estudiantes</label> */}
                 </Link>
@@ -70,10 +70,11 @@ const SidebarAdmin = () => {
             <li className={styles.dropdown}>
               <div className={styles.containerIcon}>
                 <FaUserTie className={styles.icons} />
-                <Link className={styles.ancla} href="" aria-haspopup="true">
+                <Link className={styles.ancla} href="#" aria-haspopup="true">
                   Profesores
-                  {/* <label>Estudiantes</label> */}
                 </Link>
+
+                  {/* <p className={styles.ancla}>Estudiantes</p> */}
               </div>
               <ul className={styles.dropdownContent} aria-label="submenu">
                 <li className={styles.containerAncla}>

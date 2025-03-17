@@ -43,7 +43,7 @@ const useNavbarSearch = () => {
     if (studentSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentSnap.data() })
     } else {
-      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/usuarios`, dni);
       const employeeSnap = await getDoc(employeeRef);
       if (employeeSnap.exists()) {
         dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: employeeSnap.data() })

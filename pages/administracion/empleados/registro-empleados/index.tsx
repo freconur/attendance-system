@@ -1,17 +1,18 @@
 import PrivateRouteAdmin from '@/components/layouts/PrivateRouteAdmin'
-import PrivateRoutes from '@/components/layouts/PrivateRoutes'
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import useAttendanceEmployee from '@/features/hooks/useAttendanceEmployee'
 import useAuthentication from '@/features/hooks/useAuthentication'
+import { useNewUser } from '@/features/hooks/useNewUser'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const RegistroEmpleados = () => {
   const { getUserData } = useAuthentication()
-  const { sections, grades, pictureProfileUrl, userData } = useGlobalContext()
+  const { sections, grades, pictureProfileUrl, userData, typesEmployee } = useGlobalContext()
   const { getTypeEmployee, registerEmployee } = useAttendanceEmployee()
+  const { createNewUser } = useNewUser()
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
-  const { typesEmployee } = useGlobalContext()
   const handleSumitForm = handleSubmit(data => {
     registerEmployee(data)
     reset()
@@ -22,10 +23,11 @@ const RegistroEmpleados = () => {
     if (userData) {
       getTypeEmployee()
     }
-  }, [])
-  // console.log('typesEmployee', typesEmployee)
+  }, [userData.dni])
+  console.log('userData', userData)
   return (
     <div className='p-3'>
+      <ToastContainer />
       <h3 className='text-xl text-center text-slate-400 uppercase font-semibold'>agregar nuevo empleado</h3>
       <form onSubmit={handleSumitForm}>
         <div className='uppercase text-slate-500'>Nombre:</div>
@@ -81,44 +83,43 @@ const RegistroEmpleados = () => {
           )}
         />
         {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
-
-        {/* <div className='uppercase text-slate-600'>celular:</div>
+        <div className='uppercase text-slate-600'>celular:</div>
         <input
           className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number"
-          placeholder="celular"
-          {...register("phone",
+          placeholder="numero de celular"
+          {...register("numberPhone",
             {
-              required: { value: true, message: "dni es requerido" },
-              minLength: { value: 9, message: "dni debe tener 8 caracteres" },
-              maxLength: { value: 9, message: "dni debe tener 8 caracteres" },
+              required: { value: true, message: "numero de celular es requerido" },
+              minLength: { value: 9, message: "numero de celular debe tener 9 caracteres" },
+              maxLength: { value: 9, message: "numero de celular debe tener 9 caracteres" },
             }
           )}
         />
-        {errors.phone && <span className='text-red-400'>{errors.phone.message as string}</span>} */}
+        {errors.numberPhone && <span className='text-red-400'>{errors.numberPhone.message as string}</span>}
         <div className='uppercase text-slate-600'>rol:</div>
-          <select
-            className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
-            {...register("rol",
-              {
-                required: { value: true, message: "rol es requerido" },
-                // onChange(event) {
-                //   setGradeValue(Number(event.target.value - 1))
-                // },
-              },
-                
-            )}
-          >
-            <option className='uppercase text-slate-500' value="">--seleccionar--</option>
+        <select
+          className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
+          {...register("rol",
             {
-              typesEmployee?.map((type, index) => {
-                return (
-                  <option className='uppercase text-slate-500' key={index} value={Number(type.code)}>{type.name}</option>
-                )
-              })
-            }
-          </select>
-            {errors.rol && <span className='text-red-400'>{errors.rol.message as string}</span>}
-          <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>
+              required: { value: true, message: "rol es requerido" },
+              // onChange(event) {
+              //   setGradeValue(Number(event.target.value - 1))
+              // },
+            },
+
+          )}
+        >
+          <option className='uppercase text-slate-500' value="">--seleccionar--</option>
+          {
+            typesEmployee?.map((type, index) => {
+              return (
+                <option className='uppercase text-slate-500' key={index} value={Number(type.code)}>{type.name}</option>
+              )
+            })
+          }
+        </select>
+        {errors.rol && <span className='text-red-400'>{errors.rol.message as string}</span>}
+        <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>
       </form>
     </div>
   )

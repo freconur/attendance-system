@@ -7,11 +7,13 @@ import { currentDate, currentMonth, currentYear, currentlyHour, dateConvertObjec
 import { attendanceDepartureTime } from "@/utils/attendanceState"
 import { validateDepartureTime } from "@/utils/validateRolEmployee"
 import axios from "axios"
-
+import { toast } from 'react-toastify';
 
 
 const useAttendanceEmployee = () => {
   const URL_API = "https://whatsapp-asistencia-production.up.railway.app"
+  // const URL_API_GOOGLE = "http://localhost:3001"
+  const URL_API_GOOGLE = "https://api-attendance-production-6be0.up.railway.app"
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const dispatch = useGlobalContextDispatch()
@@ -21,15 +23,51 @@ const useAttendanceEmployee = () => {
     dispatch({ type: AttendanceRegister.ACTIVE_EMPLOYEE_MODAL, payload: !value })
   }
   const registerEmployee = async (data: Employee) => {
-    const employee = {
-      name: data.name?.toLowerCase(),
-      firstname: data.firstname?.toLowerCase(),
-      lastname: data.lastname?.toLowerCase(),
-      rol: Number(data.rol),
-      dni: data.dni,
-      // phone: data.phone
-    }
-    await setDoc(doc(db, `/intituciones/${userData.idInstitution}/employee`, `${data.dni}`), employee);
+    console.log('userData', userData)
+
+    const promiseNewEmployee = new Promise<boolean>((resolve, reject) => {
+      try {
+        axios
+          .post(`${URL_API_GOOGLE}/crear-docente`,
+            {
+              dni: data.dni,
+              email: `${data.dni}@${userData.extensionForUsers}.com`,
+              password: data.dni,
+              t: userData.idInstitution
+            })
+          .then(async (res) => {
+            if (res.data.estado) {
+              const employee = {
+                name: data.name?.toLowerCase(),
+                firstname: data.firstname?.toLowerCase(),
+                lastname: data.lastname?.toLowerCase(),
+                rol: Number(data.rol),
+                dni: data.dni,
+                idInstitution: userData.idInstitution,
+                institutionName: userData.institutionName?.toLowerCase(),
+                celular: data.numberPhone,
+                extensionForUsers: `${userData.extensionForUsers?.toLowerCase()}`,
+                misCursos: [],
+                acc:`${data.dni}@${userData.extensionForUsers}.com`
+              }
+              await setDoc(doc(db, `/intituciones/${userData.idInstitution}/usuarios`, `${data.dni}`), employee)
+              await setDoc(doc(db, `users`, `${data.dni}`), employee)
+                .then(rta => {
+                  resolve(true)
+                })
+            }
+          })
+      } catch (error) {
+        console.log('error', error)
+        reject()
+      }
+    })
+    toast.promise(promiseNewEmployee,
+      {
+        pending: 'creando usuario',
+        success: 'Se creo docente con exito 👌',
+        error: 'Parece que algo fallo, intentalo despues 🤯'
+      })
   }
   const getTypeEmployee = async () => {
     const typesEmployee: TypesEmployee[] = []
@@ -73,7 +111,7 @@ const useAttendanceEmployee = () => {
 
   const getEmployees = async (rol: string, date: string) => {
     console.log('rol', rol)
-    const employeeRef = collection(db, `/intituciones/${userData.idInstitution}/employee`);
+    const employeeRef = collection(db, `/intituciones/${userData.idInstitution}/usuarios`);
 
     // Create a query against the collection.
     const q = query(employeeRef, where("rol", "==", Number(rol)));
@@ -136,7 +174,7 @@ const useAttendanceEmployee = () => {
           //AQUI DEBERIA DE CREAR LA FUNCION QUE ENVIARA EL MENSAJE DE WHATSAPPP A LOS NUMEROS TELEFONICOS DE LOS PROFESORES.
           console.log('sin registro de entrada')
           if (employeeData.data().numberPhone) {
-            
+
             try {
               axios
                 .post(`${URL_API}/v1/messages`,
@@ -275,18 +313,18 @@ const useAttendanceEmployee = () => {
     dispatch({ type: AttendanceRegister.UPDATE_EMPLOYEE_CONFIRMATION_MODAL, payload: value })
   }
   const updateEmployee = async (data: UpdateDataUser) => {
-    const employeeRef = doc(db, `/intituciones/${userData?.idInstitution}/employee`, data.dni as string);
+    const employeeRef = doc(db, `/intituciones/${userData?.idInstitution}/usuarios`, data.dni as string);
     console.log('data', data)
-    console.log('userData',userData) 
+    console.log('userData', userData)
     // Set the "capital" field of the city 'DC'
     const dataEmployee = {
-      misCursos:data.misCursos,
+      misCursos: data.misCursos,
       dni: data.dni,
       name: data.name,
       lastname: data.lastname,
       firstname: data.firstname,
       rol: data.rol,
-      numberPhone: data.numberPhone ? data.numberPhone : ""
+      celular: data.celular ? data.celular : ""
     }
     await updateDoc(employeeRef, dataEmployee);
   }

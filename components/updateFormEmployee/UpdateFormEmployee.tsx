@@ -123,7 +123,7 @@ const UpdateFormEmployee = ({ employee, onChangeItem, setEmployee }: Props) => {
         </div>
         <div className='block'>
           <p className='text-slate-600 uppercase '>número celular</p>
-          <input onChange={onChangeItem} type='number' className='w-full rounded-md text-slate-500 border-[1px] p-1 ' name="numberPhone" value={employee?.numberPhone} />
+          <input onChange={onChangeItem} type='number' className='w-full rounded-md text-slate-500 border-[1px] p-1 ' name="celular" value={employee?.celular} />
           {
             warning.numberPhone &&
             <p className='text-sm text-red-500 lowercase'>{warning.numberPhone}</p>
