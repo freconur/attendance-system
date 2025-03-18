@@ -199,7 +199,18 @@ export const dateConvertObject = (date: Date) => {
 }
 
 export const dateConvertObjectStudent = (date: Date) => {
+  console.log('tiempo de marcacion', `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`)
   return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}${date.getHours() < 12 ? "am" : "pm"} el dia ${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
+}
+
+export const validacionPuntualTardanza = (date: Date) => {
+  if(date.getHours() === 7 || date.getMinutes() <= 30) {
+    console.log('se esta llegando temprano')
+    return true
+  }else {
+    console.log('se esta llegando tarde')
+    return false
+  }
 }
 export const numberToNameMonth = (value: number) => {
   // const date = new Date()

@@ -211,6 +211,7 @@ const useAttendanceEmployee = () => {
             console.log('error', error)
           }
         }
+        
         await setDoc(arrivalTimeRef, { arrivalTime: hourAttendanDeparture, manualAttendance: true })
       }
 

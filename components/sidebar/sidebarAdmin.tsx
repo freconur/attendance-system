@@ -20,7 +20,7 @@ const SidebarAdmin = () => {
               <span className='text-base flex-1 ml-2 text-md'>mi cuenta</span>
             </Link>
           </li>
-          <li className='rounded-md text-textTitulos pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:border-[1px] hover:border-colorNavbar hover:text-colorNavbar duration-300 outline-none mx-2 whitespace-nowrap drop-shadow-lg'>
+          {/* <li className='rounded-md text-textTitulos pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:border-[1px] hover:border-colorNavbar hover:text-colorNavbar duration-300 outline-none mx-2 whitespace-nowrap drop-shadow-lg'>
             <Link onClick={() => showSidebarContext(false)} href="/mensajeria" className="my-1  p-2">
               <span className='text-base flex-1 ml-2 text-md'>mensajeria</span>
             </Link>
@@ -29,7 +29,7 @@ const SidebarAdmin = () => {
             <Link onClick={() => showSidebarContext(false)} href="/cuaderno-control" className="my-1  p-2">
               <span className='text-base flex-1 ml-2 text-md'>cuaderno control</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </>
       <div className={styles.containerLista}>

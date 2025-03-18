@@ -3,7 +3,7 @@ import { app } from "@/firebase/firebaseConfig";
 import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, increment, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { useGlobalContext, useGlobalContextDispatch } from "../context/GlobalContext";
 import { AttendanceRegister } from "../actions/actionAttendance";
-import { currentDate, currentMonth, currentYear, dateConvertObject, dateConvertObjectStudent, hoursUnixDate } from "@/dates/date";
+import { currentDate, currentMonth, currentYear, dateConvertObject, dateConvertObjectStudent, hoursUnixDate, validacionPuntualTardanza } from "@/dates/date";
 import { StudentData } from "../types/types";
 import axios from 'axios'
 import { attendanceDepartureTime, attendanceState } from "@/utils/attendanceState";
@@ -116,6 +116,9 @@ export const useAttendance = () => {
         return true
       } else return false
     }
+
+    
+    // validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como tardanza'}
     const findStudent = allStudents.find(student => student.dni === studentCode)
     if (findStudent) {
       studentArrivalTime(studentCode)
@@ -127,7 +130,7 @@ export const useAttendance = () => {
             .post(`${URL_API}/v1/messages`,
               {
                 number: `51${findStudent.firstNumberContact}`,
-                message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}, ${validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como tardanza'}`
               })
             .then(r => {
               if (findStudent.secondContact && findStudent?.secondNumberContact?.length === 9) {
@@ -136,7 +139,7 @@ export const useAttendance = () => {
                     .post(`${URL_API}/v1/messages`,
                       {
                         number: `51${findStudent.secondNumberContact}`,
-                        message: `Sr.(a) ${findStudent.secondContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
+                        message: `Sr.(a) ${findStudent.secondContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}, ${validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como *tardanza*'}`
                       })
                 } catch (error) {
                   console.log('error', error)
