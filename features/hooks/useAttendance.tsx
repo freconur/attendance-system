@@ -130,7 +130,7 @@ export const useAttendance = () => {
             .post(`${URL_API}/v1/messages`,
               {
                 number: `51${findStudent.firstNumberContact}`,
-                message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}, ${validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como tardanza'}`
+                message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${findStudent.name} ${findStudent.lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}, ${validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como *tardanza*'}`
               })
             .then(r => {
               if (findStudent.secondContact && findStudent?.secondNumberContact?.length === 9) {
