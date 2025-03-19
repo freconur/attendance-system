@@ -97,6 +97,7 @@ const UpdateFormEmployee = ({ employee, onChangeItem, setEmployee }: Props) => {
     }
   }
   useEffect(() => {
+    console.log('userData cursos', userData)
     if (Number(userData.rol) === 4 && Number(studentData.rol) === 1) {
       getCursos(userData)
     }

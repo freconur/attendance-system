@@ -9,7 +9,6 @@ const SidebarAdmin = () => {
   const { showSidebarContext } = useSidebarState()
   const [showOpcionesEstudiantes, setShowOpcionesEstudiantes] = useState(false)
   const route = useRouter()
-  console.log('showOpcionesEstudiantes', showOpcionesEstudiantes)
   return (
     <div className=' '>
       <>
@@ -74,7 +73,7 @@ const SidebarAdmin = () => {
                   Profesores
                 </Link>
 
-                  {/* <p className={styles.ancla}>Estudiantes</p> */}
+                {/* <p className={styles.ancla}>Estudiantes</p> */}
               </div>
               <ul className={styles.dropdownContent} aria-label="submenu">
                 <li className={styles.containerAncla}>
@@ -94,6 +93,11 @@ const SidebarAdmin = () => {
                   href="/administracion/empleados/registro-empleados"
                   id="ancla"
                   className={styles.anclaje}>Crear usuario</Link></li>
+                  <li className={styles.containerAncla}><Link
+                  onClick={() => showSidebarContext(false)}
+                  href="/administracion/empleados/cursos"
+                  id="ancla"
+                  className={styles.anclaje}>Cursos</Link></li>
               </ul>
             </li>
           </ul>

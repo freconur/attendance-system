@@ -26,13 +26,10 @@ const LayoutMenu = ({ children }: Props) => {
   useEffect(() => {
     getUserData()
   }, [userData.dni])
-  // console.log('layout', userData)
-  console.log(userData)
   const handleChangeStateSidebar = () => {
     showSidebarContext(false)
   }
   useOnClickOutside(closeSidebar, handleChangeStateSidebar)
-
   const showNavbar = () => {
     if (route.pathname === "/login" || route.pathname === "/mis-productos" || route.pathname.includes('resumen-consulta') || route.pathname === '/tareas' || route.pathname === '/cuaderno-de-control' || route.pathname === '/aula-virtual') {
       return (

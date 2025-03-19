@@ -197,7 +197,8 @@ export type Student = {
   showCursosAulavirtual: boolean,
   archivosAulaVirtual: AulaVirtual[],
   loaderAulaVirtual:boolean,
-  loaderUpload:boolean
+  loaderUpload:boolean,
+  cursoById:CursoById
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -342,6 +343,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.ARCHIVOS_AULA_VIRTUAL; payload: AulaVirtual[] }
   | { type: AttendanceRegister.LOADER_AULA_VIRTUAL; payload: boolean }
   | { type: AttendanceRegister.LOADER_UPLOAD; payload: boolean }
+  | { type: AttendanceRegister.CURSO_BY_ID; payload: CursoById }
 
 export type CuadernoControl = {
   message?: string
@@ -353,6 +355,11 @@ export type AuthenticationFormSignIn = {
   password: string
 }
 
+export type CursoById = {
+  id?:string,
+  name?:string,
+  nivel?:string
+}
 export type AttendanceDepartureTime = {
   attendance?: boolean,
   departure?: boolean,
