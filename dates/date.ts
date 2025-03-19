@@ -207,6 +207,8 @@ export const validacionPuntualTardanza = (date: Date) => {
   if(date.getHours() === 7 || date.getMinutes() <= 30) {
     console.log('se esta llegando temprano')
     return true
+  }else if(date.getHours() === 6){
+    return true
   }else {
     console.log('se esta llegando tarde')
     return false
