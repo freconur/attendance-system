@@ -45,7 +45,7 @@ console.log('loaderAulaVirtual', loaderAulaVirtual)
               <div className='grid items-center justify-center'>
                 <div className='flex justify-center items-center'>
                   <RiLoader4Line className="animate-spin text-3xl text-colorTercero " />
-                  <span className='text-colorTercero animate-pulse'>...borrando evaluación</span>
+                  <span className='text-colorTercero animate-pulse'>...borrando usuario</span>
                 </div>
               </div>
               :

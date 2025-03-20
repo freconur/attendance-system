@@ -1,16 +1,18 @@
 import { useGlobalContext, useGlobalContextDispatch } from '../context/GlobalContext'
 import { app } from '@/firebase/firebaseConfig'
-import { collection, doc, getDocs, getFirestore, orderBy, query, setDoc, updateDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, setDoc, updateDoc } from 'firebase/firestore'
 import { Grades, Section, StudentData, UserData } from '../types/types'
 import { AttendanceRegister } from '../actions/actionAttendance'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { currentYear } from '@/dates/date'
-
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router'
 const UseRegisterStudents = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const storage = getStorage()
   const dispatch = useGlobalContextDispatch()
+  const router = useRouter()
 
   const registerNewStudent = async (dataFromStudent: StudentData, pictureProfileUrl: string) => {
     console.log('dataFromStudent', dataFromStudent)
@@ -18,7 +20,7 @@ const UseRegisterStudents = () => {
     const data = {
       dni: dataFromStudent.dni,
       grade: dataFromStudent.grade,
-      firstname:dataFromStudent.firstname?.toLowerCase(),
+      firstname: dataFromStudent.firstname?.toLowerCase(),
       lastname: dataFromStudent.lastname?.toLowerCase(),
       name: dataFromStudent.name?.toLowerCase(),
       firstContact: dataFromStudent.firstContact?.toLowerCase(),
@@ -27,14 +29,11 @@ const UseRegisterStudents = () => {
       secondNumberContact: dataFromStudent.secondNumberContact !== undefined ? dataFromStudent.secondNumberContact : "",
       section: dataFromStudent.section !== undefined ? dataFromStudent.section : "",
     }
-    console.log('data', data)
     if (pictureProfileUrl.length > 0) {
       console.log('con picture profile')
       await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${dataFromStudent.dni}`), { ...dataFromStudent, pictureProfile: pictureProfileUrl });
 
     } else {
-      console.log('sin foto de perfil')
-
       await setDoc(doc(db, `/intituciones/${userData.idInstitution}/students`, `${data.dni}`), data);
     }
   }
@@ -75,29 +74,58 @@ const UseRegisterStudents = () => {
     }
   }
 
-  const updateStudentData = (value:boolean) => {
-    dispatch({type:AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL, payload:!value})
+  const updateStudentData = (value: boolean) => {
+    dispatch({ type: AttendanceRegister.UPDATE_STUDENT_CONFIRMATION_MODAL, payload: !value })
   }
 
-const updateStudent = async (data:StudentData) => {
-  const studentRef = doc(db, `/intituciones/${userData?.idInstitution}/students`, data.dni as string);
+  const updateStudent = async (data: StudentData) => {
+    const studentRef = doc(db, `/intituciones/${userData?.idInstitution}/students`, data.dni as string);
 
-// Set the "capital" field of the city 'DC'
-const dataStudent = {
-  dni:data.dni,
-  name:data.name,
-  lastname:data.lastname,
-  firstname:data.firstname,
-  firstContact:data.firstContact,
-  secondContact:data.secondContact,
-  firstNumberContact:data.firstNumberContact,
-  secondNumberContact:data.secondNumberContact,
-  grade:data.grade,
-}
-await updateDoc(studentRef, dataStudent);
-}
+    // Set the "capital" field of the city 'DC'
+    const dataStudent = {
+      dni: data.dni,
+      name: data.name,
+      lastname: data.lastname,
+      firstname: data.firstname,
+      firstContact: data.firstContact,
+      secondContact: data.secondContact,
+      firstNumberContact: data.firstNumberContact,
+      secondNumberContact: data.secondNumberContact,
+      grade: data.grade,
+    }
+    await updateDoc(studentRef, dataStudent);
+  }
 
-  return { registerNewStudent, getSections, getGrades, sendPictureProfile,updateStudentData, updateStudent }
+
+  const deleteEstudiante = async (idEstudiante: string) => {
+    await deleteDoc(doc(db, `/intituciones/${userData?.idInstitution}/students`, `${idEstudiante}`));
+
+
+    const newPromise = new Promise<boolean>(async (resolve, reject) => {
+      try {
+        await deleteDoc(doc(db, `/intituciones/${userData?.idInstitution}/students`, `${idEstudiante}`))
+          .then(res => {
+            resolve(true)
+          })
+      } catch (error) {
+        console.log('error', error)
+        reject(false)
+      }
+    })
+
+    toast.promise(newPromise,
+      {
+        pending: 'borrando estudiante',
+        success: 'Se ha borrado estudiante con exito 👌',
+        error: 'Parece que algo fallo, intentalo despues 🤯'
+      })
+      .then(res => {
+        router.push('/administracion/estudiantes/registros-de-asistencias')
+      })
+  }
+
+
+  return { registerNewStudent, getSections, getGrades, sendPictureProfile, updateStudentData, updateStudent, deleteEstudiante }
 }
 
 export default UseRegisterStudents

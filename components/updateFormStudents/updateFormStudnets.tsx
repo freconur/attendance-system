@@ -1,10 +1,12 @@
 import { useGlobalContext } from '@/features/context/GlobalContext'
 import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
 import { Grades, StudentData } from '@/features/types/types'
+import DeleteEstudiante from '@/Modals/deleteEstudiante'
 import { convertGrade } from '@/utils/validateGrade'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import React, { useRef, useState } from 'react'
+import { MdDeleteForever } from 'react-icons/md'
 import QRCode from 'react-qr-code'
 
 interface Props {
@@ -35,9 +37,10 @@ const UpdateFormStudnets = ({ grades, student, onChangeItem }: Props) => {
       const imgY = 5
       pdf.addImage(imgData, 'PNG', imgX, imgY, imageWidth * ratio, imageHeight * ratio)
       pdf.save(`codigos-qr.pdf`)
-
     })
   }
+
+  const [ showModalDelete, setShowModalDelete ] = useState<boolean>(false)
   const { updateStudentData } = UseRegisterStudents()
   const { updateStudentConfirmationModal } = useGlobalContext()
   const [warning, setWarning] = useState(initialvalueWarning)
@@ -75,7 +78,6 @@ const UpdateFormStudnets = ({ grades, student, onChangeItem }: Props) => {
         secondContact: "*numero de contacto es necesario"
       })
     }
-
     if (!student.secondContact && !student.secondNumberContact) {
       if (student.firstContact) {
         console.log('opcion 2: existe 1er')
@@ -92,13 +94,21 @@ const UpdateFormStudnets = ({ grades, student, onChangeItem }: Props) => {
       }
     }
   }
+  
+  const showModalDeleteEstudiante = () => {
+    setShowModalDelete(!showModalDelete)
+  }
   return (
     <div className='w-[100%] xs:w-[70%] uppercase m-auto'>
+      {showModalDelete && <DeleteEstudiante id={`${student.dni}`} showModalDeleteEstudiante={showModalDeleteEstudiante}/>}
       <div className=''>
 
         <div className='block w-full'>
           <p className='text-slate-600 '>dni:</p>
+          <div className='flex gap-2 justify-center items-center'>
           <input onChange={onChangeItem} className='w-full rounded-md text-slate-500 border-[1px] p-1 ' name="dni" value={student?.dni} disabled={true} />
+          <MdDeleteForever onClick={showModalDeleteEstudiante} className='text-xl text-red-500 cursor-pointer h-full' />
+          </div>
         </div>
         <div className='block'>
           <p className='text-slate-600 '>nombres:</p>

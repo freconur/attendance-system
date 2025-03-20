@@ -7,23 +7,23 @@ import useAuthentication from "@/features/hooks/useAuthentication"
 import useNavbarSearch from "@/features/hooks/useNavbarSearch"
 import UseRegisterStudents from "@/features/hooks/useRegisterStudents"
 import { StudentData } from "@/features/types/types"
-import { convertGrade } from "@/utils/validateGrade"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { FaUserAlt } from "react-icons/fa"
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValue = {
-  dni:"",
-  firstname:"",
-  name:"",
-  lastname:"",
-  firstContact:"",
-  firstNumberContact:"",
-  secondNumberContact:"",
-  secondContact:"",
-  grade:"",
+  dni: "",
+  firstname: "",
+  name: "",
+  lastname: "",
+  firstContact: "",
+  firstNumberContact: "",
+  secondNumberContact: "",
+  secondContact: "",
+  grade: "",
 }
 const InfoStudent = () => {
   const { getUserData } = useAuthentication()
@@ -31,7 +31,7 @@ const InfoStudent = () => {
   const { dataStudent } = useNavbarSearch()
   const { getGrades } = UseRegisterStudents()
   const { studentData, userData, grades, updateStudentConfirmationModal } = useGlobalContext()
-const [student, setStudent] = useState<StudentData>(initialValue)
+  const [student, setStudent] = useState<StudentData>(initialValue)
   const onChangeItem = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setStudent({
       ...student,
@@ -46,17 +46,18 @@ const [student, setStudent] = useState<StudentData>(initialValue)
       dataStudent(`${router.query.id}`)
     }
   }, [router.query.id])
-// }, [router.query.id, userData.name])
+  // }, [router.query.id, userData.name])
 
   useEffect(() => {
     setStudent(studentData)
-  },[studentData.dni])
+  }, [studentData.dni])
 
   return (
     <div className="p-5 ">
+      <ToastContainer />
       {
-        updateStudentConfirmationModal && 
-        <UpdateStudentConfirmationModal student={student}/>
+        updateStudentConfirmationModal &&
+        <UpdateStudentConfirmationModal student={student} />
       }
       <div className="">
         <div className="my-5">
@@ -81,7 +82,7 @@ const [student, setStudent] = useState<StudentData>(initialValue)
             </div>
         }
 
-        <UpdateFormStudnets grades={grades} student={student} onChangeItem={onChangeItem}/>
+        <UpdateFormStudnets grades={grades} student={student} onChangeItem={onChangeItem} />
         {/* <div className="w-full  flex justify-center items-center ">
           <div className="bg-white p-5 shadow-md w-full sm:w-[500px] rounded-md">
             <p className="text-slate-500 uppercase text-md font-semibold mb-3"><span className="text-slate-400 font-normal">dni:</span> {studentData.dni}</p>

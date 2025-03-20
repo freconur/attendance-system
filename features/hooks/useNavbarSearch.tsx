@@ -16,7 +16,7 @@ const useNavbarSearch = () => {
     if (studentSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: studentSnap.data() })
     } else {
-      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+      const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/usuarios`, dni);
       const employeeSnap = await getDoc(employeeRef);
       if (employeeSnap.exists()) {
         dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: employeeSnap.data() })
@@ -24,7 +24,7 @@ const useNavbarSearch = () => {
     }
   }
   const searchEmployee = async (dni: string) => {
-    const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+    const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/usuarios`, dni);
     const employeeSnap = await getDoc(employeeRef);
     if (employeeSnap.exists()) {
       dispatch({ type: AttendanceRegister.GET_EMPLOYEE_BY_SEARCH, payload: employeeSnap.data() })
@@ -37,6 +37,7 @@ const useNavbarSearch = () => {
   const closeSearchStudent = () => {
     dispatch({ type: AttendanceRegister.DATA_STUDENT_BY_SEARCH, payload: {} })
   }
+
   const dataStudent = async (dni: string) => {
     const studentRef = doc(db, `/intituciones/${userData.idInstitution}/students`, dni);
     const studentSnap = await getDoc(studentRef);
@@ -51,21 +52,21 @@ const useNavbarSearch = () => {
     }
   }
   const dataEmployee = async (dni: string) => {
-    const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/employee`, dni);
+    const employeeRef = doc(db, `/intituciones/${userData.idInstitution}/usuarios`, dni);
     const employeeSnap = await getDoc(employeeRef);
     if (employeeSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_EMPLOYEE, payload: employeeSnap.data() })
     }
   }
   const dataEmployeeConsulta = async (dni: string, idInstitution: string) => {
-    const employeeRef = doc(db, `/intituciones/${idInstitution}/employee`, dni);
+    const employeeRef = doc(db, `/intituciones/${idInstitution}/usuarios`, dni);
     const employeeSnap = await getDoc(employeeRef);
     if (employeeSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_EMPLOYEE, payload: employeeSnap.data() })
     }
   }
   const dataEstudianteConsulta = async (dni: string, idInstitution: string) => {
-    const studentsRef = doc(db, `/intituciones/${idInstitution}/students`, dni);
+    const studentsRef = doc(db, `/intituciones/${idInstitution}/usuarios`, dni);
     const studentsSnap = await getDoc(studentsRef);
     if (studentsSnap.exists()) {
       dispatch({ type: AttendanceRegister.DATA_STUDENT, payload: studentsSnap.data() })
