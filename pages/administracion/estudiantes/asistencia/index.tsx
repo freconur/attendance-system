@@ -93,7 +93,7 @@ const Asistencia = () => {
         {showDepartureManualModal ? <DepartureStudentModal /> : null}
         <div>
           <h1 className="text-textTitulos uppercase font-antonsc  text-3xl my-5 text-center">
-            tomar asistencia
+            asistencia
           </h1>
 
           <div className="w-full">
