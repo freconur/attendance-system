@@ -32,7 +32,7 @@ const NavbarWeb = () => {
     }
   }, [search.dni])
   return (
-    <div className='w-full flex justify-between h-[60px] shadow-md bg-colorNavbar'>
+    <div className='w-full relative z-[20] flex justify-between h-[60px] shadow-md bg-colorNavbar'>
       <div onClick={() => showSidebarContext(!showSidebar)} className='  w-[60px] flex justify-center items-center '>
         <HiOutlineMenu className='text-textTitulos text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
       </div>

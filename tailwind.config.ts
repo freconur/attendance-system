@@ -26,7 +26,7 @@ module.exports = {
       xss:'320px',
       mb:'350px',
       xsm: '420px',
-      xm: '480px',
+      xm: '482px',
       xs: '550px',
       sm: '620px',
       cz: '664px',
@@ -51,6 +51,7 @@ module.exports = {
         'centrar-contenido': 'auto'
       },
       colors: {
+        'buttonColor':'#3f6b8f',
         'headerMiCuenta':'#464859',
         'sidebarColor':'#52b0d4',
         'buttonLogin':'#664768',

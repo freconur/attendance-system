@@ -77,10 +77,6 @@ const MyAccount = () => {
                 // objectFit='fill
                 priority
               />
-              {/* <h4 className={styles.tituloHeader}> */}
-              {/* <h4 className="pl-[10%] text-textTitulos text-wrap  text-6xl font-antonsc">
-                {userData.name} {userData.lastname} {userData.firstname}
-              </h4> */}
             </div>
             <div className="relative m-auto xs:w-[80%] w-full  p-3">
               {/* <div className="relative m-auto xs:w-[80%] w-full bg-textTitulos rounded-b-lg drop-shadow-lg p-3"> */}
