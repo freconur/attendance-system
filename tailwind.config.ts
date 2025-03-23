@@ -19,6 +19,8 @@ module.exports = {
       logoSidebar:["DM Serif Display"],
       montserrat:['Montserrat'],
       jp:['Noto Sans JP'],
+      anton:['Anton'],
+      antonsc:['Anton SC']
     },
     screens: {
       xss:'320px',
@@ -49,6 +51,7 @@ module.exports = {
         'centrar-contenido': 'auto'
       },
       colors: {
+        'headerMiCuenta':'#464859',
         'sidebarColor':'#52b0d4',
         'buttonLogin':'#664768',
         'background1':'#fafafa', 
