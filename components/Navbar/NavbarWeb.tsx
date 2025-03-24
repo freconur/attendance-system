@@ -32,7 +32,7 @@ const NavbarWeb = () => {
     }
   }, [search.dni])
   return (
-    <div className='w-full relative z-[20] flex justify-between h-[60px] shadow-md bg-colorNavbar'>
+    <div className='w-full relative z-[100] flex justify-between h-[60px] drop-shadow-lg bg-colorNavbar'>
       <div onClick={() => showSidebarContext(!showSidebar)} className='  w-[60px] flex justify-center items-center '>
         <HiOutlineMenu className='text-textTitulos text-4xl cursor-pointer hover:text-[45px] hover:text-white duration-300 font-semibold hover:rotate-2' />
       </div>
@@ -56,7 +56,7 @@ const NavbarWeb = () => {
           />
           {
             Object.keys(studentDataBySearch).length !== 0 ?
-              <div className='z-[1000] p-3 absolute top-[58px] w-[94%] bg-white'>
+              <div className='z-[60] p-3 absolute top-[58px] w-[94%] bg-white'>
                 <div className='flex justify-end '>
                   <div onClick={cleanSearchStudent} className='rounded-full bg-red-400 shadow-md w-[30px] h-[30px] mb-3 cursor-pointer'>
                     <p className='m-auto text-white flex justify-center items-center leading-7 font-semibold'>X</p>
