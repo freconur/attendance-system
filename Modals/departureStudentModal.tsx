@@ -60,16 +60,16 @@ const DepartureStudentModal = () => {
             <ConfirmationDepartureStudent motivoSalida={motivoSalida.motivo} studentforDeparture={studentforDeparture}/>
           }
           <div className='w-full'>
-            <div className='w-full'>
-              <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div>
+            <div className='w-full mb-5'>
+              {/* <div className='text-slate-600 text-sm uppercase mb-2'>codigo de estudiante:</div> */}
               <input
                 ref={focusRef}
                 value={studenCode.studentCode}
                 onChange={onChangeStudentCode}
                 name="studentCode"
                 type="number"
-                className='w-full p-3 outline-none shadow-md rounded-md'
-                placeholder='escanea o digita el codigo' />
+                className='w-full p-3 outline-none drop-shadow-lg rounded-sm'
+                placeholder='CODIGO DE ESTUDIANTE' />
             </div>
           </div>
           {
@@ -111,11 +111,11 @@ const DepartureStudentModal = () => {
           }
 
           <div className='w-full'>
-            <p className='capitalize text-slate-500'>motivo de salida:</p>
-            <input className='w-full p-1 text-slate-400 border-[1px]' onChange={handleChangeMotivoSalida} type="text" placeholder="motivo de salida" name="motivo" />
+            {/* <p className='capitalize text-slate-500'>motivo de salida:</p> */}
+            <input className='w-full p-1 text-slate-400 border-[1px] outline-none' onChange={handleChangeMotivoSalida} type="text" placeholder="MOTIVO DE SALIDA" name="motivo" />
           </div>
 
-          <button onClick={() => confirmationDepartureModal(confirmationDepartureStudentModal)} disabled={motivoSalida.motivo.length > 5 ? false : true} className={`w-full rounded-md shadow-md  p-3 text-white   text-center uppercase mt-2 font-semibold ${motivoSalida.motivo.length > 5 ? "bg-blue-500 cursor-pointer" : "bg-gray-200"}`}>registrar salida</button>
+          <button onClick={() => confirmationDepartureModal(confirmationDepartureStudentModal)} disabled={motivoSalida.motivo.length > 5 ? false : true} className={`w-full drop-shadow-lg  shadow-md  p-3 text-white   text-center uppercase mt-2 font-semibold ${motivoSalida.motivo.length > 5 ? "bg-blue-500 cursor-pointer" : "bg-gray-200"}`}>registrar salida</button>
         </div>
       </div>,
       container
