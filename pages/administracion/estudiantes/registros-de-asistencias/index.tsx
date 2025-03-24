@@ -303,7 +303,7 @@ const AttendanceRegister = () => {
           </div>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 p-1">
           {loadingSearchStudents ? (
             <div className="flex w-full mt-5 items-center m-auto justify-center">
               <RiLoader4Line className="animate-spin text-3xl text-slate-500 " />
@@ -311,15 +311,18 @@ const AttendanceRegister = () => {
             </div>
           ) : null}
           <table className="w-full">
-            <thead className="bg-blue-100 border-b-2 border-gray-200 ">
-              <tr className="text-slate-600 capitalize font-nunito ">
+            <thead className="bg-gradient-to-r from-bg-gradient-to-r from-colorSecundario to-colorTercero  border-b-2 border-gray-200 ">
+              <tr className="text-textTitulos capitalize font-nunito ">
                 <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
                   #
                 </th>
                 <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">
                   dni
                 </th>
-                <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                <th className="py-3 md:p-2  xm:hidden text-[12px] text-center uppercase">
+                  ape. y nom.
+                </th>
+                <th className="py-3 hidden xm:block md:p-2 text-[12px] text-center uppercase">
                   apellidos y nombres
                 </th>
                 <th className="py-3 md:p-2 text-[12px] text-center uppercase">
@@ -336,7 +339,7 @@ const AttendanceRegister = () => {
                 return (
                   <tr
                     key={index}
-                    className="text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer"
+                    className="text-slate-500 h-[40px] hover:bg-hoverTable duration-100 cursor-pointer"
                   >
                     <td className="text-center text-[12px] px-3">
                       <Link
@@ -345,14 +348,14 @@ const AttendanceRegister = () => {
                         {index + 1}
                       </Link>
                     </td>
-                    <td className="text-[12px] text-center">
+                    <td className="text-[10px] xm:text-[12px] text-center">
                       <Link
                         href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
                       >
                         {student.dni}
                       </Link>
                     </td>
-                    <td className="uppercase text-[12px] text-center">
+                    <td className="uppercase text-[10px] xm:text-[12px] text-center">
                       <Link
                         href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
                       >
@@ -364,14 +367,14 @@ const AttendanceRegister = () => {
                         student.attendanceByDate === "justificado"
                           ? "text-blue-600"
                           : "text-slate-400"
-                      } flex  gap-1 justify-center  pt-3 text-[12px]`}
+                      } flex  gap-1 justify-center  pt-3 text-[10px] xm:text-[12px]`}
                     >
                       {resultAttendance(
                         student.attendanceByDate as string,
                         student.dni as string
                       )}
                     </td>
-                    <td className="text-center text-[12px] text-blue-600">
+                    <td className="text-center text-[10px] xm:text-[12px] text-blue-600">
                       {student.departureByDate}
                     </td>
                   </tr>

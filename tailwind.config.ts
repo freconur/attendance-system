@@ -51,6 +51,7 @@ module.exports = {
         'centrar-contenido': 'auto'
       },
       colors: {
+        'hoverTable':'#feff9e',
         'buttonColor':'#3f6b8f',
         'headerMiCuenta':'#464859',
         'sidebarColor':'#52b0d4',
