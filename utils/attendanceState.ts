@@ -1,64 +1,61 @@
-import { AttendanceDepartureTime } from "@/features/types/types"
+import { AttendanceDepartureTime } from "@/features/types/types";
 
 export const attendanceState = (attendance?: string) => {
   if (attendance) {
-    const minutes = Number(`${attendance[3].concat(attendance[4])}`)
+    const minutes = Number(`${attendance[3].concat(attendance[4])}`);
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
       if (minutes <= 30) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
-    } else if (attendance[0].toString() === "0" && attendance[1].toString() === "6") {
-      return true
+    } else if (
+      attendance[0].toString() === "0" &&
+      attendance[1].toString() === "6"
+    ) {
+      return true;
     } else {
-      return false
+      return false;
     }
   }
-}
+};
 
 export const attendanceDepartureTime = (attendance?: string) => {
-  console.log('attendance', attendance)
   if (attendance) {
-    // if (attendance === "19") {
     if (attendance[0].toString() === "0" && attendance[1].toString() === "7") {
-      console.log('ingreso')
-      return { attendance: true, departure: false } as AttendanceDepartureTime
-    } else if (attendance[0].toString() === "0" && attendance[1].toString() === "6") {
-      console.log('ingreso')
-      return { attendance: true, departure: false } as AttendanceDepartureTime
-    } else if (attendance[0].toString() === "0" && attendance[1].toString() === "8") {
-      console.log('ingreso')
-      return { attendance: true, departure: false } as AttendanceDepartureTime
-    }  else if (attendance[0].toString() === "0" && attendance[1].toString() === "0") {
-      console.log('ingreso')
-      return { attendance: true, departure: false } as AttendanceDepartureTime
+      return { attendance: true, departure: false } as AttendanceDepartureTime;
+    } else if (
+      attendance[0].toString() === "0" &&
+      attendance[1].toString() === "6"
+    ) {
+      return { attendance: true, departure: false } as AttendanceDepartureTime;
+    } else if (
+      attendance[0].toString() === "0" &&
+      attendance[1].toString() === "8"
+    ) {
+      return { attendance: true, departure: false } as AttendanceDepartureTime;
+    } else if (
+      attendance[0].toString() === "0" &&
+      attendance[1].toString() === "0"
+    ) {
+      return { attendance: true, departure: false } as AttendanceDepartureTime;
     } else if (attendance === "14") {
-      console.log('salida')
-      return { attendance: false, departure: true } as AttendanceDepartureTime
+      return { attendance: false, departure: true } as AttendanceDepartureTime;
     } else if (attendance === "13") {
-      console.log('salida')
-
-      return { departure: true, attendance: false } as AttendanceDepartureTime
+      return { departure: true, attendance: false } as AttendanceDepartureTime;
     } else if (attendance === "15") {
-      console.log('salida')
-
-      return { departure: true, attendance: false } as AttendanceDepartureTime
+      return { departure: true, attendance: false } as AttendanceDepartureTime;
     } else if (attendance === "12") {
-      console.log('salida')
-
-      return { departure: true, attendance: false } as AttendanceDepartureTime
+      return { departure: true, attendance: false } as AttendanceDepartureTime;
     } else {
-      return
+      return;
     }
   }
-}
+};
 
 export const attendanceDepartureTimeEmployee = (attendance?: string) => {
-  console.log('attendance', attendance)
+  console.log("attendance", attendance);
 
   if (attendance) {
-
   }
-
-}
+};
