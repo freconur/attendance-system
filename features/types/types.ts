@@ -198,7 +198,8 @@ export type Student = {
   archivosAulaVirtual: AulaVirtual[],
   loaderAulaVirtual:boolean,
   loaderUpload:boolean,
-  cursoById:CursoById
+  cursoById:CursoById,
+  reporteByGradeMensual: RecordEstudiante[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -344,6 +345,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADER_AULA_VIRTUAL; payload: boolean }
   | { type: AttendanceRegister.LOADER_UPLOAD; payload: boolean }
   | { type: AttendanceRegister.CURSO_BY_ID; payload: CursoById }
+  | { type: AttendanceRegister.RECORD_ESTUDIANTES_MENSUAL; payload: RecordEstudiante[] }
 
 export type CuadernoControl = {
   message?: string
@@ -390,3 +392,13 @@ export type AulaVirtual = {
   grado?:string
 }
 
+export type RecordEstudiante = {
+  falta?:number,
+  id?:string,
+  manualAttendance?:boolean,
+  puntual?:number,
+  tardanza?:number
+  nombres?:string,
+  apellidoMaterno?:string,
+  apellidoPaterno?:string
+}

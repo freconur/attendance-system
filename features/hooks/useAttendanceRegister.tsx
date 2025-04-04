@@ -20,6 +20,7 @@ import {
   Grades,
   JustificacionStudent,
   JustificationValue,
+  RecordEstudiante,
   Section,
   StudentData,
 } from "../types/types";
@@ -33,6 +34,7 @@ import {
   hoursUnixDate,
 } from "@/dates/date";
 import axios from "axios";
+import { attendanceState } from "@/utils/attendanceState";
 const URL_API = "https://whatsapp-api-production-da60.up.railway.app";
 
 const useAttendanceRegister = () => {
@@ -50,8 +52,7 @@ const useAttendanceRegister = () => {
       students.map(async (student) => {
         const refAttendance = doc(
           db,
-          `/intituciones/${userData.idInstitution}/attendance-student/${
-            student.dni
+          `/intituciones/${userData.idInstitution}/attendance-student/${student.dni
           }/${currentYear()}/${month}/${month}/${date}`
         );
         const attendance = await getDoc(refAttendance); //iteramos cada estudiante del grado y seccion
@@ -61,11 +62,12 @@ const useAttendanceRegister = () => {
           attendanceByDate: attendance.exists()
             ? attendance.data().justification
               ? "justificado"
-              : attendance.data().arrivalTime === null
-              ? "falto"
-              : attendance.data().arrivalTime
-              ? hoursUnixDate(attendance.data().arrivalTime)
-              : "falto"
+              : // : attendance.data().arrivalTime === null
+              attendance.data().falta
+                ? "falto"
+                : attendance.data().arrivalTime
+                  ? hoursUnixDate(attendance.data().arrivalTime)
+                  : "falto"
             : "falto",
           departureByDate: attendance.exists()
             ? attendance?.data().departure
@@ -89,10 +91,10 @@ const useAttendanceRegister = () => {
         if (fe < se) {
           return -1;
         }
-        if(a.lastname === b.lastname) {
-          if(a.firstname > b.firstname) return 1
-          if(a.firstname < b.firstname) return -1
-          return 0
+        if (a.lastname === b.lastname) {
+          if (a.firstname > b.firstname) return 1;
+          if (a.firstname < b.firstname) return -1;
+          return 0;
         }
         return 0;
       });
@@ -113,23 +115,19 @@ const useAttendanceRegister = () => {
     //itero cada estudiante del grado y seccion
     students.map(async (student) => {
       //la ruta de la base de datos del estudiante
-      const pathRef = `/intituciones/${
-        userData.idInstitution
-      }/attendance-student/${
-        student.dni
-      }/${currentYear()}/${currentMonth()}/${currentMonth()}`;
+      const pathRef = `/intituciones/${userData.idInstitution
+        }/attendance-student/${student.dni
+        }/${currentYear()}/${currentMonth()}/${currentMonth()}`;
       // await setDoc(doc(db, pathRef, currentDate()), { arrivalTime: new Date() })
       const docRef = doc(
         db,
-        `/intituciones/${userData.idInstitution}/attendance-student/${
-          student.dni
+        `/intituciones/${userData.idInstitution}/attendance-student/${student.dni
         }/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
       );
       // await setDoc(docRef,{manualAttendance:false})
 
       const dataStudent = await getDoc(docRef);
       if (dataStudent.exists()) {
-        console.log("si existe, entonces no hacemos nada");
         dispatch({
           type: AttendanceRegister.LOADING_SAVE_ATTENDANCE_GRADE_SECTION,
           payload: false,
@@ -158,20 +156,18 @@ const useAttendanceRegister = () => {
                   // .post(`/api/whatsapp`,
                   .post(`${URL_API}/message`, {
                     phoneNumber: `51${student.firstNumberContact}@c.us`,
-                    message: `sr. ${student.firstContact}, el estudiante ${
-                      student.name
-                    } ${
-                      student.lastname
-                    }, acaba de ingresar al colegio a las ${dateConvertObjectStudent(
-                      new Date(
-                        currentlyDate.getFullYear(),
-                        currentlyDate.getMonth(),
-                        currentlyDate.getDate(),
-                        7,
-                        59,
-                        1
-                      )
-                    )}.`,
+                    message: `sr. ${student.firstContact}, el estudiante ${student.name
+                      } ${student.lastname
+                      }, acaba de ingresar al colegio a las ${dateConvertObjectStudent(
+                        new Date(
+                          currentlyDate.getFullYear(),
+                          currentlyDate.getMonth(),
+                          currentlyDate.getDate(),
+                          7,
+                          59,
+                          1
+                        )
+                      )}.`,
                   });
               } catch (error) {
                 console.log("error", error);
@@ -200,20 +196,18 @@ const useAttendanceRegister = () => {
                   // .post(`/api/whatsapp`,
                   .post(`${URL_API}/message`, {
                     phoneNumber: `51${student.firstNumberContact}@c.us`,
-                    message: `sr. ${student.firstContact}, el estudiante ${
-                      student.name
-                    } ${
-                      student.lastname
-                    }, acaba de ingresar al colegio a las ${dateConvertObjectStudent(
-                      new Date(
-                        currentlyDate.getFullYear(),
-                        currentlyDate.getMonth(),
-                        currentlyDate.getDate(),
-                        8,
-                        1,
-                        1
-                      )
-                    )}.`,
+                    message: `sr. ${student.firstContact}, el estudiante ${student.name
+                      } ${student.lastname
+                      }, acaba de ingresar al colegio a las ${dateConvertObjectStudent(
+                        new Date(
+                          currentlyDate.getFullYear(),
+                          currentlyDate.getMonth(),
+                          currentlyDate.getDate(),
+                          8,
+                          1,
+                          1
+                        )
+                      )}.`,
                   });
               } catch (error) {
                 console.log("error", error);
@@ -236,20 +230,18 @@ const useAttendanceRegister = () => {
                   // .post(`/api/whatsapp`,
                   .post(`${URL_API}/message`, {
                     phoneNumber: `51${student.firstNumberContact}@c.us`,
-                    message: `sr. ${student.firstContact}, el estudiante ${
-                      student.name
-                    } ${
-                      student.lastname
-                    } no asistio al colegio ${dateConvertObjectStudent(
-                      new Date(
-                        currentlyDate.getFullYear(),
-                        currentlyDate.getMonth(),
-                        currentlyDate.getDate(),
-                        8,
-                        0,
-                        0
-                      )
-                    )}.`,
+                    message: `sr. ${student.firstContact}, el estudiante ${student.name
+                      } ${student.lastname
+                      } no asistio al colegio ${dateConvertObjectStudent(
+                        new Date(
+                          currentlyDate.getFullYear(),
+                          currentlyDate.getMonth(),
+                          currentlyDate.getDate(),
+                          8,
+                          0,
+                          0
+                        )
+                      )}.`,
                   });
               } catch (error) {
                 console.log("error", error);
@@ -359,6 +351,119 @@ const useAttendanceRegister = () => {
     }
   };
 
+  const dataStudentForTableReport = async (month: string, grade: string) => {
+    const promiseGetStudents = new Promise<StudentData[]>(
+      async (resolve, reject) => {
+        try {
+          const refStudents = collection(
+            db,
+            `/intituciones/${userData.idInstitution}/students`
+          );
+          const q = query(refStudents, where("grade", "==", grade));
+          const estudiantesDelGrado: StudentData[] = [];
+          let index = 0;
+          await getDocs(q).then(async (estudiantes) => {
+            estudiantes.forEach((estudiante) => {
+              index = index + 1;
+              estudiantesDelGrado.push(estudiante.data());
+              if (estudiantes.size === index) {
+                resolve(estudiantesDelGrado);
+              }
+            });
+          });
+        } catch (error) {
+          console.log("error", error);
+          reject();
+        }
+      }
+    );
+
+    const reportePromise = new Promise<RecordEstudiante[]>(
+      (resolve, reject) => {
+        try {
+          promiseGetStudents.then((response) => {
+
+            let index = 0;
+            const arrayDataEstudiante: RecordEstudiante[] = [];
+            response.forEach(async (estudiante) => {
+              index = index + 1;
+              // console.log('index', index)
+              const refPathAsistencia = collection(
+                db,
+                `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni
+                }/${currentYear()}/${month}/${month}`
+              );
+              await getDocs(refPathAsistencia).then((dataEstudianteDelMes) => {
+                const dataAcumulado: RecordEstudiante = { falta: 0, puntual: 0, tardanza: 0 }
+                let indexAsistencia = 0
+                let falta = 0
+                let puntual = 0
+                let tardanza = 0
+                //obtenemos la data del estudiante del mes escogido
+                dataEstudianteDelMes.forEach((doc) => {
+                  if (doc.data().falta) {
+                    falta = falta + 1
+                    indexAsistencia = indexAsistencia + 1
+                    dataAcumulado.nombres = estudiante.name
+                    dataAcumulado.apellidoMaterno = estudiante.firstname
+                    dataAcumulado.apellidoPaterno = estudiante.lastname
+                    dataAcumulado.falta = falta
+                    dataAcumulado.id = estudiante.dni
+
+                    if (dataEstudianteDelMes.size === indexAsistencia) {
+                      arrayDataEstudiante.push(dataAcumulado)
+                    }
+                  } else {
+                    if (doc.data().arrivalTime) {
+                      if (attendanceState(hoursUnixDate(doc.data().arrivalTime))) {
+                        puntual = puntual + 1
+
+                        indexAsistencia = indexAsistencia + 1
+                        dataAcumulado.nombres = estudiante.name
+                        dataAcumulado.apellidoMaterno = estudiante.firstname
+                        dataAcumulado.apellidoPaterno = estudiante.lastname
+                        dataAcumulado.puntual = puntual
+                        dataAcumulado.id = estudiante.dni
+                        if (dataEstudianteDelMes.size === indexAsistencia) {
+                          arrayDataEstudiante.push(dataAcumulado)
+                        }
+                      } else {
+                        tardanza = tardanza + 1
+
+                        indexAsistencia = indexAsistencia + 1
+                        dataAcumulado.nombres = estudiante.name
+                        dataAcumulado.apellidoMaterno = estudiante.firstname
+                        dataAcumulado.apellidoPaterno = estudiante.lastname
+                        dataAcumulado.tardanza = tardanza
+                        dataAcumulado.id = estudiante.dni
+                        if (dataEstudianteDelMes.size === indexAsistencia) {
+                          arrayDataEstudiante.push(dataAcumulado)
+                        }
+                      }
+                    }
+                  }
+
+                });
+              });
+              if (response.length === index) {
+                resolve(arrayDataEstudiante);
+              }
+            });
+          });
+        } catch (error) {
+          console.log("error", error);
+          reject();
+        }
+      }
+    );
+    reportePromise.then((response) => {
+      // console.log("rta final", response);
+      dispatch({
+        type: AttendanceRegister.RECORD_ESTUDIANTES_MENSUAL,
+        payload: response,
+      });
+    });
+  };
   const filterRegisterByGrade = async (
     grade: string,
     date: string,
@@ -378,6 +483,7 @@ const useAttendanceRegister = () => {
     docSnap.forEach((rta) => {
       studentsFilter.push(rta.data());
     });
+    //aqui hago un get de los ingresos y salidas de los estudiantes con esta funcion
     const rta = await getDataStudentsByDate(studentsFilter, date, month);
     if (rta) {
       dispatch({ type: AttendanceRegister.STUDENT_BY_GRADE, payload: rta });
@@ -394,8 +500,7 @@ const useAttendanceRegister = () => {
   ) => {
     const attendanceRef = doc(
       db,
-      `/intituciones/${
-        userData.idInstitution
+      `/intituciones/${userData.idInstitution
       }/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`
     );
     //deberia crear un modal con campos para poner un motivo de la falta
@@ -409,8 +514,7 @@ const useAttendanceRegister = () => {
   const justificacionInfoByStudent = async (id: string, date: string) => {
     const attendanceRef = doc(
       db,
-      `/intituciones/${
-        userData.idInstitution
+      `/intituciones/${userData.idInstitution
       }/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`
     );
     const docSnap = await getDoc(attendanceRef);
@@ -441,7 +545,6 @@ const useAttendanceRegister = () => {
   };
 
   const saveAttendance = (value: boolean) => {
-    console.log("value", value);
     dispatch({
       type: AttendanceRegister.CONFIRMATION_SAVE_ATTENDANCE_GRADE_SECTION_MODAL,
       payload: !value,
@@ -458,6 +561,7 @@ const useAttendanceRegister = () => {
     changeAttendanceFromStudent,
     saveChangesFromAttendanceByGradeSecction,
     filterRegisterByGrade,
+    dataStudentForTableReport,
   };
 };
 

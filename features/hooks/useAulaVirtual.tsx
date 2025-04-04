@@ -103,7 +103,7 @@ export const useAulaVirtual = () => {
         arrivalTimeFromStudent.push(
           getDayFromDate(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
+              `${transformMonthToEnglish(month)},${
                 doc.id
               }, ${currentYear()}`
             )
@@ -113,7 +113,7 @@ export const useAulaVirtual = () => {
         arrivalTimeFromStudent.push(
           getDayFromDateFalta(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
+              `${transformMonthToEnglish(month)},${
                 doc.id
               }, ${currentYear()}`
             ) 

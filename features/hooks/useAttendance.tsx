@@ -152,16 +152,14 @@ export const useAttendance = () => {
     );
     if (data?.attendance === true && data?.departure === false) {
       // const rta: AttendanceDepartureTime = attendanceDepartureTime(`${currentHour.getHours()}`)
-      console.log("estamos en ingreso");
       await setDoc(arrivalTimeRef, {
         arrivalTime: new Date(),
         manualAttendance: true,
       }); //crea la hora de ingreso (el arrivaltime) del estudiante
     } else if (data?.attendance === false && data?.departure === true) {
-      console.log("estamos en salida");
       await setDoc(
         arrivalTimeRef,
-        { departure: new Date(), manualAttendance: true },
+        { departure: new Date(), manualAttendance: true, falta:false},
         { merge: true }
       ); //crea la hora de salida (el arrivaltime) del estudiante
     }

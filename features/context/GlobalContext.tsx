@@ -72,7 +72,8 @@ const initialState: Student = {
   archivosAulaVirtual: [],
   loaderAulaVirtual:false,
   loaderUpload:false,
-  cursoById:{}
+  cursoById:{},
+  reporteByGradeMensual:[]
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])

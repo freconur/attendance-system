@@ -39,7 +39,7 @@ const AsistenciaAulaVirtual = () => {
         `${router.query.idInstitucion}`
       );
     }
-  }, [router.query.dni, router.query.idInstitucion]);
+  }, [router.query.dni, router.query.idInstitucion, month.month]);
 
   const handleChangeValueMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonth({
@@ -157,7 +157,7 @@ const AsistenciaAulaVirtual = () => {
           {/* <h3 className='text-xl text-slate-500 uppercase mb-1'>asistencia de <span className='font-semibold'>{dataAulavirtual.name} {dataAulavirtual.lastname}</span></h3>
           <div className='text-xl text-blue-500 capitalize'><span className='text-slate-400 mr-3'>Mes:</span>{month.month}</div> */}
         </div>
-        <table ref={pdfRef} className="w-[100%]  shadow-md m-auto">
+        <table ref={pdfRef} className="w-[100%]  shadow-md m-auto mb-10">
           {/* <table ref={pdfRef} className='w-[100%] max-md:w-[81%] shadow-md m-auto'> */}
           <thead className=" border-b-2 border-gray-200 bg-gradient-to-r from-colorTercero to-colorSecundario">
             <tr className="text-textTitulos font-martianMono capitalize ">

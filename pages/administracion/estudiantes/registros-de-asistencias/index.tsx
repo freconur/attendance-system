@@ -46,6 +46,7 @@ const AttendanceRegister = () => {
     justificacionMotivoModal,
     loadingSearchStudents,
     studentsByGrade,
+    reporteByGradeMensual
   } = useGlobalContext();
   const {
     filterRegisterByGradeAndSection,
@@ -53,6 +54,7 @@ const AttendanceRegister = () => {
     justificacionInfoByStudent,
     showJustificacionMotivo,
     filterRegisterByGrade,
+    dataStudentForTableReport
   } = useAttendanceRegister();
   const { getSections, getGrades } = UseRegisterStudents();
   const [gradeValue, setGradeValue] = useState(0);
@@ -62,7 +64,7 @@ const AttendanceRegister = () => {
   const [attendance, setAttendance] = useState("registros");
   const { getAllEstudiantes, actualizarGradosDeEstudiantes } =
     useActualizarGradosDeEstudiantes();
-
+  const [showRecordTable, setShowRecordTable] = useState<boolean>(false)
   const onDownloadPdf = () => {
     const input: any = pdfRef.current;
     html2canvas(input).then((canvas) => {
@@ -101,12 +103,12 @@ const AttendanceRegister = () => {
       valuesByFilter.grade
     ) {
       //tengo que llamar la funcion simple de los alumnos sin seccion solo grado
-      console.log("estoy solo con grados");
       filterRegisterByGrade(
         valuesByFilter.grade,
         `${startDate.date()}`,
         monthToString(startDate.month())
       );
+      dataStudentForTableReport(monthToString(startDate.month()), valuesByFilter.grade)
     }
     if (valuesByFilter.grade && valuesByFilter.section) {
       filterRegisterByGradeAndSection(
@@ -117,7 +119,6 @@ const AttendanceRegister = () => {
         monthToString(startDate.month())
       );
     } else {
-      console.log("no se encontro registros");
     }
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()]);
 
@@ -136,7 +137,6 @@ const AttendanceRegister = () => {
   //   getAllEstudiantes()
   // },[])
 
-  console.log("allStudents", allStudents);
   const resultAttendance = (value: string, dni: string) => {
     if (value === "justificado") {
       return (
@@ -167,9 +167,8 @@ const AttendanceRegister = () => {
     } else {
       return (
         <span
-          className={`${
-            attendanceState(value) ? "text-green-400" : "text-red-400"
-          }`}
+          className={`${attendanceState(value) ? "text-green-400" : "text-red-400"
+            }`}
         >
           {value}
         </span>
@@ -200,7 +199,10 @@ const AttendanceRegister = () => {
         },
       },
     }
-  );
+    );
+
+
+  console.log('reporteByGradeMensual', reporteByGradeMensual)
   return (
     <PrivateRouteAdmin>
       <div className="relative">
@@ -219,10 +221,11 @@ const AttendanceRegister = () => {
           <h1 className="text-3xl  uppercase text-textTitulos text-center font-antonsc mb-2">
             Registros de asistencias
           </h1>
-          <div className="relative z-10 flex justify-end items-center mb-3">
+          <div className="relative gap-3 z-10 flex-wrap-reverse justify-between flex items-center mb-3">
+            <button onClick={() => setShowRecordTable(!showRecordTable)} className="p-3 duration-300 hover:translate-x-2 rounded-sm bg-gradient-to-r from-bg-gradient-to-r  to-gos-3 from-buttonLogin drop-shadow-lg text-white font-montserrat">Record de asistencia</button>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-              <ThemeProvider theme={themeWithLocale}>
-                {/* <Autocomplete
+              {/* <ThemeProvider theme={themeWithLocale}> */}
+              {/* <Autocomplete
                   options={Object.keys(locales)}
                   getOptionLabel={(key) =>
                     `${key.substring(0, 2)}-${key.substring(2, 4)}`
@@ -244,12 +247,12 @@ const AttendanceRegister = () => {
                   component="div"
                   onPageChange={() => {}}
                 /> */}
-                <DesktopDatePicker
-                  minDate={minDate}
-                  value={startDate}
-                  onChange={(newValue: any) => setStartDate(newValue)}
-                />
-              </ThemeProvider>
+              {/* </ThemeProvider> */}
+              <DesktopDatePicker
+                minDate={minDate}
+                value={startDate}
+                onChange={(newValue: any) => setStartDate(newValue)}
+              />
               {/* <DatePicker
                 minDate={minDate}
                 value={startDate}
@@ -302,7 +305,6 @@ const AttendanceRegister = () => {
             ) : null}
           </div>
         </div>
-
         <div className="mt-5 p-1">
           {loadingSearchStudents ? (
             <div className="flex w-full mt-5 items-center m-auto justify-center">
@@ -310,148 +312,171 @@ const AttendanceRegister = () => {
               <p className="text-slate-500">buscando resultados...</p>
             </div>
           ) : null}
-          <table className="w-full">
-            <thead className="bg-gradient-to-r from-bg-gradient-to-r from-colorSecundario to-colorTercero  border-b-2 border-gray-200 ">
-              <tr className="text-textTitulos capitalize font-nunito ">
-                <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
-                  #
-                </th>
-                <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">
-                  dni
-                </th>
-                <th className="py-3 md:p-2  xm:hidden text-[12px] text-center uppercase">
-                  ape. y nom.
-                </th>
-                <th className="py-3 hidden xm:block md:p-2 text-[12px] text-center uppercase">
-                  apellidos y nombres
-                </th>
-                <th className="py-3 md:p-2 text-[12px] text-center uppercase">
-                  ingreso
-                </th>
-                <th className="py-3 md:p-2 text-[12px] text-center uppercase">
-                  salida
-                </th>
-              </tr>
-            </thead>
 
-            <tbody className="divide-y divide-gray-100 bg-white">
-              {studentsByGrade?.map((student, index) => {
-                return (
-                  <tr
-                    key={index}
-                    className="text-slate-500 h-[40px] hover:bg-hoverTable duration-100 cursor-pointer"
-                  >
-                    <td className="text-center text-[12px] px-3">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {index + 1}
-                      </Link>
-                    </td>
-                    <td className="text-[10px] xm:text-[12px] text-center">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {student.dni}
-                      </Link>
-                    </td>
-                    <td className="uppercase text-[10px] xm:text-[12px] text-center">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {student.lastname} {student.firstname}, {student.name}
-                      </Link>
-                    </td>
-                    <td
-                      className={`${
-                        student.attendanceByDate === "justificado"
-                          ? "text-blue-600"
-                          : "text-slate-400"
-                      } flex  gap-1 justify-center  pt-3 text-[10px] xm:text-[12px]`}
-                    >
-                      {resultAttendance(
-                        student.attendanceByDate as string,
-                        student.dni as string
-                      )}
-                    </td>
-                    <td className="text-center text-[10px] xm:text-[12px] text-blue-600">
-                      {student.departureByDate}
-                    </td>
-                  </tr>
-                );
-              })}
-              {studentsByGradeAndSection?.map((student, index) => {
-                return (
-                  <tr
-                    key={index}
-                    className="text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer"
-                  >
-                    <td className="text-center text-[12px] px-3">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {index + 1}
-                      </Link>
-                    </td>
-                    <td className="text-[12px] text-center">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {student.dni}
-                      </Link>
-                    </td>
-                    <td className="uppercase text-[12px] text-center">
-                      <Link
-                        href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
-                      >
-                        {student.lastname} {student.name}
-                      </Link>
-                    </td>
-                    <td
-                      className={`${
-                        student.attendanceByDate === "justificado"
-                          ? "text-blue-600"
-                          : "text-slate-400"
-                      } flex  gap-1 justify-center  pt-3 text-[12px]`}
-                    >
-                      {resultAttendance(
-                        student.attendanceByDate as string,
-                        student.dni as string
-                      )}
-                    </td>
-                    <td className="text-center text-[12px] text-blue-600">
-                      {student.departureByDate}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          {/* <div onClick={onDownloadPdf} className='p-3 bg-blue-400 text-white rounded-sm'>descargar pdf</div>
-        <ul ref={pdfRef} className='m-auto grid grid-cols-7 gap-5 w-full p-5'>
           {
-            studentsByGrade.length > 0 ?
-              // <QRCode value="hey" />
-              studentsByGrade?.map(student => {
-                return (
-                  <li className='w-auto'>
-                    <div className='w-full mb-5'>
-                      <p className='text-center text-lg font-semibold capitalize'>{student.name} {student.lastname} {student.firstname}</p>
-                    </div>
-                    <QRCode
-                      size={256}
-                      style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                      value={`${student.dni}`} />
-                  </li>
-                )
-              })
+            showRecordTable ?
+              <table className="w-full">
+                <thead className="bg-gradient-to-r from-bg-gradient-to-r from-colorSecundario to-colorTercero  border-b-2 border-gray-200 ">
+                  <tr className="text-textTitulos capitalize font-nunito ">
+                    <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
+                      #
+                    </th>
+                    <th className="py-3  md:p-2 text-[12px] text-center uppercase">
+                      dni
+                    </th>
+                    <th className="py-3 md:p-2  xm:hidden text-[12px] text-center uppercase">
+                      ape. y nom.
+                    </th>
+                    <th className="py-3 hidden xm:block md:p-2 text-[12px] text-center uppercase">
+                      apellidos y nombres
+                    </th>
+                    <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                      P
+                    </th>
+                    <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                      T
+                    </th>
+                    <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                      F
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 bg-white">
+                  {
+                    reporteByGradeMensual.map((alumno, index) => {
+                      return (
+                        <tr className="text-slate-500 h-[40px] font-montserrat capitalize  hover:bg-hoverTable duration-100 cursor-pointer">
+                          <td className="text-center text-[12px] font-light px-3">{index + 1}</td>
+                          <td className="text-center text-[12px] font-light px-3">{alumno.id}</td>
+                          <td className="text-center text-[12px] font-light px-3">{alumno.apellidoPaterno} {alumno.apellidoMaterno} {alumno.nombres}</td>
+                          <td className="text-center text-[12px] font-medium text-green-500 px-3">{alumno.puntual}</td>
+                          <td className="text-center text-[12px] font-medium text-amber-500 px-3">{alumno.tardanza}</td>
+                          <td className="text-center text-[12px] font-medium text-red-500 px-3">{alumno.falta}</td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
               :
-              null
-          }
+              <table className="w-full">
+                <thead className="bg-gradient-to-r from-bg-gradient-to-r from-colorSecundario to-colorTercero  border-b-2 border-gray-200 ">
+                  <tr className="text-textTitulos capitalize font-nunito ">
+                    <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
+                      #
+                    </th>
+                    <th className="py-3 md:p-2 pl-1 md:pl-2 text-[12px] text-center uppercase">
+                      dni
+                    </th>
+                    <th className="py-3 md:p-2  xm:hidden text-[12px] text-center uppercase">
+                      ape. y nom.
+                    </th>
+                    <th className="py-3 hidden xm:block md:p-2 text-[12px] text-center uppercase">
+                      apellidos y nombres
+                    </th>
+                    <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                      ingreso
+                    </th>
+                    <th className="py-3 md:p-2 text-[12px] text-center uppercase">
+                      salida
+                    </th>
+                  </tr>
+                </thead>
 
-        </ul> */}
+                <tbody className="divide-y divide-gray-100 bg-white">
+                  {studentsByGrade?.map((student, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="text-slate-500 h-[40px] hover:bg-hoverTable duration-100 cursor-pointer"
+                      >
+                        <td className="text-center text-[12px] px-3">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {index + 1}
+                          </Link>
+                        </td>
+                        <td className="text-[10px] xm:text-[12px] text-center">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {student.dni}
+                          </Link>
+                        </td>
+                        <td className="uppercase text-[10px] xm:text-[12px] text-center">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {student.lastname} {student.firstname}, {student.name}
+                          </Link>
+                        </td>
+                        <td
+                          className={`${student.attendanceByDate === "justificado"
+                            ? "text-blue-600"
+                            : "text-slate-400"
+                            } flex  gap-1 justify-center  pt-3 text-[10px] xm:text-[12px]`}
+                        >
+                          {resultAttendance(
+                            student.attendanceByDate as string,
+                            student.dni as string
+                          )}
+                        </td>
+                        <td className="text-center text-[10px] xm:text-[12px] text-blue-600">
+                          {student.departureByDate}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {studentsByGradeAndSection?.map((student, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="text-slate-500 h-[40px] hover:bg-hoverTableSale duration-100 cursor-pointer"
+                      >
+                        <td className="text-center text-[12px] px-3">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {index + 1}
+                          </Link>
+                        </td>
+                        <td className="text-[12px] text-center">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {student.dni}
+                          </Link>
+                        </td>
+                        <td className="uppercase text-[12px] text-center">
+                          <Link
+                            href={`/estudiantes/resumen-de-asistencia/${student.dni}`}
+                          >
+                            {student.lastname} {student.name}
+                          </Link>
+                        </td>
+                        <td
+                          className={`${student.attendanceByDate === "justificado"
+                            ? "text-blue-600"
+                            : "text-slate-400"
+                            } flex  gap-1 justify-center  pt-3 text-[12px]`}
+                        >
+                          {resultAttendance(
+                            student.attendanceByDate as string,
+                            student.dni as string
+                          )}
+                        </td>
+                        <td className="text-center text-[12px] text-blue-600">
+                          {student.departureByDate}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+          }
           {studentsByGradeAndSection.length > 0 ||
-          studentsByGrade.length > 0 ? null : (
+            studentsByGrade.length > 0 ? null : (
             <div className="text-slate-400 text-md w-full text-center mt-5">
               No se encontro resultadoss
             </div>

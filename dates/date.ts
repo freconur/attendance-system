@@ -36,7 +36,6 @@ export const todayDate = () => {
   return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 export const monthToString = (month:number) => {
-  console.log('months[month]', months[month])
   return months[month]
 }
 export const currentMonth = () => {
@@ -117,8 +116,8 @@ export const  convertTZ = (date:string, tzString:string) => {
   return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
 }
 export const hoursUnixDateForDetailStudent = (date: any, dateDeparture?: Date) => {
-  console.log('date', new Date(date.seconds * 1000))
-  const hourSeconds = convertTZ(`${new Date(date.seconds * 1000)}`, "America/Lima")
+  // console.log('date', new Date(date.seconds * 1000))
+  const hourSeconds = convertTZ(`${new Date(date?.seconds * 1000)}`, "America/Lima")
   // console.log('testinghour', testinghour)
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)

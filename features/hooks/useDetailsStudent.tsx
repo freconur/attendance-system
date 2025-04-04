@@ -9,6 +9,7 @@ const useDetailsStudents = () => {
   const dispatch = useGlobalContextDispatch()
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
+
   const getDetailsofAttendance = async (id: string, month: string) => {
     // const pathRef = doc(db,`/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}`)
     const querySnapshot = await getDocs(collection(db, `/intituciones/${userData.idInstitution}/attendance-student/${id}/${currentYear()}/${month}/${month}`));
@@ -16,11 +17,11 @@ const useDetailsStudents = () => {
 
     querySnapshot.forEach((doc) => {
       //debo de hacer el mes dinamico para esta ocasion
-
+console.log('estoy en getDetailsofAttendance')
       if (doc.data().justification) {
-        arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+        arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(month)},${doc.id}, ${currentYear()}`)))
       } else if (doc.data().falta) {
-        arrivalTimeFromStudent.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(currentMonth())},${doc.id}, ${currentYear()}`)))
+        arrivalTimeFromStudent.push(getDayFromDateFalta(new Date(`${transformMonthToEnglish(month)},${doc.id}, ${currentYear()}`)))
       } else if (!doc.data().arrivalTime && doc.data().departure) {
         //entra a esta condicional cuando soloregsitro la salida y no su ingreso
         arrivalTimeFromStudent.push(hoursUnixDateForDetailStudentWithoutArrivalTime(doc.data().departure))
