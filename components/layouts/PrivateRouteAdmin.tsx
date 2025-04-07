@@ -20,21 +20,20 @@ const PrivateRouteAdmin = ({ children }: Props) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         getUserData()
-      }else {
+      } else {
         router.push('/login');
       }
     });
   }, [])
 
   useEffect(() => {
-    console.log('userData de administrador', userData)
     if (userData.dni) {
       if (userData.rol !== undefined) {
         if (Number(userData?.rol) !== 4) {
           router.push('/login')
         }
       }
-    } 
+    }
     // else if (!userData) {
     //   router.push('/login')
     // }

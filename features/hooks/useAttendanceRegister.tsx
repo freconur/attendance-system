@@ -17,10 +17,12 @@ import {
   where,
 } from "firebase/firestore";
 import {
+  attendanceStudentType,
   Grades,
   JustificacionStudent,
   JustificationValue,
   RecordEstudiante,
+  RecordReporteDiario,
   Section,
   StudentData,
 } from "../types/types";
@@ -31,6 +33,8 @@ import {
   currentMonth,
   currentYear,
   dateConvertObjectStudent,
+  days,
+  getDayUnixDate,
   hoursUnixDate,
 } from "@/dates/date";
 import axios from "axios";
@@ -351,6 +355,79 @@ const useAttendanceRegister = () => {
     }
   };
 
+  const dataStudentsTablaDaily = (month: string, grade: string,mes:number) => {
+    const promiseGetStudents = new Promise<StudentData[]>(
+      async (resolve, reject) => {
+        try {
+          const refStudents = collection(
+            db,
+            `/intituciones/${userData.idInstitution}/students`
+          );
+          const q = query(refStudents, where("grade", "==", grade), orderBy("lastname"));
+          const estudiantesDelGrado: StudentData[] = [];
+          let index = 0;
+          await getDocs(q).then(async (estudiantes) => {
+            estudiantes.forEach((estudiante) => {
+              index = index + 1;
+              estudiantesDelGrado.push(estudiante.data());
+              if (estudiantes.size === index) {
+                resolve(estudiantesDelGrado);
+              }
+            });
+          });
+        } catch (error) {
+          console.log("error", error);
+          reject();
+        }
+      }
+    );
+
+    const promiseDataForTable = new Promise<any>((resolve, reject) => {
+      try {
+        const arrayEstudiantesAsistencia: RecordReporteDiario[] = []
+        promiseGetStudents.then(estudiantesDelGrado => {
+          let index = 0
+          estudiantesDelGrado.forEach(async (estudiante) => {
+            index = index + 1
+            const pathMesRef = collection(db, `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni}/${currentYear()}/${month}/${month}`)
+
+            await getDocs(pathMesRef)
+              .then(asistencia => {
+                let indexAsistencia = 0
+                const arrayAsistencia: any[] = []
+                asistencia.forEach((doc) => {
+                  indexAsistencia = indexAsistencia + 1
+
+                  if (doc.data().falta) {
+                    console.log('lol', days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()])
+                    arrayAsistencia.push({ falta: true, id: doc.id, day:days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()]})
+                  } else if (doc.data().arrivalTime) {
+                    arrayAsistencia.push({ arrivalTime: attendanceState(hoursUnixDate(doc.data().arrivalTime)), id: doc.id , day:getDayUnixDate(doc.data().arrivalTime)})
+
+                  }
+
+                  if (asistencia.size === indexAsistencia) {
+                    arrayEstudiantesAsistencia.push({ estudiante, asistencia:arrayAsistencia })
+
+                  }
+                })
+              })
+
+            if (estudiantesDelGrado.length === index) {
+              resolve(arrayEstudiantesAsistencia)
+            }
+          })
+        })
+      } catch (error) {
+        console.log('error', error)
+        reject()
+      }
+    })
+    promiseDataForTable.then(response => {
+      dispatch({ type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY, payload: response })
+    })
+  }
+
   const dataStudentForTableReport = async (month: string, grade: string) => {
     const promiseGetStudents = new Promise<StudentData[]>(
       async (resolve, reject) => {
@@ -562,6 +639,7 @@ const useAttendanceRegister = () => {
     saveChangesFromAttendanceByGradeSecction,
     filterRegisterByGrade,
     dataStudentForTableReport,
+    dataStudentsTablaDaily
   };
 };
 

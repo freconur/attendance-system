@@ -17,7 +17,7 @@ const useDetailsStudents = () => {
 
     querySnapshot.forEach((doc) => {
       //debo de hacer el mes dinamico para esta ocasion
-console.log('estoy en getDetailsofAttendance')
+      console.log('estoy en getDetailsofAttendance')
       if (doc.data().justification) {
         arrivalTimeFromStudent.push(getDayFromDate(new Date(`${transformMonthToEnglish(month)},${doc.id}, ${currentYear()}`)))
       } else if (doc.data().falta) {
@@ -47,7 +47,7 @@ console.log('estoy en getDetailsofAttendance')
     }
   }
 
-  const getDetailsofAttendanceConsultas = async (id: string, month: string, idInstitution:string) => {
+  const getDetailsofAttendanceConsultas = async (id: string, month: string, idInstitution: string) => {
     // const pathRef = doc(db,`/attendance-student/${id}/${currentYear()}/${currentMonth()}/${currentMonth()}`)
     const querySnapshot = await getDocs(collection(db, `/intituciones/${idInstitution}/attendance-student/${id}/${currentYear()}/${month}/${month}`));
     const arrivalTimeFromStudent: any = []

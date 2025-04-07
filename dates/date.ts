@@ -2,7 +2,7 @@
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "setiembre", "octubre", "noviembre", "diciembre"]
 const monthNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 // const monthNumber = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-const days = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+export const days = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
 
 export const todayDateArray = () => {
   const date: Date = new Date()
@@ -98,7 +98,6 @@ export const hoursUnixDateEmployeeValidate = (date: Date) => {
   }
 }
 export const hoursUnixDate = (date: Date) => {
-
   const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
   const seconds = date?.toString().slice(18, 28)
   const nanoseconds = date?.toString().slice(42, 49)
@@ -107,11 +106,24 @@ export const hoursUnixDate = (date: Date) => {
   } else {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
     const hour = new Date(rta)
+    
     const numDays = (y: any, m: any) => new Date(y, m, 0).getDate();
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
 
+export const getDayUnixDate = (date: Date) => {
+  const hourSeconds = new Date(Number(date?.toString().slice(18, 28)) * 1000)
+  const seconds = date?.toString().slice(18, 28)
+  const nanoseconds = date?.toString().slice(42, 49)
+  if (seconds?.length > 0 && Number(nanoseconds[0]) === 0) {
+    return `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
+  } else {
+    const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
+    const hour = new Date(rta)
+    console.log('data', new Date(rta).getDay())
+    return days[new Date(rta).getDay()]
+}}
 export const  convertTZ = (date:string, tzString:string) => {
   return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
 }

@@ -23,11 +23,8 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PrivateRouteAdmin from "@/components/layouts/PrivateRouteAdmin";
 import { useActualizarGradosDeEstudiantes } from "@/features/hooks/useActualizarGradosEstudiantes";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import * as locales from "@mui/material/locale";
-import TablePagination from '@mui/material/TablePagination';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 type SupportedLocales = keyof typeof locales;
 const AttendanceRegister = () => {
   const [locale, setLocale] = React.useState<SupportedLocales>("esES");
@@ -46,7 +43,8 @@ const AttendanceRegister = () => {
     justificacionMotivoModal,
     loadingSearchStudents,
     studentsByGrade,
-    reporteByGradeMensual
+    reporteByGradeMensual,
+    reporteByGradeDaily
   } = useGlobalContext();
   const {
     filterRegisterByGradeAndSection,
@@ -54,16 +52,16 @@ const AttendanceRegister = () => {
     justificacionInfoByStudent,
     showJustificacionMotivo,
     filterRegisterByGrade,
-    dataStudentForTableReport
+    dataStudentForTableReport,
+    dataStudentsTablaDaily,
   } = useAttendanceRegister();
   const { getSections, getGrades } = UseRegisterStudents();
   const [gradeValue, setGradeValue] = useState(0);
   const [startDate, setStartDate] = useState(dayjs());
+  const [showReporteDiario, setShowReporteDiario] = useState<boolean>(false)
   const [dniStudent, setDniStudent] = useState("");
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023)));
   const [attendance, setAttendance] = useState("registros");
-  const { getAllEstudiantes, actualizarGradosDeEstudiantes } =
-    useActualizarGradosDeEstudiantes();
   const [showRecordTable, setShowRecordTable] = useState<boolean>(false)
   const onDownloadPdf = () => {
     const input: any = pdfRef.current;
@@ -109,6 +107,8 @@ const AttendanceRegister = () => {
         monthToString(startDate.month())
       );
       dataStudentForTableReport(monthToString(startDate.month()), valuesByFilter.grade)
+      dataStudentsTablaDaily(monthToString(startDate.month()), valuesByFilter.grade, startDate.month())
+
     }
     if (valuesByFilter.grade && valuesByFilter.section) {
       filterRegisterByGradeAndSection(
@@ -118,7 +118,6 @@ const AttendanceRegister = () => {
         attendance,
         monthToString(startDate.month())
       );
-    } else {
     }
   }, [valuesByFilter.grade, valuesByFilter.section, startDate.date()]);
 
@@ -129,13 +128,6 @@ const AttendanceRegister = () => {
       getGrades();
     }
   }, [userData.name]);
-
-  // const handleUpdateGrado = () => {
-  //   actualizarGradosDeEstudiantes(allStudents)
-  // }
-  // useEffect(() => {
-  //   getAllEstudiantes()
-  // },[])
 
   const resultAttendance = (value: string, dni: string) => {
     if (value === "justificado") {
@@ -176,11 +168,6 @@ const AttendanceRegister = () => {
     }
   };
 
-  // const theme = useTheme();
-  // const themeWithLocale = useMemo(
-  //   () => createTheme(theme, locales[locale]),
-  //   [locale, theme]
-  // );
   const themeWithLocale = (theme: any) =>
     createTheme({
       ...theme,
@@ -201,8 +188,7 @@ const AttendanceRegister = () => {
     }
     );
 
-
-  console.log('reporteByGradeMensual', reporteByGradeMensual)
+  console.log('reporteByGradeDaily', reporteByGradeDaily)
   return (
     <PrivateRouteAdmin>
       <div className="relative">
@@ -217,12 +203,15 @@ const AttendanceRegister = () => {
             dniStudent={dniStudent}
           />
         ) : null}
-        <div className="bg-gradient-to-r from-sky-500 from-1% to-emerald-500 to-99% p-2">
+        <div className="bg-gradient-to-r from-sky-500 from-1% to-loginForm to-99% p-2">
           <h1 className="text-3xl  uppercase text-textTitulos text-center font-antonsc mb-2">
             Registros de asistencias
           </h1>
           <div className="relative gap-3 z-10 flex-wrap-reverse justify-between flex items-center mb-3">
-            <button onClick={() => setShowRecordTable(!showRecordTable)} className="p-3 duration-300 hover:translate-x-2 rounded-sm bg-gradient-to-r from-bg-gradient-to-r  to-gos-3 from-buttonLogin drop-shadow-lg text-white font-montserrat">Record de asistencia</button>
+            <div className="flex gap-2 justify-center items-center">
+              <button onClick={() => setShowRecordTable(!showRecordTable)} className={`${showRecordTable && 'h-[50px] w-[50px]'} p-1 h-[40px] w-[40px]  duration-300  rounded-full bg-gradient-to-r from-bg-gradient-to-r  to-gos-3 from-buttonLogin drop-shadow-lg text-white font-montserrat`}>RA</button>
+              <button onClick={() => setShowReporteDiario(!showReporteDiario)} className={`${showReporteDiario && 'h-[50px] w-[50px]'} grid justify-center items-center m-auto p-1 duration-300 h-[40px] w-[40px]  rounded-full bg-gradient-to-r from-bg-gradient-to-r  to-pastel14 from-pastel10 drop-shadow-lg text-textTitulos font-montserrat`}><div>RD</div></button>
+            </div>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
               {/* <ThemeProvider theme={themeWithLocale}> */}
               {/* <Autocomplete
@@ -312,11 +301,87 @@ const AttendanceRegister = () => {
               <p className="text-slate-500">buscando resultados...</p>
             </div>
           ) : null}
+          {
+            showReporteDiario &&
+            <div className="m-auto overflow-x-auto w-[330px] mb:w-[350px] xsm:w-[418px] xm:w-[480px] xs:w-[550px] sm:w-[620px] cz:w-full mb-10 drop-shadow-lg">
+
+              <table className="w-full drop-shadow-lg">
+                <thead className="bg-gradient-to-r from-bg-gradient-to-r from-pastel10 to-pastel14  border-b-2 border-gray-200 ">
+                  <tr className="text-textTitulos capitalize font-nunito ">
+                    <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
+                      #
+                    </th>
+                    {/* <th className="py-3  md:p-2 text-[12px] text-center uppercase">
+                  dni
+                </th> */}
+                    <th className="py-3 md:p-2  xm:hidden text-[12px] text-center uppercase">
+                      ape. y nom.
+                    </th>
+                    <th className="py-3 hidden xm:block md:p-2 text-[12px] h-full text-center uppercase">
+                      apellidos y nombres
+                    </th>
+                    {reporteByGradeDaily.map((alumno, index) => {
+                      return (
+                        <>
+                          {
+                            index === 0 &&
+                            alumno.asistencia.map(day => {
+                              return (
+                                <th key={index} className="">
+                                  <div className="grid justify-center items-center">
+                                    <div className="font-martianMono">
+                                      {day.day?.slice(0, 1)}
+                                    </div>
+                                    <div className="font-martianMono">
+                                      {day.id}
+                                    </div>
+                                  </div>
+                                </th>
+                              )
+                            })
+                          }
+                        </>
+                      )
+                    })}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 bg-white">
+                  {
+                    reporteByGradeDaily.map((alumno, index) => {
+                      return (
+                        <tr className="text-slate-500 h-[40px] font-montserrat capitalize  hover:bg-hoverTable duration-100 cursor-pointer">
+                          <td className="text-center text-[12px] font-light px-3">{index + 1}</td>
+                          {/* <td className="text-center text-[12px] font-light px-3">{alumno.estudiante.dni}</td> */}
+                          <td className="text-center text-[12px] font-light px-3">{alumno.estudiante.lastname} {alumno.estudiante.firstname} {alumno.estudiante.name}</td>
+                          {
+                            alumno.asistencia?.map((day, index) => {
+                              return (
+                                <td key={index} className="m-auto drop-shadow-lg">
+                                  <div className="grid  justify-center items-center">
+                                    <div className={`text-textTitulos text-[12px] rounded-md font-semibold h-[30px] w-[30px] grid justify-center items-center ${day.falta ? 'bg-red-300' : day.arrivalTime ? 'bg-green-500' : 'bg-amber-400'}`}>
+                                      {
+                                        day.falta ? day.falta && 'F' : day.arrivalTime ? 'P' : 'T'
+                                      }
+                                    </div>
+                                  </div>
+                                </td>
+                              )
+                            })
+                          }
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+
 
           {
             showRecordTable ?
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-bg-gradient-to-r from-colorSecundario to-colorTercero  border-b-2 border-gray-200 ">
+                <thead className="bg-gradient-to-r from-bg-gradient-to-r from-headerMiCuenta to-buttonLogin  border-b-2 border-gray-200 ">
                   <tr className="text-textTitulos capitalize font-nunito ">
                     <th className="  md:p-2 text-[12px]  w-[20px] text-center uppercase">
                       #

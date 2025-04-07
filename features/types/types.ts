@@ -55,7 +55,8 @@ export interface UserData {
   celular?: string,
   cursos?: string[],
   numberPhone?: string
-  extensionForUsers?: string
+  extensionForUsers?: string,
+  
 }
 export interface CreateUserData {
   id?: string,
@@ -199,7 +200,8 @@ export type Student = {
   loaderAulaVirtual:boolean,
   loaderUpload:boolean,
   cursoById:CursoById,
-  reporteByGradeMensual: RecordEstudiante[]
+  reporteByGradeMensual: RecordEstudiante[],
+  reporteByGradeDaily:RecordReporteDiario[]
 }
 export interface DetailsPerDayOfStudent {
   day: string,
@@ -346,6 +348,7 @@ export type AttendanceAction =
   | { type: AttendanceRegister.LOADER_UPLOAD; payload: boolean }
   | { type: AttendanceRegister.CURSO_BY_ID; payload: CursoById }
   | { type: AttendanceRegister.RECORD_ESTUDIANTES_MENSUAL; payload: RecordEstudiante[] }
+  | { type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY; payload: RecordReporteDiario[] }
 
 export type CuadernoControl = {
   message?: string
@@ -401,4 +404,24 @@ export type RecordEstudiante = {
   nombres?:string,
   apellidoMaterno?:string,
   apellidoPaterno?:string
+}
+export type RecordReporteDiario = {
+  estudiante:StudentData
+  asistencia:ReporteDiario[]
+}
+export type ReporteDiario = {
+  // arrayAsistencia?: {
+    arrivalTime?:boolean,
+    falta?:boolean,
+    id?:string,
+    day?:string
+  // }
+}
+
+export type attendanceStudentType = {
+  departure?: Date,
+  arrivalTime?: Date,
+  falta?: boolean,
+  id?:string,
+  manualAttendance:boolean
 }

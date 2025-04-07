@@ -73,7 +73,8 @@ const initialState: Student = {
   loaderAulaVirtual:false,
   loaderUpload:false,
   cursoById:{},
-  reporteByGradeMensual:[]
+  reporteByGradeMensual:[],
+  reporteByGradeDaily:[]
 }
 
 export const GlobalContext = createContext<[Student, Dispatch<AttendanceAction>]>([initialState, () => { }])
