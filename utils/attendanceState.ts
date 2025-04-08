@@ -35,9 +35,14 @@ export const attendanceDepartureTime = (attendance?: string) => {
     ) {
       return { attendance: true, departure: false } as AttendanceDepartureTime;
     } else if (
-      attendance[0].toString() === "1" &&
-      attendance[1].toString() === "8"
+      attendance[0].toString() === "0" &&
+      attendance[1].toString() === "9"
     ) {
+      return { attendance: true, departure: false } as AttendanceDepartureTime;
+    }else if(
+      attendance[0].toString() === "1" &&
+      attendance[1].toString() === "0"
+    ){
       return { attendance: true, departure: false } as AttendanceDepartureTime;
     } else if (attendance === "14") {
       return { attendance: false, departure: true } as AttendanceDepartureTime;

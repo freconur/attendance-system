@@ -38,7 +38,6 @@ const AsistenciaEmpleados = () => {
       [e.target.name]: e.target.value
     })
   }
-  console.log('typesEmployee', typesEmployee)
   console.log('employees', employees)
   return (
 
@@ -50,7 +49,7 @@ const AsistenciaEmpleados = () => {
           <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
         </LocalizationProvider>
       </div>
-
+      <button className='p-2 bg-green-500 rounded-md font-semibold drop-shadow-lg text-white'>enviar cuentas</button>
       <div className='mt-3'>
         <h3 className='text-slate-500 mb-3'>Filtrar por:</h3>
         <form className='flex gap-2'>
