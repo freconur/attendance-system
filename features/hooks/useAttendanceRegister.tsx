@@ -371,6 +371,7 @@ const useAttendanceRegister = () => {
               index = index + 1;
               estudiantesDelGrado.push(estudiante.data());
               if (estudiantes.size === index) {
+                console.log('tina', estudiantesDelGrado)
                 resolve(estudiantesDelGrado);
               }
             });
@@ -388,6 +389,7 @@ const useAttendanceRegister = () => {
         promiseGetStudents.then(estudiantesDelGrado => {
           let index = 0
           estudiantesDelGrado.forEach(async (estudiante) => {
+            // console.log('estudiante',estudiante)
             index = index + 1
             const pathMesRef = collection(db, `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni}/${currentYear()}/${month}/${month}`)
 
@@ -399,7 +401,7 @@ const useAttendanceRegister = () => {
                   indexAsistencia = indexAsistencia + 1
 
                   if (doc.data().falta) {
-                    console.log('lol', days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()])
+                    // console.log('lol', days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()])
                     arrayAsistencia.push({ falta: true, id: doc.id, day:days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()]})
                   } else if (doc.data().arrivalTime) {
                     arrayAsistencia.push({ arrivalTime: attendanceState(hoursUnixDate(doc.data().arrivalTime)), id: doc.id , day:getDayUnixDate(doc.data().arrivalTime)})
@@ -407,13 +409,15 @@ const useAttendanceRegister = () => {
                   }
 
                   if (asistencia.size === indexAsistencia) {
-                    arrayEstudiantesAsistencia.push({ estudiante, asistencia:arrayAsistencia })
+                    arrayEstudiantesAsistencia.push({estudiante, asistencia:arrayAsistencia })
+                    // console.log('arrayEstudiantesAsistencia', arrayEstudiantesAsistencia)
 
                   }
                 })
               })
 
             if (estudiantesDelGrado.length === index) {
+
               resolve(arrayEstudiantesAsistencia)
             }
           })
@@ -423,8 +427,8 @@ const useAttendanceRegister = () => {
         reject()
       }
     })
-    promiseDataForTable.then(response => {
-      dispatch({ type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY, payload: response })
+    promiseDataForTable.then(rta => {
+     return  dispatch({ type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY, payload: rta })
     })
   }
 

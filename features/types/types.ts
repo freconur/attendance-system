@@ -407,7 +407,8 @@ export type RecordEstudiante = {
 }
 export type RecordReporteDiario = {
   estudiante:StudentData
-  asistencia:ReporteDiario[]
+  asistencia:ReporteDiario[],
+  // order:number
 }
 export type ReporteDiario = {
   // arrayAsistencia?: {

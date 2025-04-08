@@ -121,7 +121,6 @@ export const getDayUnixDate = (date: Date) => {
   } else {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
     const hour = new Date(rta)
-    console.log('data', new Date(rta).getDay())
     return days[new Date(rta).getDay()]
 }}
 export const  convertTZ = (date:string, tzString:string) => {

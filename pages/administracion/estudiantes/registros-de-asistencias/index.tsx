@@ -25,6 +25,7 @@ import PrivateRouteAdmin from "@/components/layouts/PrivateRouteAdmin";
 import { useActualizarGradosDeEstudiantes } from "@/features/hooks/useActualizarGradosEstudiantes";
 import { createTheme } from "@mui/material/styles";
 import * as locales from "@mui/material/locale";
+import { RecordEstudiante, RecordReporteDiario } from "@/features/types/types";
 type SupportedLocales = keyof typeof locales;
 const AttendanceRegister = () => {
   const [locale, setLocale] = React.useState<SupportedLocales>("esES");
@@ -188,7 +189,51 @@ const AttendanceRegister = () => {
     }
     );
 
-  console.log('reporteByGradeDaily', reporteByGradeDaily)
+  const orderDailyReport = (rta: RecordReporteDiario[]) => {
+    rta.sort((a: any, b: any) => {
+      const fe: string = a && a.estudiante.lastname;
+      const se: string = b && b.estudiante.lastname;
+
+      if (fe > se) {
+        return 1;
+      }
+      // if(fe && se) {}
+      if (fe < se) {
+        return -1;
+      }
+      if (a.estudiante.lastname === b.estudiante.lastname) {
+        if (a.estudiante.firstname > b.estudiante.firstname) return 1;
+        if (a.estudiante.firstname < b.estudiante.firstname) return -1;
+        return 0;
+      }
+      return 0;
+    });
+    return rta
+  }
+
+  const orderReporteMensual = (rta:RecordEstudiante[]) => {
+    rta.sort((a: any, b: any) => {
+      const fe: string = a && a.apellidoPaterno;
+      const se: string = b && b.apellidoPaterno;
+
+      if (fe > se) {
+        return 1;
+      }
+      // if(fe && se) {}
+      if (fe < se) {
+        return -1;
+      }
+      if (a.apellidoPaterno === b.apellidoPaterno) {
+        if (a.apellidoMaterno > b.apellidoMaterno) return 1;
+        if (a.apellidoMaterno < b.apellidoMaterno) return -1;
+        return 0;
+      }
+      return 0;
+    });
+    return rta
+  }
+
+  console.log('reporteByGradeMensual', reporteByGradeMensual)
   return (
     <PrivateRouteAdmin>
       <div className="relative">
@@ -303,7 +348,7 @@ const AttendanceRegister = () => {
           ) : null}
           {
             showReporteDiario &&
-            <div className="m-auto overflow-x-auto w-[330px] mb:w-[350px] xsm:w-[418px] xm:w-[480px] xs:w-[550px] sm:w-[620px] cz:w-full mb-10 drop-shadow-lg">
+            <div className="m-auto overflow-x-auto w-[full]  xm:w-[480px] xs:w-[550px] sm:w-[620px] cz:w-full mb-10 drop-shadow-lg">
 
               <table className="w-full drop-shadow-lg">
                 <thead className="bg-gradient-to-r from-bg-gradient-to-r from-pastel10 to-pastel14  border-b-2 border-gray-200 ">
@@ -328,8 +373,8 @@ const AttendanceRegister = () => {
                             alumno.asistencia.map(day => {
                               return (
                                 <th key={index} className="">
-                                  <div className="grid justify-center items-center">
-                                    <div className="font-martianMono">
+                                  <div className="grid justify-center items-center bg-colorBrand1">
+                                    <div className="font-martianMono ">
                                       {day.day?.slice(0, 1)}
                                     </div>
                                     <div className="font-martianMono">
@@ -347,18 +392,18 @@ const AttendanceRegister = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100 bg-white">
                   {
-                    reporteByGradeDaily.map((alumno, index) => {
+                    orderDailyReport(reporteByGradeDaily).map((alumno, index) => {
                       return (
                         <tr className="text-slate-500 h-[40px] font-montserrat capitalize  hover:bg-hoverTable duration-100 cursor-pointer">
                           <td className="text-center text-[12px] font-light px-3">{index + 1}</td>
                           {/* <td className="text-center text-[12px] font-light px-3">{alumno.estudiante.dni}</td> */}
-                          <td className="text-center text-[12px] font-light px-3">{alumno.estudiante.lastname} {alumno.estudiante.firstname} {alumno.estudiante.name}</td>
+                          <td className="text-center text-[12px] font-medium px-3">{alumno.estudiante.lastname} {alumno.estudiante.firstname} {alumno.estudiante.name}</td>
                           {
                             alumno.asistencia?.map((day, index) => {
                               return (
-                                <td key={index} className="m-auto drop-shadow-lg">
-                                  <div className="grid  justify-center items-center">
-                                    <div className={`text-textTitulos text-[12px] rounded-md font-semibold h-[30px] w-[30px] grid justify-center items-center ${day.falta ? 'bg-red-300' : day.arrivalTime ? 'bg-green-500' : 'bg-amber-400'}`}>
+                                <td key={index} className="">
+                                  <div className="flex  justify-center items-center drop-shadow-lg " >
+                                    <div className={`text-textTitulos rounded-md text-[12px] font-semibold h-[30px] w-[30px] grid justify-center items-center ${day.falta ? 'bg-red-300' : day.arrivalTime ? 'bg-green-500' : 'bg-amber-400'}`}>
                                       {
                                         day.falta ? day.falta && 'F' : day.arrivalTime ? 'P' : 'T'
                                       }
@@ -408,7 +453,7 @@ const AttendanceRegister = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100 bg-white">
                   {
-                    reporteByGradeMensual.map((alumno, index) => {
+                    orderReporteMensual(reporteByGradeMensual).map((alumno, index) => {
                       return (
                         <tr className="text-slate-500 h-[40px] font-montserrat capitalize  hover:bg-hoverTable duration-100 cursor-pointer">
                           <td className="text-center text-[12px] font-light px-3">{index + 1}</td>
