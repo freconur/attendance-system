@@ -16,7 +16,7 @@ const AsistenciaEmpleados = () => {
   const [startDate, setStartDate] = useState(dayjs())
   const { userData } = useGlobalContext()
   const { typesEmployee, employees } = useGlobalContext()
-  const { getTypeEmployee, getEmployees } = useAttendanceEmployee()
+  const { getTypeEmployee, getEmployees, sendCuentaDocente } = useAttendanceEmployee()
   const [minDate, setMinDate] = useState(dayjs(new Date().setFullYear(2023) && new Date().setDate(0)));
   useEffect(() => {
     if (userData) {
@@ -38,7 +38,6 @@ const AsistenciaEmpleados = () => {
       [e.target.name]: e.target.value
     })
   }
-  console.log('employees', employees)
   return (
 
     <div className='p-5'>
@@ -49,7 +48,7 @@ const AsistenciaEmpleados = () => {
           <DatePicker minDate={minDate} value={startDate} onChange={(newValue: any) => setStartDate(newValue)} />
         </LocalizationProvider>
       </div>
-      <button className='p-2 bg-green-500 rounded-md font-semibold drop-shadow-lg text-white'>enviar cuentas</button>
+      {/* <button onClick={() => sendCuentaDocente(employees)} className='p-2 bg-green-500 rounded-md font-semibold drop-shadow-lg text-white'>enviar cuentas</button> */}
       <div className='mt-3'>
         <h3 className='text-slate-500 mb-3'>Filtrar por:</h3>
         <form className='flex gap-2'>

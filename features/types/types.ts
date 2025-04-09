@@ -120,7 +120,8 @@ export interface StudentData {
   presente?: boolean,
   tardanza?: boolean,
   manualAttendance?: boolean,
-  departureByDate?: string
+  departureByDate?: string,
+  active?:boolean
 }
 export interface Section {
   section?: string
@@ -237,6 +238,7 @@ export interface Employee {
   lastname?: string,
   dni?: string,
   rol?: number,
+  celular?:string,
   pictureProfile?: string,
   attendanceByDate?: string,
   departureByDate?: string,
@@ -244,7 +246,9 @@ export interface Employee {
   phone?: string,
   numberPhone?: string,
   currentlyHour?: string,
-  misCursos?: Curso[]
+  misCursos?: Curso[],
+  institutionName?:string,
+  acc?:string
 }
 
 export interface UpdateDataUser {

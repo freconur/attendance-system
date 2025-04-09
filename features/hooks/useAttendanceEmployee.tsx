@@ -14,7 +14,7 @@ import {
   useGlobalContext,
   useGlobalContextDispatch,
 } from "../context/GlobalContext";
-import { Employee, TypesEmployee, UpdateDataUser } from "../types/types";
+import { Employee, TypesEmployee, UpdateDataUser, UserData } from "../types/types";
 import { AttendanceRegister } from "../actions/actionAttendance";
 import {
   currentDate,
@@ -124,8 +124,7 @@ const useAttendanceEmployee = () => {
       employees.map(async (employee) => {
         const refAttendance = doc(
           db,
-          `/intituciones/${userData.idInstitution}/attendance-employee/${
-            employee.dni
+          `/intituciones/${userData.idInstitution}/attendance-employee/${employee.dni
           }/${currentYear()}/${currentMonth()}/${currentMonth()}/${date}`
         );
         const attendanceEmployee = await getDoc(refAttendance);
@@ -136,10 +135,10 @@ const useAttendanceEmployee = () => {
             ? attendanceEmployee.data().justification
               ? "justificado"
               : attendanceEmployee.data().arrivalTime === null
-              ? "falto"
-              : attendanceEmployee.data().arrivalTime
-              ? hoursUnixDate(attendanceEmployee.data().arrivalTime)
-              : "falto"
+                ? "falto"
+                : attendanceEmployee.data().arrivalTime
+                  ? hoursUnixDate(attendanceEmployee.data().arrivalTime)
+                  : "falto"
             : "falto",
           departureByDate: attendanceEmployee.exists()
             ? attendanceEmployee?.data().departureTime
@@ -194,8 +193,7 @@ const useAttendanceEmployee = () => {
   const employeeArrivalTime = async (employeeCode: string) => {
     const arrivalTimeRef = doc(
       db,
-      `/intituciones/${
-        userData.idInstitution
+      `/intituciones/${userData.idInstitution
       }/attendance-employee/${employeeCode}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
     );
 
@@ -226,8 +224,7 @@ const useAttendanceEmployee = () => {
     dispatch({ type: AttendanceRegister.LOADER_GET_EMPLOYEE, payload: true });
     const arrivalTimeRef = doc(
       db,
-      `/intituciones/${
-        userData.idInstitution
+      `/intituciones/${userData.idInstitution
       }/attendance-employee/${employee}/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
     );
     const refData = doc(
@@ -265,24 +262,22 @@ const useAttendanceEmployee = () => {
           //registra la hora de salida y prosigue con la funcionalidad de enviar mensaje por whwatsap al profesor
           rta
             ? await setDoc(
-                arrivalTimeRef,
-                {
-                  departureTime: hourAttendanDeparture,
-                  manualAttendance: true,
-                },
-                { merge: true }
-              )
+              arrivalTimeRef,
+              {
+                departureTime: hourAttendanDeparture,
+                manualAttendance: true,
+              },
+              { merge: true }
+            )
               .then(res => {
                 try {
                   axios.post(`${URL_API}/v1/messages`, {
                     number: `51${employeeData.data().celular}`,
-                    message: `Profesor *${employeeData.data().name} ${
-                      employeeData.data().lastname
-                    } ${
-                      employeeData.data().firstname
-                    }*, haz registrado tu salida a las  ${dateConvertObjectStudent(
-                      hourAttendanDeparture
-                    )}.`,
+                    message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname
+                      } ${employeeData.data().firstname
+                      }*, haz registrado tu salida a las  ${dateConvertObjectStudent(
+                        hourAttendanDeparture
+                      )}.`,
                   });
                 } catch (error) {
                   console.log("error", error);
@@ -300,13 +295,11 @@ const useAttendanceEmployee = () => {
                 // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
                 number: `51${employeeData.data().celular}`,
                 // phoneNumber: `51982752688@c.us`,
-                message: `Profesor *${employeeData.data().name} ${
-                  employeeData.data().lastname
-                } ${
-                  employeeData.data().firstname
-                }*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(
-                  hourAttendanDeparture
-                )}.`,
+                message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname
+                  } ${employeeData.data().firstname
+                  }*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(
+                    hourAttendanDeparture
+                  )}.`,
                 // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
               });
             } catch (error) {
@@ -331,13 +324,11 @@ const useAttendanceEmployee = () => {
               // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
               number: `51${employeeData.data().celular}`,
               // phoneNumber: `51982752688@c.us`,
-              message: `Profesor *${employeeData.data().name} ${
-                employeeData.data().lastname
-              } ${
-                employeeData.data().firstname
-              }*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(
-                hourAttendanDeparture
-              )}.`,
+              message: `Profesor *${employeeData.data().name} ${employeeData.data().lastname
+                } ${employeeData.data().firstname
+                }*, haz registrado tu ingreso a las  ${dateConvertObjectStudent(
+                  hourAttendanDeparture
+                )}.`,
               // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
             });
           } catch (error) {
@@ -405,8 +396,7 @@ const useAttendanceEmployee = () => {
     const querySnapshot = await getDocs(
       collection(
         db,
-        `/intituciones/${
-          userData.idInstitution
+        `/intituciones/${userData.idInstitution
         }/attendance-employee/${dni}/${currentYear()}/${month}/${month}`
       )
     );
@@ -417,8 +407,7 @@ const useAttendanceEmployee = () => {
         arrivalTimeFromEmployee.push(
           getDayFromDate(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
-                doc.id
+              `${transformMonthToEnglish(currentMonth())},${doc.id
               }, ${currentYear()}`
             )
           )
@@ -427,8 +416,7 @@ const useAttendanceEmployee = () => {
         arrivalTimeFromEmployee.push(
           getDayFromDateFalta(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
-                doc.id
+              `${transformMonthToEnglish(currentMonth())},${doc.id
               }, ${currentYear()}`
             )
           )
@@ -481,8 +469,7 @@ const useAttendanceEmployee = () => {
         arrivalTimeFromEmployee.push(
           getDayFromDate(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
-                doc.id
+              `${transformMonthToEnglish(currentMonth())},${doc.id
               }, ${currentYear()}`
             )
           )
@@ -491,8 +478,7 @@ const useAttendanceEmployee = () => {
         arrivalTimeFromEmployee.push(
           getDayFromDateFalta(
             new Date(
-              `${transformMonthToEnglish(currentMonth())},${
-                doc.id
+              `${transformMonthToEnglish(currentMonth())},${doc.id
               }, ${currentYear()}`
             )
           )
@@ -553,6 +539,24 @@ const useAttendanceEmployee = () => {
     };
     await updateDoc(employeeRef, dataEmployee);
   };
+
+  const sendCuentaDocente = (employees: Employee[]) => {
+    employees.forEach(employee => {
+      // if (employee.dni === '44444444') {
+        try {
+          axios.post(`${URL_API}/v1/messages`, {
+            number: `51${employee.celular}`,
+            message: `${employee.institutionName?.toLocaleUpperCase()}: 
+            Profesor *${employee.name} ${employee.lastname
+              } ${employee.firstname
+              }*, Se ha habilitado tu cuenta para el ingreso a intranet, tus datos son los siguientes: *usuario:* ${employee.acc}   *contraseña:* ${employee.dni}  , puedes ingresar a la plataforma en el siguiente link: https://tuescuelagestiona.online`,
+          });
+        } catch (error) {
+          console.log('error', error)
+        }
+      // }
+    })
+  }
   return {
     confirmationUpdateEmployee,
     updateEmployee,
@@ -564,6 +568,7 @@ const useAttendanceEmployee = () => {
     getEmployeeAndAttendance,
     getDetailAttendanceEmployee,
     getDetailAttendanceEmployeeConsultas,
+    sendCuentaDocente
   };
 };
 

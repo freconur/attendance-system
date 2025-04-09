@@ -7,13 +7,14 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { currentYear } from '@/dates/date'
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router'
+import axios from 'axios'
 const UseRegisterStudents = () => {
   const db = getFirestore(app)
   const { userData } = useGlobalContext()
   const storage = getStorage()
   const dispatch = useGlobalContextDispatch()
   const router = useRouter()
-
+  const URL_API = "https://whatsapp-asistencia-production.up.railway.app";
   const registerNewStudent = async (dataFromStudent: StudentData, pictureProfileUrl: string) => {
     console.log('dataFromStudent', dataFromStudent)
 
@@ -124,8 +125,87 @@ const UseRegisterStudents = () => {
       })
   }
 
+  const falsearTodosEstudiantes = async () => {
+    const estudiantesRef = collection(db, `/intituciones/${userData.idInstitution}/students`)
+    let size = 0
+    const promiseConvertFalse = new Promise<string[]>(async (resolve, reject) => {
+      try {
+        await getDocs(estudiantesRef)
+          .then((rta) => {
+            const arrayDniEstudiante: string[] = []
+            let index = 0
+            rta.forEach((doc) => {
+              index = index + 1
+              if (doc.data().active === true) {
+                arrayDniEstudiante.push(doc.data().dni)
 
-  return { registerNewStudent, getSections, getGrades, sendPictureProfile, updateStudentData, updateStudent, deleteEstudiante }
+              }
+            });
+            if (rta.size === index) {
+              size = rta.size
+              resolve(arrayDniEstudiante)
+            }
+          })
+      } catch (error) {
+        console.log(error)
+        reject()
+      }
+    })
+
+
+    // const promiseEstudiantesActivos = new Promise<boolean>((resolve, reject) => {
+    promiseConvertFalse.then(dni => {
+      // debugger
+      // if(dni.length === size) {
+      console.log('dni', dni.length)
+      console.log('activos', dni.length)
+      // debugger
+      // dni?.forEach(async (d) => {
+      //   console.log('d', d)
+      //   // if (d === '00000001') {
+      //     const estudianteRef = doc(db, `/intituciones/${userData.idInstitution}/students`, d)
+      //     // Set the "capital" field of the city 'DC'
+      //     await updateDoc(estudianteRef, {
+      //       active: false
+      //     });
+      //   // }
+      // })
+      // }
+    })
+    // })
+  }
+
+  const actualizarEstudiantesActivos = (estudiantes: StudentData[]) => {
+
+    estudiantes.forEach(async (estudiante) => {
+      const estudianteRef = doc(db, `intituciones/${userData.idInstitution}/students`, `${estudiante.dni}`)
+      // await updateDoc(estudianteRef, {
+      //   active: true
+      // });
+      if (estudiante.active === true) {
+        try {
+          if (estudiante.firstNumberContact) {
+            axios.post(`${URL_API}/v1/messages`, {
+              number: `51${estudiante.firstNumberContact}`,
+              message: `I.E.P. DIVINO MAESTRO: 
+              Sr(a). *${estudiante.firstContact}* , Se ha habilitado la cuenta del estudiante *${estudiante.name} ${estudiante.lastname}* para el ingreso a la intranet, puedes ingresar a la intranet con el número de *DNI del ESTUDIANTE* ,ingresa a la plataforma en el siguiente link: https://www.tuescuelagestiona.online/aula-virtual?idInstitucion=l2MjRJSZU2K6Qdyc3lUz  `
+            });
+          }
+          if (estudiante.secondNumberContact) {
+            axios.post(`${URL_API}/v1/messages`, {
+              number: `51${estudiante.secondNumberContact}`,
+              message: `I.E.P. DIVINO MAESTRO: 
+              Sr(a). *${estudiante.secondContact}* , Se ha habilitado la cuenta del estudiante *${estudiante.name} ${estudiante.lastname}* para el ingreso a la intranet, puedes ingresar a la intranet con el número de *DNI del ESTUDIANTE* ,ingresa a la plataforma en el siguiente link: https://www.tuescuelagestiona.online/aula-virtual?idInstitucion=l2MjRJSZU2K6Qdyc3lUz  `
+            });
+          }
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
+    })
+
+  }
+  return { actualizarEstudiantesActivos, falsearTodosEstudiantes, registerNewStudent, getSections, getGrades, sendPictureProfile, updateStudentData, updateStudent, deleteEstudiante }
 }
 
 export default UseRegisterStudents

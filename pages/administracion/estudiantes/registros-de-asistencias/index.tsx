@@ -56,7 +56,7 @@ const AttendanceRegister = () => {
     dataStudentForTableReport,
     dataStudentsTablaDaily,
   } = useAttendanceRegister();
-  const { getSections, getGrades } = UseRegisterStudents();
+  const { getSections, getGrades, falsearTodosEstudiantes, actualizarEstudiantesActivos } = UseRegisterStudents();
   const [gradeValue, setGradeValue] = useState(0);
   const [startDate, setStartDate] = useState(dayjs());
   const [showReporteDiario, setShowReporteDiario] = useState<boolean>(false)
@@ -233,7 +233,7 @@ const AttendanceRegister = () => {
     return rta
   }
 
-  console.log('reporteByGradeMensual', reporteByGradeMensual)
+  console.log('studentsByGrade', studentsByGrade)
   return (
     <PrivateRouteAdmin>
       <div className="relative">
@@ -254,6 +254,9 @@ const AttendanceRegister = () => {
           </h1>
           <div className="relative gap-3 z-10 flex-wrap-reverse justify-between flex items-center mb-3">
             <div className="flex gap-2 justify-center items-center">
+              {/* <button onClick={() => actualizarEstudiantesActivos(studentsByGrade)}  */}
+              {/* <button onClick={() => actualizarEstudiantesActivos(studentsByGrade)} className="p-2 bg-red-500 text-white font-semibold rounded-md">falsear</button> */}
+              {/* <button onClick={() => actualizarEstudiantesActivos(studentsByGrade)} className="p-2 bg-red-500 text-white font-semibold rounded-md">falsear</button> */}
               <button onClick={() => setShowRecordTable(!showRecordTable)} className={`${showRecordTable && 'h-[50px] w-[50px]'} p-1 h-[40px] w-[40px]  duration-300  rounded-full bg-gradient-to-r from-bg-gradient-to-r  to-gos-3 from-buttonLogin drop-shadow-lg text-white font-montserrat`}>RA</button>
               <button onClick={() => setShowReporteDiario(!showReporteDiario)} className={`${showReporteDiario && 'h-[50px] w-[50px]'} grid justify-center items-center m-auto p-1 duration-300 h-[40px] w-[40px]  rounded-full bg-gradient-to-r from-bg-gradient-to-r  to-pastel14 from-pastel10 drop-shadow-lg text-textTitulos font-montserrat`}><div>RD</div></button>
             </div>
