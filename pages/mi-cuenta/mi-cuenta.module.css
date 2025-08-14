@@ -1,23 +1,535 @@
-.tituloHeader {
-    position: absolute;
-    left: 10%;
-    z-index: 20;
-    /* opacity: 80; */
-    top: -32px;
-    font-size: 10vw;
-    color:#ffff;
-    font-family: 'Anton SC';
-    text-transform: uppercase;
+/* Diseño completamente nuevo - Dashboard moderno */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafafa;
+  padding: 2rem 1rem;
 }
 
-.tituloHeader2 {
-    position: absolute;
-    left: 10%;
-    z-index: 20;
-    /* opacity: 80; */
-    bottom: -38px;
-    font-size: 10vw;
-    color:#ffff;
-    font-family: 'Anton SC';
-    text-transform: uppercase;
+/* Header con diseño de tarjeta flotante */
+.headerCard {
+  background: #e8f4fd;
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.08);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+}
+
+.headerCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #93c5fd;
+  border-radius: 2px;
+}
+
+.headerImage {
+  display: none;
+}
+
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #bfdbfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e40af;
+  font-size: 2rem;
+  box-shadow: 0 8px 20px rgba(191, 219, 254, 0.4);
+  border: 3px solid #dbeafe;
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.userName {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.userRole {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* Contenido principal */
+.mainContent {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Tarjeta de información personal */
+.infoCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  position: relative;
+  overflow: hidden;
+}
+
+.infoCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 30%, rgba(191, 219, 254, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.infoCard:hover::before {
+  transform: translateX(100%);
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.cardTitle::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: #bfdbfe;
+  border-radius: 2px;
+}
+
+.infoGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.infoItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #bfdbfe;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.infoItem:hover::before {
+  transform: scaleY(1);
+}
+
+.infoItem:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 25px rgba(191, 219, 254, 0.2);
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.infoIcon {
+  width: 48px;
+  height: 48px;
+  background: #dbeafe;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e40af;
+  margin-right: 1rem;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 12px rgba(219, 234, 254, 0.4);
+  transition: all 0.3s ease;
+}
+
+.infoItem:hover .infoIcon {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(219, 234, 254, 0.6);
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoLabel {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-size: 1.1rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+/* Botón de cambiar contraseña */
+.changePasswordButton {
+  background: #dbeafe;
+  color: #1e40af;
+  border: none;
+  padding: 1.25rem 2rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(219, 234, 254, 0.4);
+  text-transform: capitalize;
+  width: 100%;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.changePasswordButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.changePasswordButton:hover::before {
+  left: 100%;
+}
+
+.changePasswordButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(219, 234, 254, 0.6);
+  background: #bfdbfe;
+}
+
+/* Formulario de contraseña con animaciones */
+.passwordForm {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  position: relative;
+  animation: slideDownFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top;
+}
+
+.passwordForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #bfdbfe;
+  border-radius: 20px 20px 0 0;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animaciones para el formulario */
+@keyframes slideDownFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación para los elementos del formulario */
+.formGroup {
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.formGroup:nth-child(1) { animation-delay: 0.1s; }
+.formGroup:nth-child(2) { animation-delay: 0.2s; }
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formLabel {
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+  box-sizing: border-box;
+  animation: inputSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.formInput:nth-child(1) { animation-delay: 0.3s; }
+.formInput:nth-child(2) { animation-delay: 0.4s; }
+
+@keyframes inputSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #bfdbfe;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(191, 219, 254, 0.2);
+  transform: translateY(-2px);
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Mensajes de error y advertencia con animaciones */
+.errorMessage {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  display: block;
+  background: #fef2f2;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border-left: 4px solid #fca5a5;
+  animation: shakeError 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.warningMessage {
+  color: #d97706;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  display: block;
+  background: #fffbeb;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border-left: 4px solid #fcd34d;
+  animation: pulseWarning 2s infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Botón para mostrar/ocultar contraseña */
+.showPasswordButton {
+  background: none;
+  border: none;
+  color: #93c5fd;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  margin-top: 1rem;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+}
+
+.showPasswordButton:hover {
+  background: #f1f5f9;
+  color: #1e40af;
+  transform: translateY(-1px);
+}
+
+/* Grupo de botones con animaciones */
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+}
+
+.cancelButton {
+  flex: 1;
+  background: #f1f5f9;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+}
+
+.cancelButton:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateY(-2px);
+}
+
+.acceptButton {
+  flex: 2;
+  background: #bbf7d0;
+  color: #166534;
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  box-shadow: 0 4px 15px rgba(187, 247, 208, 0.4);
+}
+
+.acceptButton:enabled:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(187, 247, 208, 0.6);
+  background: #a7f3d0;
+}
+
+.acceptButton:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
+  box-shadow: none;
+  color: #94a3b8;
+}
+
+/* Texto de carga */
+.loadingText {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1.25rem;
+  margin-top: 4rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .headerCard,
+  .infoCard,
+  .passwordForm {
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
+  
+  .avatarSection {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    font-size: 2.5rem;
+  }
+  
+  .userName {
+    font-size: 1.5rem;
+  }
 }

@@ -85,9 +85,9 @@ export const hoursUnixDateEmployeeValidate = (date: Date) => {
     // console.log(`${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`)
     // return `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
   } else {
-    const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
-    const hour = new Date(rta)
-    const numDays = (y: any, m: any) => new Date(y, m, 0).getDate();
+    /* const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000 */
+   /*  const hour = new Date(rta) */
+    /* const numDays = (y: any, m: any) => new Date(y, m, 0).getDate(); */
     // console.log('numDays', numDays(2024,3))
     return {
       hour: hourSeconds.getHours().toString(),
@@ -107,7 +107,7 @@ export const hoursUnixDate = (date: Date) => {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
     const hour = new Date(rta)
     
-    const numDays = (y: any, m: any) => new Date(y, m, 0).getDate();
+   /*  const numDays = (y: any, m: any) => new Date(y, m, 0).getDate(); */
     return `${hour.getHours().toString().padStart(2, "0")}:${hour.getMinutes().toString().padStart(2, "0")}:${hour.getSeconds().toString().padStart(2, "0")}${hour.getHours() < 12 ? "am" : "pm"}`
   }
 }
@@ -120,7 +120,7 @@ export const getDayUnixDate = (date: Date) => {
     return `${hourSeconds.getHours().toString().padStart(2, "0")}:${hourSeconds.getMinutes().toString().padStart(2, "0")}:${hourSeconds.getSeconds().toString().padStart(2, "0")}${hourSeconds.getHours() < 12 ? "am" : "pm"}`
   } else {
     const rta = (Number(seconds) + Number(nanoseconds) / 1000000000) * 1000
-    const hour = new Date(rta)
+    /* const hour = new Date(rta) */
     return days[new Date(rta).getDay()]
 }}
 export const  convertTZ = (date:string, tzString:string) => {

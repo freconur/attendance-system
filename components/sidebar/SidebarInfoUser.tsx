@@ -3,13 +3,15 @@ import { validateRol } from '@/utils/validateRolEmployee'
 import Image from 'next/image'
 import React from 'react'
 import logo from '../../assets/divino-maestro-logo.png'
+import styles from './SidebarInfoUser.module.css'
+
 const SidebarInfoUser = () => {
   const { userData } = useGlobalContext()
   return (
-    <div className='relative z-[30] my-2 border-b-[1px] border-slate-200 pb-5'>
-      <div className='flex justify-center items-center mb-3'>
+    <div className={styles.container}>
+      <div className={styles.logoContainer}>
           <Image
-            className=''
+            className={styles.logo}
             src={logo}
             alt="imagen de cabecera"
             priority
@@ -18,7 +20,7 @@ const SidebarInfoUser = () => {
           />
       </div>
       <div>
-        <p className='capitalize text-center text-textTitulos text-2xl'>{userData.institutionName}</p>
+        <p className={styles.institutionName}>{userData.institutionName}</p>
       </div>
       {/* <div className='mt-1 w-full flex justify-center items-center'>
         {userData.pictureProfile ?
@@ -37,8 +39,8 @@ const SidebarInfoUser = () => {
           </div>
         }
       </div> */}
-      <div className='mt-1'><p className='capitalize text-center text-textTitulos'>{userData.name} {userData.lastname} {userData.firstname}</p></div>
-      <div className='mt-1'><p className='capitalize text-center text-textTitulos'>{validateRol(Number(userData.rol))}</p></div>
+      <div className={styles.userName}><p>{userData.name} {userData.lastname} {userData.firstname}</p></div>
+      <div className={styles.userRole}><p>{validateRol(Number(userData.rol))}</p></div>
     </div>
   )
 }

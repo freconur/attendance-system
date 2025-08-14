@@ -1,0 +1,478 @@
+/* Contenedor principal */
+.container {
+  min-height: 100vh;
+  background: white;
+  padding: 20px;
+  animation: fadeIn 0.8s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efectos de brillos de colores tenues */
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.02) 100%);
+  animation: float 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+.container::before {
+  top: -150px;
+  right: -150px;
+  animation-delay: 0s;
+}
+
+.container::after {
+  bottom: -150px;
+  left: -150px;
+  animation-delay: 4s;
+}
+
+/* Efectos adicionales de brillos */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.02) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: pulseGlow 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Título principal */
+.mainTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #4a5568;
+  margin: 30px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: slideDown 1s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* Formulario */
+.form {
+  max-width: 800px;
+  margin: 0 auto;
+  animation: slideUp 1s ease-out 0.3s both;
+  position: relative;
+  z-index: 1;
+}
+
+/* Secciones del formulario */
+.formSection {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efectos de brillo en las secciones */
+.formSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.formSection:hover::before {
+  left: 100%;
+}
+
+.formSection:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+/* Títulos de sección */
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #667eea;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #764ba2;
+  animation: expandWidth 1s ease-out 0.5s both;
+}
+
+/* Contenedor de campo */
+.fieldContainer {
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease-out both;
+  position: relative;
+}
+
+/* Labels */
+.label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Inputs y selects */
+.input,
+.select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #4a5568;
+  background: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Efecto de brillo en inputs al focus */
+.input:focus::after,
+.select:focus::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.02), transparent);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.input::placeholder {
+  color: #a0aec0;
+}
+
+/* Input de archivo */
+.fileInput {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 15px;
+  border: 2px dashed #cbd5e0;
+  border-radius: 12px;
+  background: #f7fafc;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.fileInput:hover {
+  border-color: #667eea;
+  background: #edf2f7;
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
+}
+
+.fileInput input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Mensajes de error */
+.errorMessage {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  padding: 8px 12px;
+  background: rgba(229, 62, 62, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #e53e3e;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Contenedor de imagen */
+.imageContainer {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.imagePreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #667eea;
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+  animation: scaleIn 0.5s ease-out;
+  position: relative;
+}
+
+/* Efecto de brillo en la imagen */
+.imagePreview::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botón de envío */
+.submitButton {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  margin: 30px 0;
+  animation: pulse 2s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo en el botón */
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.submitButton:hover::before {
+  left: 100%;
+}
+
+.submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.submitButton:active {
+  transform: translateY(-1px);
+}
+
+/* Nombre del archivo seleccionado */
+.fileName {
+  font-weight: 600;
+  color: #667eea;
+  padding: 10px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50px;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+  }
+  100% {
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+}
+
+/* Nuevas animaciones para efectos de brillo */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+    margin: 20px 0;
+  }
+  
+  .formSection {
+    padding: 20px;
+    margin: 15px 0;
+  }
+  
+  .input,
+  .select {
+    padding: 12px;
+  }
+  
+  .submitButton {
+    padding: 15px;
+    font-size: 1rem;
+  }
+}
+
+/* Efectos de entrada escalonados para los campos */
+.fieldContainer:nth-child(1) { animation-delay: 0.1s; }
+.fieldContainer:nth-child(2) { animation-delay: 0.2s; }
+.fieldContainer:nth-child(3) { animation-delay: 0.3s; }
+.fieldContainer:nth-child(4) { animation-delay: 0.4s; }
+.fieldContainer:nth-child(5) { animation-delay: 0.5s; }
+.fieldContainer:nth-child(6) { animation-delay: 0.6s; }
+.fieldContainer:nth-child(7) { animation-delay: 0.7s; }
+.fieldContainer:nth-child(8) { animation-delay: 0.8s; }
+.fieldContainer:nth-child(9) { animation-delay: 0.9s; }
+.fieldContainer:nth-child(10) { animation-delay: 1s; }
+.fieldContainer:nth-child(11) { animation-delay: 1.1s; }
+.fieldContainer:nth-child(12) { animation-delay: 1.2s; } 

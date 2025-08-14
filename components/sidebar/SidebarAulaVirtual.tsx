@@ -15,13 +15,13 @@ const SidebarAulaVirtual = () => {
   console.log('showCursosAulavirtual', showCursosAulavirtual)
   return (
     <div>
-      <ul className='capitalize font-montserrat border-b-[1px] border-slate-200 py-10'>
-        <li className='rounded-md text-textTitulos pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:border-[1px] hover:border-colorNavbar hover:text-colorNavbar duration-300 mx-2 whitespace-nowrap drop-shadow-lg'>
+      <ul className='capitalize font-montserrat border-b-[1px] border-gray-200 py-10'>
+        <li className='rounded-md text-gray-700 pl-2 text-sm flex items-center gap-x-4 cursor-pointer mt-2 capitalize hover:border-[1px] hover:border-blue-500 hover:text-blue-600 duration-300 mx-2 whitespace-nowrap drop-shadow-lg'>
           <Link onClick={() => showSidebarContext(false)} href={`/aula-virtual/estudiante/asistencia?dni=${dataAulavirtual.dni}&idInstitucion=${router.query.idInstitucion}`} className="my-1 w-56 p-2">
             <span className='text-base flex-1 ml-2 text-md'>Mi asistencia</span>
           </Link>
         </li>
-        <li className='rounded-md text-textTitulos pl-2 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:border-[1px] hover:border-colorNavbar hover:text-colorNavbar duration-300 mx-2 whitespace-nowrap drop-shadow-lg'>
+        <li className='rounded-md text-gray-700 pl-2 text-sm flex items-center gap-x-4 cursor-pointer mt-2 capitalize hover:border-[1px] hover:border-blue-500 hover:text-blue-600 duration-300 mx-2 whitespace-nowrap drop-shadow-lg'>
           <Link onClick={() => showSidebarContext(false)} href={`/aula-virtual/estudiante/aula-virtual?dni=${dataAulavirtual.dni}&idInstitucion=${router.query.idInstitucion}`} className="my-1 w-56 p-2">
             <span className='text-base flex-1 ml-2 text-md'>Aula virtual</span>
           </Link>

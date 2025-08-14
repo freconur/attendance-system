@@ -9,6 +9,11 @@ export interface PicturesTareasArray {
 }
 
 
+export interface ValuesTHead {
+  id: string,
+  dia: string
+}
+
 export interface DataStudentAulaVirtual {
   firstContact?: string,
   secondContact?: string,

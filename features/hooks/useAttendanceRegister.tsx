@@ -355,82 +355,137 @@ const useAttendanceRegister = () => {
     }
   };
 
-  const dataStudentsTablaDaily = (month: string, grade: string,mes:number) => {
-    const promiseGetStudents = new Promise<StudentData[]>(
-      async (resolve, reject) => {
-        try {
-          const refStudents = collection(
-            db,
-            `/intituciones/${userData.idInstitution}/students`
-          );
-          const q = query(refStudents, where("grade", "==", grade), orderBy("lastname"));
-          const estudiantesDelGrado: StudentData[] = [];
-          let index = 0;
-          await getDocs(q).then(async (estudiantes) => {
-            estudiantes.forEach((estudiante) => {
-              index = index + 1;
-              estudiantesDelGrado.push(estudiante.data());
-              if (estudiantes.size === index) {
-                console.log('tina', estudiantesDelGrado)
-                resolve(estudiantesDelGrado);
-              }
-            });
+  const orderDailyReport = (rta: RecordReporteDiario[]) => {
+    rta.sort((a: any, b: any) => {
+      const fe: string = a && a.estudiante.lastname;
+      const se: string = b && b.estudiante.lastname;
+
+      if (fe > se) {
+        return 1;
+      }
+      if (fe < se) {
+        return -1;
+      }
+      if (a.estudiante.lastname === b.estudiante.lastname) {
+        if (a.estudiante.firstname > b.estudiante.firstname) return 1;
+        if (a.estudiante.firstname < b.estudiante.firstname) return -1;
+        return 0;
+      }
+      return 0;
+    });
+    return rta;
+  };
+
+  const dataStudentsTablaDaily = async (month: string, grade: string, mes: number) => {
+    try {
+      // Obtener estudiantes del grado
+      const estudiantesDelGrado = await obtenerEstudiantesDelGrado(grade);
+      
+      // Obtener datos de asistencia para cada estudiante
+      const arrayEstudiantesAsistencia = await obtenerAsistenciaEstudiantes(
+        estudiantesDelGrado, 
+        month, 
+        mes
+      );
+      
+      // Ordenar y despachar los datos
+      const orderedData = orderDailyReport(arrayEstudiantesAsistencia);
+      dispatch({ 
+        type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY, 
+        payload: orderedData 
+      });
+      
+    } catch (error) {
+      console.log("Error en dataStudentsTablaDaily:", error);
+    }
+  };
+
+  // Función auxiliar para obtener estudiantes del grado
+  const obtenerEstudiantesDelGrado = async (grade: string): Promise<StudentData[]> => {
+    try {
+      const refStudents = collection(
+        db,
+        `/intituciones/${userData.idInstitution}/students`
+      );
+      const q = query(
+        refStudents, 
+        where("grade", "==", grade), 
+        orderBy("lastname")
+      );
+      
+      const estudiantesSnapshot = await getDocs(q);
+      const estudiantesDelGrado: StudentData[] = [];
+      
+      estudiantesSnapshot.forEach((estudiante) => {
+        estudiantesDelGrado.push(estudiante.data());
+      });
+      
+      return estudiantesDelGrado;
+    } catch (error) {
+      console.log("Error obteniendo estudiantes:", error);
+      throw error;
+    }
+  };
+
+  // Función auxiliar para obtener asistencia de un estudiante
+  const obtenerAsistenciaEstudiante = async (
+    estudiante: StudentData, 
+    month: string, 
+    mes: number
+  ): Promise<any[]> => {
+    try {
+      const pathMesRef = collection(
+        db, 
+        `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni}/${currentYear()}/${month}/${month}`
+      );
+      
+      const asistenciaSnapshot = await getDocs(pathMesRef);
+      const arrayAsistencia: any[] = [];
+      
+      asistenciaSnapshot.forEach((doc) => {
+        if (doc.data().falta) {
+          arrayAsistencia.push({ 
+            falta: true, 
+            id: doc.id, 
+            day: days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()]
           });
-        } catch (error) {
-          console.log("error", error);
-          reject();
+        } else if (doc.data().arrivalTime) {
+          arrayAsistencia.push({ 
+            arrivalTime: attendanceState(hoursUnixDate(doc.data().arrivalTime)), 
+            id: doc.id, 
+            day: getDayUnixDate(doc.data().arrivalTime)
+          });
         }
+      });
+      
+      return arrayAsistencia;
+    } catch (error) {
+      console.log("Error obteniendo asistencia del estudiante:", error);
+      return [];
+    }
+  };
+
+  // Función auxiliar para obtener asistencia de todos los estudiantes
+  const obtenerAsistenciaEstudiantes = async (
+    estudiantesDelGrado: StudentData[], 
+    month: string, 
+    mes: number
+  ): Promise<RecordReporteDiario[]> => {
+    try {
+      const arrayEstudiantesAsistencia: RecordReporteDiario[] = [];
+      
+      // Procesar cada estudiante de forma secuencial para evitar problemas de concurrencia
+      for (const estudiante of estudiantesDelGrado) {
+        const asistencia = await obtenerAsistenciaEstudiante(estudiante, month, mes);
+        arrayEstudiantesAsistencia.push({ estudiante, asistencia });
       }
-    );
-
-    const promiseDataForTable = new Promise<any>((resolve, reject) => {
-      try {
-        const arrayEstudiantesAsistencia: RecordReporteDiario[] = []
-        promiseGetStudents.then(estudiantesDelGrado => {
-          let index = 0
-          estudiantesDelGrado.forEach(async (estudiante) => {
-            // console.log('estudiante',estudiante)
-            index = index + 1
-            const pathMesRef = collection(db, `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni}/${currentYear()}/${month}/${month}`)
-
-            await getDocs(pathMesRef)
-              .then(asistencia => {
-                let indexAsistencia = 0
-                const arrayAsistencia: any[] = []
-                asistencia.forEach((doc) => {
-                  indexAsistencia = indexAsistencia + 1
-
-                  if (doc.data().falta) {
-                    // console.log('lol', days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()])
-                    arrayAsistencia.push({ falta: true, id: doc.id, day:days[new Date(Number(currentYear()), mes, Number(doc.id), 7, 30, 0).getDay()]})
-                  } else if (doc.data().arrivalTime) {
-                    arrayAsistencia.push({ arrivalTime: attendanceState(hoursUnixDate(doc.data().arrivalTime)), id: doc.id , day:getDayUnixDate(doc.data().arrivalTime)})
-
-                  }
-
-                  if (asistencia.size === indexAsistencia) {
-                    arrayEstudiantesAsistencia.push({estudiante, asistencia:arrayAsistencia })
-                    // console.log('arrayEstudiantesAsistencia', arrayEstudiantesAsistencia)
-
-                  }
-                })
-              })
-
-            if (estudiantesDelGrado.length === index) {
-
-              resolve(arrayEstudiantesAsistencia)
-            }
-          })
-        })
-      } catch (error) {
-        console.log('error', error)
-        reject()
-      }
-    })
-    promiseDataForTable.then(rta => {
-     return  dispatch({ type: AttendanceRegister.RECORD_ESTUDIANTES_DAILY, payload: rta })
-    })
-  }
+      
+      return arrayEstudiantesAsistencia;
+    } catch (error) {
+      console.log("Error obteniendo asistencia de estudiantes:", error);
+      throw error;
+    }
+  };
 
   const dataStudentForTableReport = async (month: string, grade: string) => {
     const promiseGetStudents = new Promise<StudentData[]>(

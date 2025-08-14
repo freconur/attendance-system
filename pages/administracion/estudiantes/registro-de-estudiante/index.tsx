@@ -6,6 +6,7 @@ import UseRegisterStudents from '@/features/hooks/useRegisterStudents'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import styles from './registroEstudiante.module.css'
 
 const EstudentsRegister = () => {
   const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
@@ -19,6 +20,7 @@ const EstudentsRegister = () => {
     registerNewStudent(data, pictureProfileUrl)
     reset()
   })
+  
   useEffect(() => {
     if (watch('pictureProfile') !== undefined) {
       sendPictureProfile(watch('pictureProfile')[0])
@@ -32,216 +34,222 @@ const EstudentsRegister = () => {
       getGrades()
     }
   }, [userData.name])
+  
   useEffect(() => {
     if(gradeValue >= 0) {
       setSeccionActive(grades[gradeValue]?.gotSection)
-      // console.log('rta',grades[gradeValue]?.gotSection)
-      // console.log('grades',grades)
-      // console.log('gradeValue',gradeValue)
     }
-
   },[gradeValue])
+  
   return (
-    <div className='p-2'>
-      <h1 className='text-2xl my-5 font-semibold uppercase text-center text-slate-600'>registro de estudiantes</h1>
-      <form onSubmit={handleSubmitform} className='mt-5' action="">
-        <div className='w-full rounded-sm shadow-md p-5 bg-white my-3'>
-          <h3 className='text-xl text-slate-500 uppercase font-semibold mb-3'>estudiante</h3>
-          <div className='uppercase text-slate-600'>Nombre:</div>
-          <input
-            className='w-full border-[1px] outline-none border-blue-400 p-2 text-slate-500 rounded-sm my-2' type="text"
-            placeholder="nombres"
-            {...register("name",
-              {
-                required: { value: true, message: "nombre es requerido" },
-                minLength: { value: 2, message: "nombre debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "nombre debe tener un maximo de 20 caracteres" },
-              }
-            )}
-          />
-          {errors.name && <span className='text-red-400'>{errors.name.message as string}</span>}
-          <div className='uppercase text-slate-600'>Apellidos paterno:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
-            placeholder="apellidos"
-            {...register("lastname",
-              {
-                required: { value: true, message: "apellido paterno es requerido" },
-                minLength: { value: 2, message: "apellido paterno debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "apellido paterno debe tener un maximo de 20 caracteres" },
-              }
-            )}
-          />
-          {errors.lastname && <span className='text-red-400'>{errors.lastname.message as string}</span>}
-          <div className='uppercase text-slate-600'>Apellidos materno:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
-            placeholder="apellidos"
-            {...register("firstname",
-              {
-                required: { value: true, message: "apellido materno es requerido" },
-                minLength: { value: 2, message: "apellido materno debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "apellido materno debe tener un maximo de 20 caracteres" },
-              }
-            )}
-          />
-          {errors.firstname && <span className='text-red-400'>{errors.firstname.message as string}</span>}
-          <div className='uppercase text-slate-600'>dni:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text"
-            placeholder="dni"
-            {...register("dni",
-              {
-                required: { value: true, message: "dni es requerido" },
-                minLength: { value: 8, message: "dni debe tener 8 caracteres" },
-                maxLength: { value: 8, message: "dni debe tener 8 caracteres" },
-              }
-            )}
-          />
-          {errors.dni && <span className='text-red-400'>{errors.dni.message as string}</span>}
+    <div className={styles.container}>
+      <h1 className={styles.mainTitle}>Registro de Estudiantes</h1>
+      
+      <form onSubmit={handleSubmitform} className={styles.form}>
+        {/* Sección de información del estudiante */}
+        <div className={styles.formSection}>
+          <h3 className={styles.sectionTitle}>Información del Estudiante</h3>
           
-          {/* //esto tiene que ser un select */}
-          <div className='uppercase text-slate-600'>grado:</div>
-          <select
-            className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
-            {...register("grade",
-              {
-                required: { value: true, message: "grado es requerido" },
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Nombre:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Nombres"
+              {...register("name", {
+                required: { value: true, message: "Nombre es requerido" },
+                minLength: { value: 2, message: "Nombre debe tener un mínimo de 2 caracteres" },
+                maxLength: { value: 20, message: "Nombre debe tener un máximo de 20 caracteres" },
+              })}
+            />
+            {errors.name && <span className={styles.errorMessage}>{errors.name.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Apellido Paterno:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Apellido paterno"
+              {...register("lastname", {
+                required: { value: true, message: "Apellido paterno es requerido" },
+                minLength: { value: 2, message: "Apellido paterno debe tener un mínimo de 2 caracteres" },
+                maxLength: { value: 20, message: "Apellido paterno debe tener un máximo de 20 caracteres" },
+              })}
+            />
+            {errors.lastname && <span className={styles.errorMessage}>{errors.lastname.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Apellido Materno:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Apellido materno"
+              {...register("firstname", {
+                required: { value: true, message: "Apellido materno es requerido" },
+                minLength: { value: 2, message: "Apellido materno debe tener un mínimo de 2 caracteres" },
+                maxLength: { value: 20, message: "Apellido materno debe tener un máximo de 20 caracteres" },
+              })}
+            />
+            {errors.firstname && <span className={styles.errorMessage}>{errors.firstname.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>DNI:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="DNI"
+              {...register("dni", {
+                required: { value: true, message: "DNI es requerido" },
+                minLength: { value: 8, message: "DNI debe tener 8 caracteres" },
+                maxLength: { value: 8, message: "DNI debe tener 8 caracteres" },
+              })}
+            />
+            {errors.dni && <span className={styles.errorMessage}>{errors.dni.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Grado:</label>
+            <select
+              className={styles.select}
+              {...register("grade", {
+                required: { value: true, message: "Grado es requerido" },
                 onChange(event) {
                   setGradeValue(Number(event.target.value - 1))
                 },
-              },
-                
-            )}
-          >
-            <option className='uppercase text-slate-500' value="">--seleccionar--</option>
-            {
-              grades?.map((gr, index) => {
-                return (
-                  <option className='uppercase text-slate-500' key={index} value={gr.grade}>{gr.traditionalGrade}{gr.gotSection}</option>
-                )
-              })
-            }
-          </select>
-          {errors.grade && <span className='text-red-400'>{errors.grade.message as string}</span>}
+              })}
+            >
+              <option value="">-- Seleccionar --</option>
+              {grades?.map((gr, index) => (
+                <option key={index} value={gr.grade}>
+                  {gr.traditionalGrade}{gr.gotSection}
+                </option>
+              ))}
+            </select>
+            {errors.grade && <span className={styles.errorMessage}>{errors.grade.message as string}</span>}
+          </div>
 
-            {
-              seccionActive ? 
-              <>
-              <div className='uppercase text-slate-600'>seccion:</div>
+          {seccionActive && (
+            <div className={styles.fieldContainer}>
+              <label className={styles.label}>Sección:</label>
               <select
-                className='w-full rounded-sm border-[1px] border-blue-400 outline-none my-2 p-2 bg-white uppercase text-slate-500'
-                {...register("section",
-                  {
-                    required: { value: true, message: "seccion es requerido" }
-                  }
-                )}
+                className={styles.select}
+                {...register("section", {
+                  required: { value: true, message: "Sección es requerida" }
+                })}
               >
-                <option className='uppercase text-slate-500' value="">--seleccionar--</option>
-    
-                {
-                  grades?.map((gr, index) => {
-                    return (
-                      sections?.map((sec, index) => {
-                        return (
-                          <option className='uppercase text-slate-500' key={index} value={sec.section}>{sec.section}</option>
-                        )
-                      })
-                    )
-                })
-                }
+                <option value="">-- Seleccionar --</option>
+                {sections?.map((sec, index) => (
+                  <option key={index} value={sec.section}>
+                    {sec.section}
+                  </option>
+                ))}
               </select>
-              {errors.section && <span className='text-red-400'>{errors.section.message as string}</span>}
-              </>
-              : null
-            }
-          <div className='uppercase text-slate-600'>foto de perfil:</div>
-          {!watch('pictureProfile') || watch('pictureProfile').length === 0 ? (
-            <input
-              type="file"
-              className="form-control my-2"
-              placeholder="seleciona una imagen"
-              // onChange={fileHandler}
-              disabled={pictureProfileUrl ? true : false}
-              {...register("pictureProfile",
-                // {
-                //   required: { value: false, message: "foto de perfil es requerido" },
-                // }
-              )}
-            />
-          ) : (<strong>{watch('pictureProfile')[0].name}</strong>)}
-
-          {errors.pictureProfile && <span className='text-red-400'>* foto de perfil es requerido</span>}
-          {
-            pictureProfileUrl ?
-              <div className='m-auto mt-2 rounded-md overflow-hidden bg-red-400 w-[150px] h-[150px]'>
-                <Image
-                  alt={`foto de perfil de estudiante`}
-                  src={`${pictureProfileUrl}`}
-                  width={150}
-                  height={150} />
+              {errors.section && <span className={styles.errorMessage}>{errors.section.message as string}</span>}
+            </div>
+          )}
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Foto de Perfil:</label>
+            {!watch('pictureProfile') || watch('pictureProfile').length === 0 ? (
+              <div className={styles.fileInput}>
+                <input
+                  type="file"
+                  disabled={pictureProfileUrl ? true : false}
+                  {...register("pictureProfile")}
+                />
+                <span>Selecciona una imagen</span>
               </div>
-              : null
-          }
+            ) : (
+              <div className={styles.fileName}>
+                {watch('pictureProfile')[0].name}
+              </div>
+            )}
+            {errors.pictureProfile && <span className={styles.errorMessage}>* Foto de perfil es requerida</span>}
+          </div>
+          
+          {pictureProfileUrl && (
+            <div className={styles.imageContainer}>
+              <div className={styles.imagePreview}>
+                <Image
+                  alt="Foto de perfil del estudiante"
+                  src={pictureProfileUrl}
+                  width={150}
+                  height={150}
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className='w-full rounded-sm shadow-md p-5 bg-white'>
-          <h3 className='text-xl text-slate-500 uppercase font-semibold mb-3'>padres del estudiante</h3>
-          <div
-            className='uppercase text-slate-600'>Nombre del primer contacto:</div>
-          <input
-            className='w-full border-[1px] outline-none border-blue-400 p-2 text-slate-500 rounded-sm my-2' type="text" placeholder="nombrePadre"
-            {...register("firstContact",
-              {
-                required: { value: true, message: "nombre del primer contacto es requerido" },
-                minLength: { value: 2, message: "nombre del padre debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "nombre del padre debe tener un maximo de 20 caracteres" },
-              }
-            )}
-          />
-          {errors.firstContact && <span className='text-red-400'>{errors.firstContact.message as string}</span>}
-          <div
-            className='uppercase text-slate-600'>celular del primer contacto:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularPadre"
-            {...register("firstNumberContact",
-              {
-                required: { value: true, message: "celular del contacto es requerido" },
-                minLength: { value: 9, message: "celular del contacto debe tener un minimo de 9 caracteres" },
-                maxLength: { value: 9, message: "celular del contacto debe tener un maximo de 9 caracteres" },
-              }
-            )}
-          />
-          {errors.firstNumberContact && <span className='text-red-400'>{errors.firstNumberContact.message as string}</span>}
-          <div
-            className='uppercase text-slate-600'>nombre del segundo contacto:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="text" placeholder="nombres"
-            {...register("secondContact",
-              {
-                // required: { value: true, message: "nombre del segundo contacto es requerido" },
-                minLength: { value: 2, message: "nombre del contacto debe tener un minimo de 2 caracteres" },
-                maxLength: { value: 20, message: "nombre del contacto debe tener un maximo de 20 caracteres" },
-              }
-            )}
-          />
-          {errors.secondContact && <span className='text-red-400'>{errors.secondContact.message as string}</span>}
-          <div
-            className='uppercase text-slate-600'>celular del segundo contacto:</div>
-          <input
-            className='w-full p-2 border-[1px] outline-none border-blue-400 text-slate-500 rounded-sm my-2' type="number" placeholder="celularMadre"
-            {...register("secondNumberContact",
-              {
-                // required: { value: true, message: "celular del contacto es requerido" },
-                minLength: { value: 9, message: "celular de la madre debe tener un minimo de 9 caracteres" },
-                maxLength: { value: 9, message: "celular de la madre debe tener un maximo de 9 caracteres" },
-                
-              }
-            )}
-          />
-          {errors.secondNumberContact && <span className='text-red-400'>{errors.secondNumberContact.message as string}</span>}
 
+        {/* Sección de información de los padres */}
+        <div className={styles.formSection}>
+          <h3 className={styles.sectionTitle}>Información de los Padres</h3>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Nombre del Primer Contacto:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Nombre del primer contacto"
+              {...register("firstContact", {
+                required: { value: true, message: "Nombre del primer contacto es requerido" },
+                minLength: { value: 2, message: "Nombre debe tener un mínimo de 2 caracteres" },
+                maxLength: { value: 20, message: "Nombre debe tener un máximo de 20 caracteres" },
+              })}
+            />
+            {errors.firstContact && <span className={styles.errorMessage}>{errors.firstContact.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Celular del Primer Contacto:</label>
+            <input
+              className={styles.input}
+              type="number"
+              placeholder="Número de celular"
+              {...register("firstNumberContact", {
+                required: { value: true, message: "Celular del contacto es requerido" },
+                minLength: { value: 9, message: "Celular debe tener 9 dígitos" },
+                maxLength: { value: 9, message: "Celular debe tener 9 dígitos" },
+              })}
+            />
+            {errors.firstNumberContact && <span className={styles.errorMessage}>{errors.firstNumberContact.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Nombre del Segundo Contacto:</label>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Nombre del segundo contacto"
+              {...register("secondContact", {
+                minLength: { value: 2, message: "Nombre debe tener un mínimo de 2 caracteres" },
+                maxLength: { value: 20, message: "Nombre debe tener un máximo de 20 caracteres" },
+              })}
+            />
+            {errors.secondContact && <span className={styles.errorMessage}>{errors.secondContact.message as string}</span>}
+          </div>
+          
+          <div className={styles.fieldContainer}>
+            <label className={styles.label}>Celular del Segundo Contacto:</label>
+            <input
+              className={styles.input}
+              type="number"
+              placeholder="Número de celular"
+              {...register("secondNumberContact", {
+                minLength: { value: 9, message: "Celular debe tener 9 dígitos" },
+                maxLength: { value: 9, message: "Celular debe tener 9 dígitos" },
+              })}
+            />
+            {errors.secondNumberContact && <span className={styles.errorMessage}>{errors.secondNumberContact.message as string}</span>}
+          </div>
         </div>
-        <button className='p-3 my-5 duration-300 bg-blue-500 hover:bg-blue-400 cursor-pointer rounded-sm w-full text-white shadow-md uppercase font-semibold'>registrar</button>
+
+        <button type="submit" className={styles.submitButton}>
+          Registrar Estudiante
+        </button>
       </form>
     </div>
   )

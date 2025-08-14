@@ -1,173 +1,199 @@
-.contenedorGeneralEstudiantes {
-  /* border: solid 1px;
-  overflow: hidden;
-  transition: all 0.3s ease-in-out; */
-  /* height: auto; */
-  /* position:relative; */
-  cursor: pointer;
-}
+/* Sidebar Admin - Estilos Modernos y Minimalistas */
 
-.containerListaEstudiantes {
-  position: relative;
-  z-index: index 2000;
-  /* text-transform: capitalize;
-  color: #ffff;
-  font-weight: 500;
-  text-align: left; */
-}
-
-.listaEstudiantes {
-  min-width: max-content;
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 1s;
-}
-.containerListaEstudiantes:focus .listaEstudiantes,
-.containerListaEstudiantes:focus-within .listaEstudiantes {
-  max-height: 300px;
-}
-
-.mostrarListaEstudiantes {
-  /* position: none; */
-  /* top:0px; */
-  /* transition: all 0.3s ease-in-out;
-  transform: translatey(0px); */
-}
-.titulo {
-  display: block;
-}
-/* 
-
-body {
-  font-family: sans-serif;
-}
-ejemplos
-/* Set the style for the navigation menus */
 .containerLista {
-  display:grid;
-  gap: 20px;
-  padding: 5px 0 5px 0;
-  position:relative;
-  z-index: 100;
-  border-top: 1px solid #ffff
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
+
 .test {
   position: relative;
-  z-index: index 100;
 }
+
 .test ul {
   list-style: none;
   margin: 0;
-  padding-left: 0;
+  padding: 0;
 }
+
+/* Dropdown principal */
+.dropdown {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(59, 130, 246, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown:hover {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del icono y título */
+.containerIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.containerIcon:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Iconos */
+.icons {
+  color: #60a5fa;
+  font-size: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown:hover .icons {
+  color: #3b82f6;
+  transform: scale(1.1);
+}
+
+/* Enlaces principales */
 .ancla {
   text-decoration: none;
-  color: #fff;
-  display: block;
-  outline: 0;
-  width: max-content;
-  font-size: 16px;
-  font-family: "Comfortaa";
-  padding: 10px 0 0 0;
-  margin-left:10px
-  
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
 }
 
-.containerAncla {
-  margin-left: 28px;
-  padding: 5px;
-  /* margin-bottom: 5px; */
+.ancla:hover {
+  color: #3b82f6;
 }
-.anclaje {
-  font-size: 16px;
-  text-decoration: none;
-  color: #ffff;
-  display: block;
-  outline: 0;
-  width: max-content;
-  font-family: "Comfortaa";
-  padding: 2px;
-  justify-content: center;
-  text-shadow: rgb(0, 0, 0) 1px 0 3px;
-}
-.anclaje::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 2px;
-  background: #0c77a0;
-  transition: width 0.3s;
-}
-.anclaje:hover::after {
-  width: 100%;
-  transition: width 0.3s;
-}
-.ancla::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 2px;
-  background: rgb(18, 80, 161);
-  transition: width 0.3s;
-}
-.ancla:hover::after {
-  width: 100%;
-  transition: width 0.3s;
-}
-.dropdown {
-  margin-left: 15px;
-}
-.containerIcon {
-  /* justify-content: center; */
-  align-items: center;
-  margin:auto;
-  display: flex;
-}
-.icons {
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  color: #ffff;
-  font-size:25px
-}
-/* .test .ancla:hover,
-.test li:focus-within > .ancla {
-  background: #245975;
-  
-  cursor: pointer;
-} */
 
-/* Make the dropdown animate. */
+/* Contenido del dropdown */
 .dropdownContent {
-  min-width: max-content;
-  overflow: hidden;
   max-height: 0;
-  transition: max-height 1s;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(59, 130, 246, 0.03);
 }
 
-/* The max-height should be set to something that will always be a little bit bigger than the height of the content. */
-/* .dropdown:hover .dropdownContent, */
 .dropdown:focus .dropdownContent,
 .dropdown:focus-within .dropdownContent {
-  max-height: 200px;
+  max-height: 300px;
 }
 
-/* This makes the top-level navigation horizontal on desktop, and vertical on smaller screens. */
-@media screen and (min-width: 768px) {
-  .test > ul > li {
-    float: left;
+/* Enlaces del submenu */
+.containerAncla {
+  margin: 0;
+  padding: 0;
+}
+
+.anclaje {
+  display: block;
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 0.75rem 1.25rem 0.75rem 3rem;
+  transition: all 0.2s ease;
+  position: relative;
+  border-left: 3px solid transparent;
+}
+
+.anclaje:hover {
+  color: #1f2937;
+  background: rgba(59, 130, 246, 0.08);
+  border-left-color: #3b82f6;
+  transform: translateX(4px);
+}
+
+.anclaje::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.anclaje:hover::before {
+  background: #3b82f6;
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .containerLista {
+    gap: 1rem;
+    padding: 0.75rem 0;
   }
-
-  /* .dropdown {
-    position: relative;
+  
+  .dropdown {
+    border-radius: 8px;
   }
+  
+  .containerIcon {
+    padding: 0.875rem 1rem;
+  }
+  
+  .anclaje {
+    padding: 0.625rem 1rem 0.625rem 2.5rem;
+  }
+  
+  .anclaje::before {
+    left: 1.25rem;
+  }
+}
 
-  .dropdownContent {
-    position: absolute;
-    width: max-content;
-  } */
+/* Animaciones de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  /* .content {
-    clear: both;
-  } */
+.dropdown {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Estados activos */
+.dropdown:focus-within {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Scrollbar personalizado para el dropdown */
+.dropdownContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dropdownContent::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.dropdownContent::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 2px;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
 }

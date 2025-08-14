@@ -34,3 +34,100 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ===== ARCHIVOS SENSIBLES Y CONFIGURACIONES =====
+
+# Variables de entorno y configuraciones
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# Configuraciones de Firebase
+firebase-debug.log
+firestore-debug.log
+pubsub-debug.log
+.firebase/
+firebase-debug.*.log
+firestore-debug.*.log
+pubsub-debug.*.log
+
+# Archivos de configuración con claves
+firebase.json
+firebase.rules
+firebase.indexes.json
+.firebaserc
+
+# Archivos de configuración de servicios
+service-account-key.json
+google-services.json
+GoogleService-Info.plist
+
+# Logs y archivos temporales
+*.log
+logs/
+tmp/
+temp/
+
+# Archivos de base de datos locales
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos de respaldo
+*.backup
+*.bak
+*.old
+
+# Archivos de configuración local
+config.local.js
+config.local.ts
+settings.local.json
+
+# Archivos de usuario y sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de IDE y editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de caché
+.cache/
+.parcel-cache/
+.npm/
+
+# Archivos de build y distribución
+dist/
+build/
+out/
+
+# Archivos de testing
+coverage/
+.nyc_output/
+.jest/
+
+# Archivos de Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Archivos de CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+
+# Archivos de backup de base de datos
+restore-database.sh
+start-emulator.sh
+
+# Archivos de configuración específicos del proyecto
+attendanceState.ts
+utils/attendanceState.ts

@@ -1,0 +1,461 @@
+/* Estilos base */
+.container {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.container.showContent {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.backgroundImage {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  z-index: 5;
+  object-fit: cover;
+  animation: zoomIn 1.2s ease-out;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 0.03;
+    transform: scale(1);
+  }
+}
+
+/* Header principal */
+.header {
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+  padding: 1.5rem 1rem;
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: slideInDown 0.6s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-out 0.3s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Botones de acción */
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  animation: slideInLeft 0.8s ease-out 0.4s both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+  animation: bounceIn 0.8s ease-out 0.6s both;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.actionButton.employee {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  animation: bounceIn 0.8s ease-out 0.8s both;
+}
+
+/* Título principal */
+.title {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Campo de entrada */
+.inputContainer {
+  margin: 2rem 0;
+  animation: slideInUp 0.8s ease-out 0.7s both;
+}
+
+.input {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  font-size: 1.125rem;
+  color: #334155;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.input::placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input:focus {
+  background: white;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Loader */
+.loader {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease-out;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.loaderIcon {
+  animation: spin 1s linear infinite;
+  font-size: 3rem;
+  color: #0ea5e9;
+}
+
+.loaderText {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 1.125rem;
+  margin-top: 1rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Lista de estudiantes */
+.studentsList {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  animation: fadeIn 0.8s ease-out 0.9s both;
+}
+
+.studentsList ul {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.studentCard {
+  cursor: pointer;
+  margin: 1.5rem 0;
+  background: white;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideInUp 0.6s ease-out both;
+  animation-delay: calc(var(--animation-order, 0) * 0.1s);
+}
+
+.studentCard:nth-child(1) { --animation-order: 1; }
+.studentCard:nth-child(2) { --animation-order: 2; }
+.studentCard:nth-child(3) { --animation-order: 3; }
+.studentCard:nth-child(4) { --animation-order: 4; }
+.studentCard:nth-child(5) { --animation-order: 5; }
+
+.studentCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.studentImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.studentCard:hover .studentImage {
+  transform: scale(1.02);
+}
+
+.studentInfo {
+  padding: 1.5rem;
+}
+
+.studentField {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.studentField:hover {
+  background: rgba(14, 165, 233, 0.05);
+  padding-left: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.studentField:last-child {
+  border-bottom: none;
+}
+
+.fieldLabel {
+  color: #64748b;
+  font-weight: 500;
+  min-width: 80px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fieldValue {
+  color: #334155;
+  font-weight: 600;
+  margin-left: 1rem;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin: 1rem 0;
+  }
+  
+  .actionButtons {
+    margin-bottom: 1.5rem;
+  }
+  
+  .actionButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .actionButton.employee {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .input {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+  
+  .studentsList {
+    padding: 0.5rem;
+  }
+  
+  .studentCard {
+    margin: 1rem 0;
+    border-radius: 1rem;
+  }
+  
+  .studentInfo {
+    padding: 1rem;
+  }
+  
+  .studentField {
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+  }
+  
+  .fieldLabel {
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    margin: 0.75rem 0;
+  }
+  
+  .actionButtons {
+    margin-bottom: 1rem;
+  }
+  
+  .actionButton {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .input {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .studentsList {
+    padding: 0.25rem;
+  }
+  
+  .studentCard {
+    margin: 0.75rem 0;
+  }
+  
+  .studentInfo {
+    padding: 0.75rem;
+  }
+  
+  .studentField {
+    font-size: 0.75rem;
+  }
+  
+  .fieldLabel {
+    min-width: 60px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 2rem;
+  }
+  
+  .title {
+    font-size: 3rem;
+    margin: 2rem 0;
+  }
+  
+  .input {
+    padding: 1.5rem 2rem;
+    font-size: 1.25rem;
+  }
+  
+  .studentsList {
+    padding: 2rem;
+  }
+  
+  .studentCard {
+    margin: 2rem 0;
+  }
+  
+  .studentInfo {
+    padding: 2rem;
+  }
+  
+  .studentField {
+    font-size: 1rem;
+    padding: 1rem 0;
+  }
+} 

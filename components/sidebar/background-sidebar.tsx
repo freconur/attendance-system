@@ -1,16 +1,20 @@
-import Image from 'next/image'
 import React from 'react'
-import sidebarImage from '../../assets/sidebar-app-ugel.png'
+import styles from './background-sidebar.module.css'
+
 const BackgroundSidebar = () => {
   return (
-    <Image
-        className='absolute bottom-0 top-0 right-0 left-0 z-1 opacity-50'
-        src={sidebarImage}
-        alt="foto de perfil"
-        // fill
-        width={250}
-        height={1080}
-      />
+    <div className={styles.backgroundContainer}>
+      {/* Formas geométricas modernas */}
+      <div className={styles.circle1}></div>
+      <div className={styles.circle2}></div>
+      <div className={styles.circle3}></div>
+      <div className={styles.square1}></div>
+      <div className={styles.square2}></div>
+      <div className={styles.triangle1}></div>
+      <div className={styles.triangle2}></div>
+      <div className={styles.wave1}></div>
+      <div className={styles.wave2}></div>
+    </div>
   )
 }
 

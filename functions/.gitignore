@@ -1,0 +1,69 @@
+# Compiled JavaScript files
+lib/**/*.js
+lib/**/*.js.map
+
+# TypeScript v1 declaration files
+typings/
+
+# Node.js dependency directory
+node_modules/
+*.local
+
+# ===== ARCHIVOS SENSIBLES DE FIREBASE FUNCTIONS =====
+
+# Variables de entorno
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Configuraciones de Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+pubsub-debug.log
+
+# Archivos de configuración con claves
+firebase.json
+firebase.rules
+firebase.indexes.json
+.firebaserc
+
+# Archivos de servicio de cuenta
+service-account-key.json
+service-account.json
+*.pem
+*.key
+
+# Logs y archivos temporales
+*.log
+logs/
+tmp/
+temp/
+
+# Archivos de build
+lib/
+dist/
+build/
+
+# Archivos de testing
+coverage/
+.nyc_output/
+.jest/
+
+# Archivos de caché
+.cache/
+.npm/
+
+# Archivos de configuración local
+config.local.js
+config.local.ts
+settings.local.json
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

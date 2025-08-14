@@ -1,6 +1,6 @@
 import React from 'react';
 import { RecordEstudiante } from '@/features/types/types';
-import styles from './registrosAsistencia.module.css';
+import styles from './RecordTable.module.css';
 
 interface RecordTableProps {
   reporteByGradeMensual: RecordEstudiante[];
@@ -45,7 +45,7 @@ const RecordTable: React.FC<RecordTableProps> = ({ reporteByGradeMensual }) => {
   // Validar que los datos existan antes de renderizar
   if (!reporteByGradeMensual || !Array.isArray(reporteByGradeMensual)) {
     return (
-      <div className="p-4 text-center text-gray-500">
+      <div className={styles.noDataMessage}>
         No hay datos disponibles para mostrar
       </div>
     );
@@ -54,40 +54,42 @@ const RecordTable: React.FC<RecordTableProps> = ({ reporteByGradeMensual }) => {
   const orderedData = orderReporteMensual(reporteByGradeMensual);
 
   return (
-    <table className={`${styles.recordTable} animate-fade-in`}>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th className="hidden md:table-cell">dni</th>
-          <th>apellidos y nombres</th>
-          <th>P</th>
-          <th>T</th>
-          <th>F</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orderedData.length > 0 ? (
-          orderedData.map((alumno, index) => {
-            return (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td className="hidden md:table-cell">{alumno.id}</td>
-                <td>{alumno.apellidoPaterno} {alumno.apellidoMaterno} {alumno.nombres}</td>
-                <td>{alumno.puntual}</td>
-                <td>{alumno.tardanza}</td>
-                <td>{alumno.falta}</td>
-              </tr>
-            )
-          })
-        ) : (
+    <div className={styles.container}>
+      <table className={styles.table}>
+        <thead className={styles.header}>
           <tr>
-            <td colSpan={6} className="text-center py-4 text-gray-500">
-              No hay registros de asistencia disponibles
-            </td>
+            <th className={styles.headerCell}>#</th>
+            <th className={`${styles.headerCell} ${styles.hideOnMobile}`}>dni</th>
+            <th className={styles.headerCell}>apellidos y nombres</th>
+            <th className={styles.headerCell}>P</th>
+            <th className={styles.headerCell}>T</th>
+            <th className={styles.headerCell}>F</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className={styles.body}>
+          {orderedData.length > 0 ? (
+            orderedData.map((alumno, index) => {
+              return (
+                <tr key={index} className={styles.row}>
+                  <td className={styles.cell}>{index + 1}</td>
+                  <td className={`${styles.cell} ${styles.hideOnMobile}`}>{alumno.id}</td>
+                  <td className={styles.cell}>{alumno.apellidoPaterno} {alumno.apellidoMaterno} {alumno.nombres}</td>
+                  <td className={styles.cell}>{alumno.puntual}</td>
+                  <td className={styles.cell}>{alumno.tardanza}</td>
+                  <td className={styles.cell}>{alumno.falta}</td>
+                </tr>
+              )
+            })
+          ) : (
+            <tr className={styles.noDataRow}>
+              <td colSpan={6} className={styles.noDataCell}>
+                No hay registros de asistencia disponibles
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

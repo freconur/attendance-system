@@ -1,0 +1,587 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+  animation: fadeInUp 0.6s ease-out;
+  /* Mejorar el scroll horizontal */
+  scrollbar-width: thin;
+  scrollbar-color: #10b981 #f3f4f6;
+}
+
+/* Estilos para el scrollbar en WebKit (Chrome, Safari, Edge) */
+.container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 6px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 6px;
+  border: 2px solid #f3f4f6;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Indicador de scroll horizontal */
+.scrollIndicator {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.scrollIndicator::before {
+  content: "↔";
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+/* Efecto de sombra para indicar scroll */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8));
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.container:hover::after {
+  opacity: 1;
+}
+
+/* Mensaje de ayuda */
+.helpMessage {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+}
+
+.helpIcon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.table {
+  width: 100%;
+  min-width: 1200px; /* Ancho mínimo para forzar scroll horizontal */
+  border-collapse: collapse;
+  background: white;
+  table-layout: auto; /* Cambiar a auto para que las columnas se ajusten al contenido */
+  white-space: nowrap; /* Evitar que el contenido se rompa en múltiples líneas */
+}
+
+.header {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.header::before {
+  content: "Reporte Diario";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.3px;
+}
+
+.headerCell {
+  padding: 20px 12px 16px 12px;
+  text-align: center;
+  border: none;
+  position: relative;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Evitar que el contenido se rompa */
+  overflow: hidden; /* Ocultar contenido que exceda el ancho */
+  text-overflow: ellipsis; /* Mostrar ... cuando el contenido se corte */
+}
+
+.headerCell:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.headerCell:first-child {
+  border-top-left-radius: 12px;
+}
+
+.headerCell:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Definir anchos específicos para las columnas */
+.headerCell:nth-child(1),
+.cell:nth-child(1) {
+  width: auto; /* Número - se ajusta al contenido */
+  min-width: 50px;
+  max-width: 70px;
+}
+
+.headerCell:nth-child(2),
+.cell:nth-child(2) {
+  width: auto; /* DNI - se ajusta al contenido */
+  min-width: 100px;
+  max-width: 140px;
+}
+
+.headerCell:nth-child(3),
+.cell:nth-child(3) {
+  width: auto; /* Nombres - se ajusta al contenido */
+  min-width: 180px;
+  max-width: 250px;
+  white-space: nowrap;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Columnas de días (del día 1 al 31) */
+.headerCell:nth-child(n+4):nth-child(-n+34),
+.cell:nth-child(n+4):nth-child(-n+34) {
+  width: auto; /* Días - se ajustan al contenido */
+  min-width: 50px;
+  max-width: 70px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.body {
+  background: white;
+}
+
+.row {
+  transition: all 0.3s ease;
+  animation: slideIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.row:nth-child(even) {
+  background: #fafbfc;
+}
+
+.row:hover {
+  background: #f0f4ff;
+  transform: translateX(4px);
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.15);
+}
+
+.cell {
+  padding: 16px 12px;
+  text-align: center;
+  border: none;
+  color: #4a5568;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Evitar que el contenido se rompa */
+  overflow: hidden; /* Ocultar contenido que exceda el ancho */
+  text-overflow: ellipsis; /* Mostrar ... cuando el contenido se corte */
+}
+
+.cell:first-child {
+  font-weight: 600;
+  color: #667eea;
+  width: auto;
+  min-width: 50px;
+  max-width: 70px;
+}
+
+/* Estilos para las celdas de asistencia */
+.attendanceCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.attendanceIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.presente {
+  background: #48bb78;
+}
+
+.falta {
+  background: #f56565;
+}
+
+.tardanza {
+  background: #ed8936;
+}
+
+/* Estilos para los encabezados de días */
+.dayHeaderContainer {
+  min-width: 50px;
+  max-width: 70px;
+  width: auto;
+}
+
+.dayHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.day {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.id {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Responsive - Ocultar columnas en móviles */
+@media (max-width: 768px) {
+  .container {
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    /* Mejorar scroll en móviles */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  .table {
+    min-width: 800px; /* Reducir ancho mínimo en móviles */
+  }
+  
+  /* Hacer el indicador de scroll más visible en móviles */
+  .scrollIndicator {
+    bottom: -12px;
+    font-size: 12px;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+  
+  /* Ajustar mensaje de ayuda en móviles */
+  .helpMessage {
+    font-size: 12px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  
+  .headerCell {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  .cell {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  .attendanceCell {
+    padding: 6px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .attendanceIndicator {
+    font-size: 11px;
+  }
+  
+  /* Ajustar anchos en móviles */
+  .cell:first-child {
+    width: auto;
+    min-width: 35px;
+    max-width: 50px;
+  }
+  
+  .cell:nth-child(2) {
+    width: auto;
+    min-width: 80px;
+    max-width: 120px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: auto;
+    min-width: 150px;
+    max-width: 200px;
+  }
+  
+  .dayHeaderContainer {
+    min-width: 40px;
+    max-width: 60px;
+    width: auto;
+  }
+  
+  .day {
+    font-size: 11px;
+  }
+  
+  .id {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 620px) {
+  .headerCell {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  .cell {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  .attendanceCell {
+    padding: 5px;
+    width: 26px;
+    height: 26px;
+  }
+  
+  .attendanceIndicator {
+    font-size: 10px;
+  }
+  
+  /* Ajustar anchos en pantallas medianas */
+  .cell:first-child {
+    width: auto;
+    min-width: 30px;
+    max-width: 45px;
+  }
+  
+  .cell:nth-child(2) {
+    width: auto;
+    min-width: 70px;
+    max-width: 100px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 10px;
+    width: auto;
+    min-width: 130px;
+    max-width: 180px;
+  }
+  
+  .dayHeaderContainer {
+    min-width: 40px;
+    max-width: 55px;
+    width: auto;
+  }
+  
+  .day {
+    font-size: 10px;
+  }
+  
+  .id {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerCell {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  .cell {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  .attendanceCell {
+    padding: 4px;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .attendanceIndicator {
+    font-size: 9px;
+  }
+  
+  /* Ajustar anchos en móviles muy pequeños */
+  .cell:first-child {
+    width: auto;
+    min-width: 25px;
+    max-width: 40px;
+  }
+  
+  .cell:nth-child(2) {
+    width: auto;
+    min-width: 60px;
+    max-width: 80px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 9px;
+    width: auto;
+    min-width: 110px;
+    max-width: 160px;
+  }
+  
+  .dayHeaderContainer {
+    min-width: 35px;
+    max-width: 50px;
+    width: auto;
+  }
+  
+  .day {
+    font-size: 9px;
+  }
+  
+  .id {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .headerCell {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+  
+  .cell {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+  
+  .attendanceCell {
+    padding: 3px;
+    width: 22px;
+    height: 22px;
+  }
+  
+  .attendanceIndicator {
+    font-size: 8px;
+  }
+  
+  /* Ajustar anchos en móviles extra pequeños */
+  .cell:first-child {
+    width: auto;
+    min-width: 20px;
+    max-width: 35px;
+  }
+  
+  .cell:nth-child(2) {
+    width: auto;
+    min-width: 50px;
+    max-width: 70px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 8px;
+    width: auto;
+    min-width: 90px;
+    max-width: 140px;
+  }
+  
+  .dayHeaderContainer {
+    min-width: 30px;
+    max-width: 45px;
+    width: auto;
+  }
+  
+  .day {
+    font-size: 8px;
+  }
+  
+  .id {
+    font-size: 9px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Aplicar delay a las filas para efecto escalonado */
+.row:nth-child(1) { animation-delay: 0.1s; }
+.row:nth-child(2) { animation-delay: 0.2s; }
+.row:nth-child(3) { animation-delay: 0.3s; }
+.row:nth-child(4) { animation-delay: 0.4s; }
+.row:nth-child(5) { animation-delay: 0.5s; }
+.row:nth-child(6) { animation-delay: 0.6s; }
+.row:nth-child(7) { animation-delay: 0.7s; }
+.row:nth-child(8) { animation-delay: 0.8s; }
+.row:nth-child(9) { animation-delay: 0.9s; }
+.row:nth-child(10) { animation-delay: 1.0s; } 

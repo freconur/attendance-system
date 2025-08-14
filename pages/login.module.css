@@ -1,0 +1,514 @@
+/* Login Page Styles */
+.loginContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Animated Background Shapes - Overlay on image */
+.animatedShape {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 1;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape1 {
+  width: 80px;
+  height: 80px;
+  top: 15%;
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.shape2 {
+  width: 120px;
+  height: 120px;
+  top: 70%;
+  right: 15%;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.shape3 {
+  width: 60px;
+  height: 60px;
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
+  animation-duration: 9s;
+}
+
+.shape4 {
+  width: 100px;
+  height: 100px;
+  top: 25%;
+  right: 25%;
+  animation-delay: 1s;
+  animation-duration: 11s;
+}
+
+.shape5 {
+  width: 40px;
+  height: 40px;
+  bottom: 40%;
+  right: 40%;
+  animation-delay: 3s;
+  animation-duration: 8s;
+}
+
+/* Floating Particles - Subtle overlay */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: particleFloat 15s linear infinite;
+  z-index: 1;
+}
+
+.particle:nth-child(1) {
+  top: 20%;
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.particle:nth-child(3) {
+  top: 80%;
+  left: 10%;
+  animation-delay: 6s;
+}
+
+.particle:nth-child(4) {
+  top: 30%;
+  left: 70%;
+  animation-delay: 9s;
+}
+
+.particle:nth-child(5) {
+  top: 90%;
+  left: 60%;
+  animation-delay: 12s;
+}
+
+.particle:nth-child(6) {
+  top: 10%;
+  left: 50%;
+  animation-delay: 15s;
+}
+
+/* Geometric Shapes - Subtle decorative elements */
+.geometricShape {
+  position: absolute;
+  opacity: 0.08;
+  z-index: 1;
+  animation: rotate 25s linear infinite;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 35px solid rgba(255, 255, 255, 0.6);
+  top: 15%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.square {
+  width: 25px;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  transform: rotate(45deg);
+  top: 75%;
+  right: 10%;
+  animation-delay: 5s;
+}
+
+.diamond {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(45deg);
+  bottom: 15%;
+  right: 30%;
+  animation-delay: 10s;
+}
+
+.backgroundOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.loginContent {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.loginCard {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: cardAppear 0.8s ease-out;
+}
+
+.loginHeader {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  padding: 35px 25px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.loginHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.15"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.15"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.15"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.4;
+}
+
+/* Animated header elements */
+.loginHeader::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.loginTitle {
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+.loginForm {
+  padding: 45px 35px;
+  background: white;
+  position: relative;
+}
+
+.formGroup {
+  margin-bottom: 28px;
+  animation: slideInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.formGroup:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.formGroup:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.formGroup:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.formLabel {
+  display: block;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 18px 22px;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+  color: #334155;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
+}
+
+.formInput::placeholder {
+  color: #94a3b8;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submitButton:hover::before {
+  left: 100%;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 12px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.loadingSpinner {
+  animation: spin 1s linear infinite;
+  font-size: 26px;
+  color: #64748b;
+}
+
+.loadingText {
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 25px;
+  padding: 12px 16px;
+  background: rgba(220, 38, 38, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  font-weight: 500;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-15px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(8px) rotate(240deg);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) translateX(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@keyframes titleGlow {
+  0% {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .loginContent {
+    padding: 15px;
+  }
+  
+  .loginCard {
+    border-radius: 20px;
+  }
+  
+  .loginHeader {
+    padding: 30px 20px;
+  }
+  
+  .loginForm {
+    padding: 35px 25px;
+  }
+  
+  .loginTitle {
+    font-size: 22px;
+  }
+  
+  .formInput {
+    padding: 16px 20px;
+  }
+  
+  .submitButton {
+    padding: 16px 20px;
+  }
+  
+  /* Hide some shapes on mobile for performance */
+  .shape1, .shape2, .shape3, .shape4, .shape5 {
+    display: none;
+  }
+} 

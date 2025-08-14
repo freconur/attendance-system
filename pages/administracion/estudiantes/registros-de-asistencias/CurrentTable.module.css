@@ -1,0 +1,329 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  table-layout: auto;
+}
+
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.header::before {
+  content: "Tabla Principal";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #667eea;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.3px;
+}
+
+.headerCell {
+  padding: 20px 12px 16px 12px;
+  text-align: center;
+  border: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.headerCell:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.headerCell:first-child {
+  border-top-left-radius: 12px;
+}
+
+.headerCell:last-child {
+  border-top-right-radius: 12px;
+}
+
+/* Columna de nombres se ajusta al contenido */
+.headerCell:nth-child(3),
+.cell:nth-child(3) {
+  width: auto;
+  white-space: nowrap;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.body {
+  background: white;
+}
+
+.row {
+  transition: all 0.3s ease;
+  animation: slideIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.row:nth-child(even) {
+  background: #fafbfc;
+}
+
+.row:hover {
+  background: #f0f4ff;
+  transform: translateX(4px);
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.15);
+}
+
+.cell {
+  padding: 16px 12px;
+  text-align: center;
+  border: none;
+  color: #4a5568;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.cell:first-child {
+  font-weight: 600;
+  color: #667eea;
+  width: 60px;
+}
+
+.cell:nth-child(2) {
+  width: 120px;
+}
+
+.cell:nth-child(4) {
+  width: 100px;
+}
+
+.cell:nth-child(5) {
+  width: 100px;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.link:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  transform: scale(1.05);
+}
+
+.attendanceCell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 12px;
+  font-size: 14px;
+}
+
+.attendanceJustificado {
+  color: #3182ce;
+  font-weight: 500;
+}
+
+.attendanceDefault {
+  color: #a0aec0;
+}
+
+.departureCell {
+  color: #3182ce;
+  font-weight: 500;
+}
+
+/* Responsive - Ocultar columnas en móviles */
+@media (max-width: 768px) {
+  .container {
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .headerCell {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  .cell {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  .attendanceCell {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  /* Ajustar anchos en móviles */
+  .cell:first-child {
+    width: 40px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  /* Ocultar columnas marcadas como hideOnMobile */
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .headerCell {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  .cell {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  .attendanceCell {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  /* Ajustar anchos en pantallas medianas */
+  .cell:first-child {
+    width: 35px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 10px;
+  }
+  
+  /* Ocultar columnas marcadas como hideOnMobile */
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerCell {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  .cell {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  .attendanceCell {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  /* Ajustar anchos en móviles muy pequeños */
+  .cell:first-child {
+    width: 30px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 9px;
+  }
+  
+  /* Asegurar que las columnas marcadas estén ocultas */
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .headerCell {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+  
+  .cell {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+  
+  .attendanceCell {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+  
+  /* Ajustar anchos en móviles extra pequeños */
+  .cell:first-child {
+    width: 25px;
+  }
+  
+  .cell:nth-child(3) {
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 8px;
+  }
+  
+  /* Asegurar que las columnas marcadas estén ocultas */
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Aplicar delay a las filas para efecto escalonado */
+.row:nth-child(1) { animation-delay: 0.1s; }
+.row:nth-child(2) { animation-delay: 0.2s; }
+.row:nth-child(3) { animation-delay: 0.3s; }
+.row:nth-child(4) { animation-delay: 0.4s; }
+.row:nth-child(5) { animation-delay: 0.5s; }
+.row:nth-child(6) { animation-delay: 0.6s; }
+.row:nth-child(7) { animation-delay: 0.7s; }
+.row:nth-child(8) { animation-delay: 0.8s; }
+.row:nth-child(9) { animation-delay: 0.9s; }
+.row:nth-child(10) { animation-delay: 1.0s; } 
