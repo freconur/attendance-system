@@ -1,0 +1,4 @@
+# Excluir directorio de Firebase Functions del build de Vercel
+functions/
+firebase copy/
+create-usuario.js 
