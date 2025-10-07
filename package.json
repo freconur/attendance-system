@@ -33,6 +33,9 @@
     "whatsapp-web.js": "^1.23.0",
     "xlsx": "^0.18.5"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
