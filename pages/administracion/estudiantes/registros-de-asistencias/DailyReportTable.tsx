@@ -1,16 +1,56 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { RecordReporteDiario, ValuesTHead } from '@/features/types/types';
+import { useAttendanceExcelExport } from '@/features/hooks/useAttendanceExcelExport';
+import { convertGrade } from '@/utils/validateGrade';
+import { numberToNameMonth } from '@/dates/date';
 import styles from './DailyReportTable.module.css';
+import { RiFileExcel2Line, RiLoader4Line, RiErrorWarningLine, RiCheckLine } from 'react-icons/ri';
 
 interface DailyReportTableProps {
   reporteByGradeDaily: RecordReporteDiario[];
   valuesTHead: ValuesTHead[];
+  grade?: string;
+  selectedMonth?: number; // 0-11 (mes seleccionado por el usuario)
 }
 
-const DailyReportTable: React.FC<DailyReportTableProps> = ({ reporteByGradeDaily, valuesTHead }) => {
+const DailyReportTable: React.FC<DailyReportTableProps> = ({ reporteByGradeDaily, valuesTHead, grade, selectedMonth }) => {
   const [debouncedData, setDebouncedData] = useState<RecordReporteDiario[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Estados para exportación a Excel
+  const [lastExportResult, setLastExportResult] = useState<string | null>(null);
 
+  // Hook para exportación a Excel
+  const { exportAttendanceToExcel, isExporting, error, clearError } = useAttendanceExcelExport();
+
+  // Función para generar nombre de archivo dinámico
+  const generateFileName = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    // Usar el mes seleccionado por el usuario, o el mes actual si no hay selección
+    const month = selectedMonth !== undefined ? numberToNameMonth(selectedMonth) : numberToNameMonth(currentDate.getMonth());
+    const gradeName = grade ? `_${convertGrade(grade)}` : '';
+    
+    return `reporte_asistencia${gradeName}_${year}_${month}`;
+  };
+
+  // Función para manejar la exportación
+  const handleExport = async () => {
+    const options = {
+      fileName: generateFileName(),
+      includeSummary: true,
+      method: 'xlsx' as const
+    };
+
+    const result = await exportAttendanceToExcel(debouncedData, valuesTHead, options);
+    
+    if (result.success) {
+      setLastExportResult(result.message);
+      setTimeout(() => setLastExportResult(null), 3000);
+    }
+  };
+
+console.log('reporteByGradeDaily', reporteByGradeDaily);
   // Debounce para evitar ordenamientos excesivos cuando los datos cambian frecuentemente
   useEffect(() => {
     setIsLoading(true);
@@ -174,6 +214,87 @@ const DailyReportTable: React.FC<DailyReportTableProps> = ({ reporteByGradeDaily
       <div className={styles.helpMessage}>
         <span className={styles.helpIcon}>💡</span>
         Esta tabla tiene muchas columnas. Usa el scroll horizontal para ver todos los días del mes.
+      </div>
+
+      {/* Panel de exportación a Excel simplificado */}
+      <div className="mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+              <RiFileExcel2Line className="mr-2 text-green-600" />
+              Exportar a Excel
+            </h3>
+            
+            {/* Información de datos */}
+            <div className="text-sm text-gray-600">
+              <span className="font-medium">{debouncedData.length}</span> estudiantes
+              <span className="mx-2">•</span>
+              <span className="font-medium">{valuesTHead.length}</span> días
+              {grade && (
+                <>
+                  <span className="mx-2">•</span>
+                  <span className="font-medium">Grado {grade}</span>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Botón de exportación */}
+          <button
+            onClick={handleExport}
+            disabled={isExporting || debouncedData.length === 0}
+            className={`flex items-center px-6 py-2 rounded-lg font-medium transition-colors ${
+              isExporting || debouncedData.length === 0
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-green-600 text-white hover:bg-green-700'
+            }`}
+          >
+            {isExporting ? (
+              <>
+                <RiLoader4Line className="animate-spin mr-2" />
+                Exportando...
+              </>
+            ) : (
+              <>
+                <RiFileExcel2Line className="mr-2" />
+                Exportar Excel
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Información del archivo */}
+        <div className="mt-3 p-3 bg-gray-50 rounded-md">
+          <p className="text-sm text-gray-600">
+            <strong>Archivo:</strong> {generateFileName()}.xlsx
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Incluye resumen estadístico y datos completos de asistencias
+          </p>
+        </div>
+
+        {/* Mensajes de estado */}
+        {lastExportResult && (
+          <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-md flex items-center">
+            <RiCheckLine className="text-green-500 mr-2" />
+            <span className="text-green-700 text-sm">{lastExportResult}</span>
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md flex items-center justify-between">
+            <div className="flex items-center">
+              <RiErrorWarningLine className="text-red-500 mr-2" />
+              <span className="text-red-700 text-sm">{error}</span>
+            </div>
+            <button
+              onClick={clearError}
+              className="text-red-500 hover:text-red-700 text-sm"
+            >
+              ✕
+            </button>
+          </div>
+        )}
       </div>
       
       <table className={styles.table}>

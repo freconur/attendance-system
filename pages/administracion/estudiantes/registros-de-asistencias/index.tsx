@@ -245,7 +245,7 @@ const AttendanceRegister = () => {
     });
     return rta
   }
-
+console.log()
   return (
     <PrivateRouteAdmin>
       <div className="relative">
@@ -298,7 +298,12 @@ const AttendanceRegister = () => {
                     <p className={styles.tableSubtitle}>Resumen detallado de la asistencia por día</p>
                   </div>
                   <div className={styles.dailyReportContainer}>
-                    <DailyReportTable reporteByGradeDaily={reporteByGradeDaily} valuesTHead={valuesTHead}/>
+                    <DailyReportTable 
+                      reporteByGradeDaily={reporteByGradeDaily} 
+                      valuesTHead={valuesTHead}
+                      grade={valuesByFilter.grade}
+                      selectedMonth={startDate.month()}
+                    />
                   </div>
                 </div>
               )}
