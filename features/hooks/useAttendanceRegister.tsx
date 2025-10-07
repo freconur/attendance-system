@@ -488,117 +488,98 @@ const useAttendanceRegister = () => {
   };
 
   const dataStudentForTableReport = async (month: string, grade: string) => {
-    const promiseGetStudents = new Promise<StudentData[]>(
-      async (resolve, reject) => {
-        try {
-          const refStudents = collection(
-            db,
-            `/intituciones/${userData.idInstitution}/students`
-          );
-          const q = query(refStudents, where("grade", "==", grade));
-          const estudiantesDelGrado: StudentData[] = [];
-          let index = 0;
-          await getDocs(q).then(async (estudiantes) => {
-            estudiantes.forEach((estudiante) => {
-              index = index + 1;
-              estudiantesDelGrado.push(estudiante.data());
-              if (estudiantes.size === index) {
-                resolve(estudiantesDelGrado);
-              }
-            });
-          });
-        } catch (error) {
-          console.log("error", error);
-          reject();
-        }
+    console.log('month', month);
+    try {
+      // 1. Obtener estudiantes del grado de forma optimizada
+      const estudiantesDelGrado = await obtenerEstudiantesDelGrado(grade);
+      
+      // 2. Procesar asistencia de forma secuencial para evitar race conditions
+      const arrayDataEstudiante: RecordEstudiante[] = [];
+      
+      for (const estudiante of estudiantesDelGrado) {
+        const dataAcumulado = await procesarAsistenciaEstudiante(estudiante, month);
+        arrayDataEstudiante.push(dataAcumulado);
       }
-    );
-
-    const reportePromise = new Promise<RecordEstudiante[]>(
-      (resolve, reject) => {
-        try {
-          promiseGetStudents.then((response) => {
-
-            let index = 0;
-            const arrayDataEstudiante: RecordEstudiante[] = [];
-            response.forEach(async (estudiante) => {
-              index = index + 1;
-              // console.log('index', index)
-              const refPathAsistencia = collection(
-                db,
-                `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni
-                }/${currentYear()}/${month}/${month}`
-              );
-              await getDocs(refPathAsistencia).then((dataEstudianteDelMes) => {
-                const dataAcumulado: RecordEstudiante = { falta: 0, puntual: 0, tardanza: 0 }
-                let indexAsistencia = 0
-                let falta = 0
-                let puntual = 0
-                let tardanza = 0
-                //obtenemos la data del estudiante del mes escogido
-                dataEstudianteDelMes.forEach((doc) => {
-                  if (doc.data().falta) {
-                    falta = falta + 1
-                    indexAsistencia = indexAsistencia + 1
-                    dataAcumulado.nombres = estudiante.name
-                    dataAcumulado.apellidoMaterno = estudiante.firstname
-                    dataAcumulado.apellidoPaterno = estudiante.lastname
-                    dataAcumulado.falta = falta
-                    dataAcumulado.id = estudiante.dni
-
-                    if (dataEstudianteDelMes.size === indexAsistencia) {
-                      arrayDataEstudiante.push(dataAcumulado)
-                    }
-                  } else {
-                    if (doc.data().arrivalTime) {
-                      if (attendanceState(hoursUnixDate(doc.data().arrivalTime))) {
-                        puntual = puntual + 1
-
-                        indexAsistencia = indexAsistencia + 1
-                        dataAcumulado.nombres = estudiante.name
-                        dataAcumulado.apellidoMaterno = estudiante.firstname
-                        dataAcumulado.apellidoPaterno = estudiante.lastname
-                        dataAcumulado.puntual = puntual
-                        dataAcumulado.id = estudiante.dni
-                        if (dataEstudianteDelMes.size === indexAsistencia) {
-                          arrayDataEstudiante.push(dataAcumulado)
-                        }
-                      } else {
-                        tardanza = tardanza + 1
-
-                        indexAsistencia = indexAsistencia + 1
-                        dataAcumulado.nombres = estudiante.name
-                        dataAcumulado.apellidoMaterno = estudiante.firstname
-                        dataAcumulado.apellidoPaterno = estudiante.lastname
-                        dataAcumulado.tardanza = tardanza
-                        dataAcumulado.id = estudiante.dni
-                        if (dataEstudianteDelMes.size === indexAsistencia) {
-                          arrayDataEstudiante.push(dataAcumulado)
-                        }
-                      }
-                    }
-                  }
-
-                });
-              });
-              if (response.length === index) {
-                resolve(arrayDataEstudiante);
-              }
-            });
-          });
-        } catch (error) {
-          console.log("error", error);
-          reject();
-        }
-      }
-    );
-    reportePromise.then((response) => {
-      // console.log("rta final", response);
+      
+      // 3. Despachar resultado
       dispatch({
         type: AttendanceRegister.RECORD_ESTUDIANTES_MENSUAL,
-        payload: response,
+        payload: arrayDataEstudiante,
       });
-    });
+      
+    } catch (error) {
+      console.log("Error en dataStudentForTableReport:", error);
+    }
+  };
+
+  // Función auxiliar optimizada para procesar asistencia de un estudiante
+  const procesarAsistenciaEstudiante = async (
+    estudiante: StudentData, 
+    month: string
+  ): Promise<RecordEstudiante> => {
+    try {
+      const refPathAsistencia = collection(
+        db,
+        `/intituciones/${userData.idInstitution}/attendance-student/${estudiante.dni}/${currentYear()}/${month}/${month}`
+      );
+      
+      const dataEstudianteDelMes = await getDocs(refPathAsistencia);
+      
+      // Inicializar contadores con valores explícitos
+      const dataAcumulado: RecordEstudiante = { 
+        falta: 0, 
+        puntual: 0, 
+        tardanza: 0,
+        nombres: estudiante.name || '',
+        apellidoMaterno: estudiante.firstname || '',
+        apellidoPaterno: estudiante.lastname || '',
+        id: estudiante.dni || ''
+      };
+      
+      // Procesar cada documento de asistencia
+      dataEstudianteDelMes.forEach((doc) => {
+        const docData = doc.data();
+        
+        // Contar faltas
+        if (docData.falta) {
+          dataAcumulado.falta = (dataAcumulado.falta || 0) + 1;
+          /* console.log(`Falta encontrada para ${estudiante.name}:`, doc.id, 'Total faltas:', dataAcumulado.falta); */
+        }
+        
+        // Contar puntualidad y tardanzas (solo si no es falta)
+        if (!docData.falta && docData.arrivalTime) {
+          if (attendanceState(hoursUnixDate(docData.arrivalTime))) {
+            dataAcumulado.puntual = (dataAcumulado.puntual || 0) + 1;
+            /* console.log(`Puntualidad encontrada para ${estudiante.name}:`, doc.id, 'Total puntual:', dataAcumulado.puntual); */
+          } else {
+            dataAcumulado.tardanza = (dataAcumulado.tardanza || 0) + 1;
+            /* console.log(`Tardanza encontrada para ${estudiante.name}:`, doc.id, 'Total tardanzas:', dataAcumulado.tardanza); */
+          }
+        }
+      });
+      
+      console.log(`Resumen final para ${estudiante.name}:`, {
+        falta: dataAcumulado.falta,
+        puntual: dataAcumulado.puntual,
+        tardanza: dataAcumulado.tardanza,
+        totalDocs: dataEstudianteDelMes.size
+      });
+      
+      return dataAcumulado;
+      
+    } catch (error) {
+      console.log("Error procesando asistencia del estudiante:", error);
+      // Retornar datos por defecto en caso de error
+      return {
+        falta: 0,
+        puntual: 0,
+        tardanza: 0,
+        nombres: estudiante.name,
+        apellidoMaterno: estudiante.firstname,
+        apellidoPaterno: estudiante.lastname,
+        id: estudiante.dni
+      };
+    }
   };
   const filterRegisterByGrade = async (
     grade: string,

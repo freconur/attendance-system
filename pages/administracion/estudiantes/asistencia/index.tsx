@@ -40,10 +40,17 @@ const Asistencia = () => {
   const focusRef = useRef<HTMLInputElement>(null);
   
   const onChangeStudentCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
     setStudenCode({
       ...studenCode,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
+    
+    // Validación directa - más eficiente que useEffect
+    if (value.length === 8) {
+      getStudentData(value, studentsData);
+      setStudenCode(initialState);
+    }
   };
   
   useEffect(() => {
@@ -62,12 +69,7 @@ const Asistencia = () => {
     }
   }, [showContent]);
   
-  useEffect(() => {
-    if (studenCode.studentCode.length === 8) {
-      getStudentData(studenCode.studentCode, studentsData);
-      setStudenCode(initialState);
-    }
-  }, [studenCode.studentCode]);
+
 
   useEffect(() => {
     getUserData();

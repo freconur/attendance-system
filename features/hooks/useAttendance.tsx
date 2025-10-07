@@ -197,137 +197,105 @@ export const useAttendance = () => {
 
   const getStudentData = async (studentCode: string, Data: StudentData[]) => {
     dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: true });
+    
     const refData = doc(
       db,
       `/intituciones/${userData.idInstitution}/students`,
       studentCode as string
     );
+    
     const studentData = await getDoc(refData);
     const currentlyHour = new Date();
-    //funcion rta permite saber el alumno se retira o ingresa al colegio
-    const rta = () => {
-      if (
-        currentlyHour.getHours() === 12 ||
-        currentlyHour.getHours() === 13 ||
-        currentlyHour.getHours() === 14 ||
-        currentlyHour.getHours() === 15 ||
-        currentlyHour.getHours() === 16
-      ) {
-        return true; //deberia aceptar la asistencia como salida
-      } else return false; //deberia de aceptar la asistencia como ingreso
+    
+    // Función optimizada para determinar si es salida o ingreso
+    const isDepartureTime = () => {
+      const hour = currentlyHour.getHours();
+      return hour >= 12 && hour <= 16;
+    };
+    
+    // Función para construir mensaje una sola vez
+    const buildMessage = (contactName: string, student: StudentData) => {
+      const isDeparture = isDepartureTime();
+      const timeStr = dateConvertObjectStudent(currentlyHour);
+      const tardanzaStr = validacionPuntualTardanza(currentlyHour) === false 
+        ? ", que es considerado como *tardanza*" 
+        : "";
+      
+      return `Sr.(a) ${contactName}, el estudiante ${student.name} ${student.lastname}, ${
+        isDeparture 
+          ? `se retiro del colegio a las ${timeStr}` 
+          : `acaba de ingresar al colegio a las ${timeStr}${tardanzaStr}`
+      }`;
+    };
+    
+    // Función para enviar mensaje con retry
+    const sendMessageWithRetry = async (number: string, message: string, retries = 3): Promise<boolean> => {
+      for (let i = 0; i < retries; i++) {
+        try {
+          await axios.post(`${URL_API}/v1/messages`, { number, message });
+          return true; // Éxito
+        } catch (error) {
+          console.log(`Intento ${i + 1} falló para ${number}:`, error);
+          if (i === retries - 1) {
+            console.error(`Error final enviando mensaje a ${number}:`, error);
+            return false; // Falló después de todos los reintentos
+          }
+          // Esperar antes del siguiente intento (exponencial backoff)
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+        }
+      }
+      return false; // Fallback por si acaso
     };
 
-    // validacionPuntualTardanza(currentlyHour) === false && 'que es considerado como tardanza'}
     const findStudent = allStudents.find(
       (student) => student.dni === studentCode
     );
+    
     if (findStudent) {
       studentArrivalTime(studentCode);
       Data?.unshift(findStudent);
-      // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-      if (
-        findStudent.firstContact &&
-        findStudent.firstNumberContact?.length === 9
-      ) {
+      
+      // Enviar mensajes en paralelo si hay contactos válidos
+      const messagePromises: Promise<boolean>[] = [];
+      
+      if (findStudent.firstContact && findStudent.firstNumberContact?.length === 9) {
+        const message1 = buildMessage(findStudent.firstContact, findStudent);
+        messagePromises.push(
+          sendMessageWithRetry(`51${findStudent.firstNumberContact}`, message1)
+        );
+      }
+      
+      if (findStudent.secondContact && findStudent.secondNumberContact?.length === 9) {
+        const message2 = buildMessage(findStudent.secondContact, findStudent);
+        messagePromises.push(
+          sendMessageWithRetry(`51${findStudent.secondNumberContact}`, message2)
+        );
+      }
+      
+      // Ejecutar todos los envíos en paralelo y manejar resultados
+      if (messagePromises.length > 0) {
         try {
-          axios
-            .post(`${URL_API}/v1/messages`, {
-              number: `51${findStudent.firstNumberContact}`,
-              message: `Sr.(a) ${findStudent.firstContact}, el estudiante ${
-                findStudent.name
-              } ${findStudent.lastname}, ${
-                rta()
-                  ? `se retiro del colegio a las ${dateConvertObjectStudent(
-                      currentlyHour
-                    )}`
-                  : `acaba de ingresar al colegio a las ${dateConvertObjectStudent(
-                      currentlyHour
-                    )} , ${
-                      validacionPuntualTardanza(currentlyHour) === false
-                        ? "que es considerado como *tardanza*"
-                        : ""
-                    }`
-              } `,
-            })
-            .then((r) => {
-              if (
-                findStudent.secondContact &&
-                findStudent?.secondNumberContact?.length === 9
-              ) {
-                try {
-                  axios.post(`${URL_API}/v1/messages`, {
-                    number: `51${findStudent.secondNumberContact}`,
-                    message: `Sr.(a) ${
-                      findStudent.secondContact
-                    }, el estudiante ${findStudent.name} ${
-                      findStudent.lastname
-                    }, ${
-                      rta()
-                        ? `se retiro del colegio a las ${dateConvertObjectStudent(
-                            currentlyHour
-                          )}`
-                        : `acaba de ingresar al colegio a las ${dateConvertObjectStudent(
-                            currentlyHour
-                          )} , ${
-                            validacionPuntualTardanza(currentlyHour) === false
-                              ? "que es considerado como *tardanza*"
-                              : ""
-                          }`
-                    }`,
-                  });
-                } catch (error) {
-                  console.log("error", error);
-                }
-              }
-            });
+          const results = await Promise.allSettled(messagePromises);
+          const successCount = results.filter(result => 
+            result.status === 'fulfilled' && result.value === true
+          ).length;
+          
+          console.log(`Mensajes enviados exitosamente: ${successCount}/${messagePromises.length}`);
         } catch (error) {
-          console.log("error", error);
+          console.error('Error general en envío de mensajes:', error);
         }
       }
+      
       dispatch({
         type: AttendanceRegister.ATTENDANCE_REGISTER,
         payload: Data.slice(0, 5),
       });
+      
       dispatch({
         type: AttendanceRegister.LOADING_GET_STUDENTS,
         payload: false,
       });
     }
-
-    // console.log('rta', rta())
-    // if (studentData.exists()) {//primero verifico si la data existe
-    //   studentArrivalTime(studentCode)
-    //   Data?.unshift(studentData.data())
-    //   // POST DE ENVIO DE WHATYSAPP AL NUMERO DEL PADRE DE FAMILIA
-    //   if (studentData.data().firstContact?.length > 0 && studentData.data().firstNumberContact?.length === 9) {
-    //     try {
-    //       axios
-    //         .post(`${URL_API}/v1/messages`,
-    //           {
-    //             number: `51${studentData.data().firstNumberContact}`,
-    //             message: `Sr.(a) ${studentData.data().firstContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
-    //           })
-    //         .then(r => {
-    //           if (studentData.data()?.secondContact?.length > 0 && studentData.data()?.secondNumberContact?.length === 9) {
-    //             try {
-    //               axios
-    //                 .post(`${URL_API}/v1/messages`,
-    //                   {
-    //                     number: `51${studentData.data().secondNumberContact}`,
-    //                     message: `Sr.(a) ${studentData.data().secondContact}, el estudiante ${studentData.data().name} ${studentData.data().lastname}, ${rta() ? 'se retiro del colegio a las' : 'acaba de ingresar al colegio a las'} ${dateConvertObjectStudent(currentlyHour)}.`
-    //                   })
-    //             } catch (error) {
-    //               console.log('error', error)
-    //             }
-    //           }
-    //         })
-    //     } catch (error) {
-    //       console.log('error', error)
-    //     }
-    //   }
-    //   dispatch({ type: AttendanceRegister.ATTENDANCE_REGISTER, payload: Data.slice(0, 5) })
-    //   dispatch({ type: AttendanceRegister.LOADING_GET_STUDENTS, payload: false })
-    // }
   };
   const activeDepartureManualModal = (value: boolean) => {
     dispatch({

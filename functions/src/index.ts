@@ -70,7 +70,7 @@ function getCurrentDate() {
   return null;
 }); */
 export const miFuncion = onSchedule({
-  schedule: "20 20 * * *",
+  schedule: "10 0 * * *",
   timeZone: "America/Lima",
   retryCount: 3,
   maxInstances: 1,
@@ -208,7 +208,7 @@ async function obtenerEstudiantesDeInstituciones(instituciones: string[]) {
             const docId = Date.now().toString();
 
             // Crear el documento con la data de falta
-            await asistenciaRef.doc("14").set({
+            await asistenciaRef.doc(`${getCurrentDate().date}`).set({
               falta: true,
               fecha: new Date().toISOString(),
               timestamp: Date.now(),

@@ -52,7 +52,9 @@ const RecordTable: React.FC<RecordTableProps> = ({ reporteByGradeMensual }) => {
   }
 
   const orderedData = orderReporteMensual(reporteByGradeMensual);
-
+  console.log('orderedData', orderedData);
+  console.log('reporteByGradeMensual', reporteByGradeMensual);
+  
   return (
     <div className={styles.container}>
       <table className={styles.table}>
