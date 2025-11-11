@@ -46,7 +46,9 @@ import {
 const db = getFirestore(app);
 // const URL_API = "https://whatsapp-api-production-da60.up.railway.app"
 // const URL_API = "https://whatsapp-api-production-2059.up.railway.app"
-const URL_API = "https://whatsapp-asistencia-production.up.railway.app";
+//const URL_API = "https://whatsapp-asistencia-production.up.railway.app/v1/messages";
+const URL_API = "https://whatsapp-api-production-f393.up.railway.app/send";//nueva ruta
+
 // const URL_API = "https://chatbot-typescript-miguel-production.up.railway.app"
 
 export const useAttendance = () => {
@@ -87,10 +89,10 @@ export const useAttendance = () => {
         try {
           axios
             // .post(`/api/whatsapp`,
-            .post(`${URL_API}/v1/messages`, {
+            .post(`${URL_API}`, {
               // phoneNumber: `51${studentData.data().firstNumberContact}@c.us`,
-              number: `51${studentData.data().firstNumberContact}`,
-              // phoneNumber: `51982752688@c.us`,
+              /* number: `51${studentData.data().firstNumberContact}`, */
+              phoneNumber: `51${studentData.data().firstNumberContact}`,
               message: `Sr.(a) ${
                 studentData.data().firstContact
               }, el estudiante ${studentData.data().name} ${
@@ -114,9 +116,10 @@ export const useAttendance = () => {
         console.log("entramos al segundo contacto");
 
         try {
-          axios.post(`${URL_API}/v1/messages`, {
+          axios.post(`${URL_API}`, {
             // phoneNumber: `51${studentData.data().secondNumberContact}@c.us`,
-            number: `51${studentData.data().secondNumberContact}`,
+            phoneNumber: `51${studentData.data().secondNumberContact}`,
+            /* number: `51${studentData.data().secondNumberContact}`, */
             // phoneNumber: `51982752688@c.us`,
             // message: `I.E.P. Divino Maestro: este es un mensaje de prueba para aplicacion de registro de asistencia.`
             message: `Sr.(a) ${
@@ -232,7 +235,7 @@ export const useAttendance = () => {
     const sendMessageWithRetry = async (number: string, message: string, retries = 3): Promise<boolean> => {
       for (let i = 0; i < retries; i++) {
         try {
-          await axios.post(`${URL_API}/v1/messages`, { number, message });
+          await axios.post(`${URL_API}`, { phoneNumber: number, message: message });
           return true; // Éxito
         } catch (error) {
           console.log(`Intento ${i + 1} falló para ${number}:`, error);
@@ -261,13 +264,16 @@ export const useAttendance = () => {
       if (findStudent.firstContact && findStudent.firstNumberContact?.length === 9) {
         const message1 = buildMessage(findStudent.firstContact, findStudent);
         messagePromises.push(
+          /* sendMessageWithRetry(`51${findStudent.firstNumberContact}`, message1) */
           sendMessageWithRetry(`51${findStudent.firstNumberContact}`, message1)
+
         );
       }
       
       if (findStudent.secondContact && findStudent.secondNumberContact?.length === 9) {
         const message2 = buildMessage(findStudent.secondContact, findStudent);
         messagePromises.push(
+          /* sendMessageWithRetry(`51${findStudent.secondNumberContact}`, message2) */
           sendMessageWithRetry(`51${findStudent.secondNumberContact}`, message2)
         );
       }
